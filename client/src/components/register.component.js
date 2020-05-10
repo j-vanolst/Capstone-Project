@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Form from 'react-validation/build/form'
 import Input from 'react-validation/build/input'
-import CheckButton from 'react-validation/build/input'
+import CheckButton from 'react-validation/build/button'
 
 import { isEmail } from 'validator'
 import AuthService from '../services/auth_service'
@@ -111,31 +111,33 @@ export default class Register extends Component {
 
         // Check Passwords Match
         if (this.state.password === this.state.confirmPassword) {
-            AuthService
-                .register(
-                    this.state.fName,
-                    this.state.lName,
-                    this.state.email,
-                    this.state.password)
-                .then(res => {
-                    this.setState({
-                        message: res.data.message,
-                        successful: true
-                    })
-                },
-                    error => {
-                        const resMessage =
-                            (error.response &&
-                                error.response.data &&
-                                error.response.data.message) ||
-                            error.message ||
-                            error.toString()
-
+            if (this.checkBtn.context._errors.length === 0) {
+                AuthService
+                    .register(
+                        this.state.fName,
+                        this.state.lName,
+                        this.state.email,
+                        this.state.password)
+                    .then(res => {
                         this.setState({
-                            successful: false,
-                            message: resMessage
+                            message: res.data.message,
+                            successful: true
                         })
-                    })
+                    },
+                        error => {
+                            const resMessage =
+                                (error.response &&
+                                    error.response.data &&
+                                    error.response.data.message) ||
+                                error.message ||
+                                error.toString()
+
+                            this.setState({
+                                successful: false,
+                                message: resMessage
+                            })
+                        })
+            }
         }
         else {
             this.setState({
