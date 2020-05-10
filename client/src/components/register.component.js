@@ -109,33 +109,42 @@ export default class Register extends Component {
 
         this.form.validateAll()
 
-        AuthService
-            .register(
-                this.state.fName,
-                this.state.lName,
-                this.state.email,
-                this.state.password,
-                this.state.confirmPassword)
-            .then(res => {
-                this.setState({
-                    message: res.data.message,
-                    successful: true
-                })
-            },
-                error => {
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString()
-
+        // Check Passwords Match
+        if (this.state.password === this.state.confirmPassword) {
+            AuthService
+                .register(
+                    this.state.fName,
+                    this.state.lName,
+                    this.state.email,
+                    this.state.password)
+                .then(res => {
                     this.setState({
-                        successful: false,
-                        message: resMessage
+                        message: res.data.message,
+                        successful: true
                     })
-                })
+                },
+                    error => {
+                        const resMessage =
+                            (error.response &&
+                                error.response.data &&
+                                error.response.data.message) ||
+                            error.message ||
+                            error.toString()
+
+                        this.setState({
+                            successful: false,
+                            message: resMessage
+                        })
+                    })
+        }
+        else {
+            this.setState({
+                successful: false,
+                message: 'Passwords do not match.'
+            })
+        }
     }
+
     render() {
         return (
             <div className="col-md-12">

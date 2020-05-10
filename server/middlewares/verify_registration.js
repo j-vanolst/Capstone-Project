@@ -19,20 +19,8 @@ checkExistingEmail = (req, res, next) => {
         })
 }
 
-checkPasswordsMatch = (req, res, next) => {
-    console.log(req.body)
-    console.log(req.body.password)
-    console.log(req.body.confirmPassword)
-    if (req.body.password != req.body.confirmPassword) {
-        res.status(400).send({ message: "Passwords do not match." })
-        return
-    }
-    next()
-}
-
 const verifyRegister = {
-    checkExistingEmail,
-    checkPasswordsMatch
+    checkExistingEmail
 }
 
 module.exports = verifyRegister

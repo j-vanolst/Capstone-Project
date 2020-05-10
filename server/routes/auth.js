@@ -16,8 +16,7 @@ router.use((req, res, next) => {
 
 router.post('/api/auth/register',
     [
-        verifyRegister.checkExistingEmail,
-        verifyRegister.checkPasswordsMatch
+        verifyRegister.checkExistingEmail
     ],
     authController.register
 )
