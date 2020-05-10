@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { checkExistingEmail } = require('../middlewares')
+const { verifyRegister } = require('../middlewares')
 
 const authController = require('../controllers/auth')
 
@@ -16,7 +16,8 @@ router.use((req, res, next) => {
 
 router.post('/api/auth/register',
     [
-        checkExistingEmail
+        verifyRegister.checkExistingEmail,
+        verifyRegister.checkPasswordsMatch
     ],
     authController.register
 )
