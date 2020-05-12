@@ -3,6 +3,8 @@ import Form from 'react-validation/build/form'
 import Input from 'react-validation/build/input'
 import CheckButton from 'react-validation/build/button'
 
+import "../form.css"
+
 import { isEmail } from 'validator'
 import AuthService from '../services/auth_service'
 
@@ -12,9 +14,9 @@ const required = value => {
             <div className="alert alert-danger" role="alert">
                 This field is required!
             </div>
-        );
+        )
     }
-};
+}
 
 const email = value => {
     if (!isEmail(value)) {
@@ -22,9 +24,9 @@ const email = value => {
             <div className="alert alert-danger" role="alert">
                 This is not a valid email.
             </div>
-        );
+        )
     }
-};
+}
 
 export default class Login extends Component {
     constructor(props) {

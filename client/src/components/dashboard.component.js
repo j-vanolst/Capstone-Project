@@ -1,4 +1,9 @@
 import React, { Component } from "react";
+import Form from 'react-validation/build/form'
+
+import Camera from "./camera/camera.component"
+import AddCamera from "./camera/add_camera.component"
+import Video from "../components/video.component"
 import AuthService from "../services/auth_service";
 
 export default class Dashboard extends Component {
@@ -13,22 +18,23 @@ export default class Dashboard extends Component {
         const { currentUser } = this.state
 
         return (
-            <div className="container">
-                <div className="card card-container">
-                    <div className="card-body">
-                        <h1 class="card-title">Your Profile</h1>
-                        <p>
-                            <strong>Name: </strong>
-                            {currentUser.fName} {currentUser.lName}
-                        </p>
-                        <p>
-                            <strong>Email: </strong>
-                            {currentUser.email}
-                        </p>
-                        <p>
-                            <strong>Access Token: </strong>
-                            {currentUser.accessToken}
-                        </p>
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-md-12 dashboard-section">
+                        <h1>My Cameras</h1>
+                        <AddCamera />
+                        <Camera name="Test Cam" location="Mt Pleasant" url="rtsp://testcam.com" />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-12 dashboard-section">
+                        <h1>My Videos</h1>
+                        <Video filename="test.mp4"></Video>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-12 dashboard-section">
+                        <h1>Metrics</h1>
                     </div>
                 </div>
             </div>
