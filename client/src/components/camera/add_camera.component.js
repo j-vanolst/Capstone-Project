@@ -7,7 +7,7 @@ import CheckButton from 'react-validation/build/button'
 import './camera.css'
 
 import { isURL } from 'validator'
-import AuthService from '../../services/auth_service'
+import CameraService from '../../services/camera_service'
 
 
 const required = value => {
@@ -30,7 +30,7 @@ const url = value => {
     }
 }
 
-
+const user = JSON.parse(localStorage.getItem('user'))
 
 export default class AddCamera extends Component {
     constructor(props) {
@@ -91,7 +91,13 @@ export default class AddCamera extends Component {
         this.form.validateAll()
 
         if (this.checkBtn.context._errors.length === 0) {
-            // DO STUFF
+            CameraService
+                .add(this.state.name,
+                    this.state.location,
+                    this.state.url,
+                    this.state.startTime,
+                    this.state.endTime,
+                    user.id)
         }
         else {
             //Dont do stuff

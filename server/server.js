@@ -10,6 +10,7 @@ const cors = require('cors')
 const dashboardRoutes = require('./routes/dashboard')
 const authRoutes = require('./routes/auth')
 const userRoutes = require('./routes/user')
+const cameraRoutes = require('./routes/camera')
 
 const dbConfig = require('./config/db_conf')
 const db = require('./database/index')
@@ -50,6 +51,7 @@ db.mongoose
 
 app.use(authRoutes)
 app.use(userRoutes)
+app.use(cameraRoutes)
 
 // Simple test route
 app.use('/', (req, res, next) => {
