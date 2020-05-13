@@ -3,8 +3,9 @@ import Form from 'react-validation/build/form'
 
 import Camera from "./camera/camera.component"
 import AddCamera from "./camera/add_camera.component"
-import Video from "../components/video.component"
+import Video from "../components/video/video.component"
 import AuthService from "../services/auth_service";
+
 
 export default class Dashboard extends Component {
     constructor(props) {

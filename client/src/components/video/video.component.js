@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import "../video.css"
-
+import React, { Component } from 'react'
+import { Button } from 'react-bootstrap'
+import './video.css'
 
 export default class Video extends Component {
     constructor(props) {
@@ -12,9 +12,10 @@ export default class Video extends Component {
 
     render() {
         return (
-            <div className="card card-camera-container">
+            <div className="card card-video-container">
                 <div className="card-body">
                     <h3 className="card-title">{this.state.filename}</h3>
+                    <Button variant="danger">Delete</Button>
                 </div>
             </div>
         )

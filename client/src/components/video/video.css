@@ -1,0 +1,30 @@
+.card-video-container.card {
+    padding: 0;
+    margin: 0;
+    max-width: 200px;
+}
+
+.card-video-container.card:hover {
+    background-color: #e7e7e7;
+}
+
+.card-text {
+    font-size: smaller;
+}
+
+
+.add-video-button {
+    font-size: 24px;
+}
+
+.add-video-button:link {
+    color: gray;
+}
+
+.add-video-button:visited {
+    color: gray;
+}
+
+.add-video-button:hover {
+    color: #333333;
+}

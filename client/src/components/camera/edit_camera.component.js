@@ -9,7 +9,6 @@ import './camera.css'
 import { isURL } from 'validator'
 import AuthService from '../../services/auth_service'
 
-
 const required = value => {
     if (!value) {
         return (
@@ -29,14 +28,38 @@ const url = value => {
         )
     }
 }
+// Mock Camera Class for testing
+class MockCamera {
+    constructor(name, location, url, startTime, endTime) {
+        this.name = name
+        this.location = location
+        this.url = url
+        this.startTime = startTime
+        this.endTime = endTime
+    }
+    getName() {
+        return this.name
+    }
+    getLocation() {
+        return this.name
+    }
+    getURL() {
+        return this.url
+    }
+    getSchedule() {
+        return {
+            startTime: this.startTime,
+            endTime: this.endTime
+        }
+    }
+}
 
 
-
-export default class AddCamera extends Component {
+export default class EditCamera extends Component {
     constructor(props) {
         super(props)
 
-        this.handleAddCamera = this.handleAddCamera.bind(this)
+        this.handleEditCamera = this.handleEditCamera.bind(this)
         this.onChangeName = this.onChangeName.bind(this)
         this.onChangeLocation = this.onChangeLocation.bind(this)
         this.onChangeURL = this.onChangeURL.bind(this)
@@ -52,6 +75,20 @@ export default class AddCamera extends Component {
             startTime: '',
             endTime: '',
             showModal: false
+        }
+
+        // Code to get data from selected camera
+        let camera = new MockCamera('testCam', 'testLoc', 'rtsp://testCam', 8, 10)
+        this.setInitial(camera)
+    }
+
+    setInitial(camera) {
+        this.state = {
+            name: camera.getName(),
+            location: camera.getLocation(),
+            url: camera.getURL(),
+            startTime: camera.getSchedule().startTime,
+            endTime: camera.getSchedule().endTime
         }
     }
 
@@ -85,7 +122,7 @@ export default class AddCamera extends Component {
         })
     }
 
-    handleAddCamera(e) {
+    handleEditCamera(e) {
         e.preventDefault()
 
         this.form.validateAll()
@@ -110,20 +147,16 @@ export default class AddCamera extends Component {
             showModal: false
         })
     }
-
     render() {
         return (
             <div>
-                {/* <Button variant="secondary" onClick={this.handleShow}>
-                    Add Camera
-                </Button> */}
-                <a href="#" onClick={this.handleShow} className="add-camera-button">
-                    Add New Camera
-                </a>
+                <Button variant="info" onClick={this.handleShow}>
+                    Edit
+                </Button>
 
                 <Modal show={this.state.showModal} onHide={this.handleHide}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Add Camera</Modal.Title>
+                        <Modal.Title>Edit Camera</Modal.Title>
                     </Modal.Header>
 
                     <Modal.Body>
@@ -207,7 +240,7 @@ export default class AddCamera extends Component {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="success" onClick={this.handleAddCamera}>Add</Button>
+                        <Button variant="info" onClick={this.handleEditCamera}>Save</Button>
                         <Button variant="secondary" onClick={this.handleHide}>Close</Button>
                     </Modal.Footer>
                 </Modal>
