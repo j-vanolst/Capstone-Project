@@ -1,24 +1,40 @@
 import React, { Component } from "react"
+import { Button } from 'react-bootstrap'
 
 import "./camera.css"
 
 import EditCamera from './edit_camera.component'
+import CameraService from '../../services/camera_service'
+
+
+const user = JSON.parse(localStorage.getItem('user'))
+
 
 export default class Camera extends Component {
     constructor(props) {
         super(props)
 
         this.test = this.test.bind(this)
+        this.remove = this.remove.bind(this)
 
         this.state = {
+            cameraID: props.cameraID,
             name: props.name,
             location: props.location,
-            url: props.url
+            url: props.url,
+            startTime: props.startTime,
+            endTime: props.endTime
         }
     }
 
     test() {
-        console.log('This is a camera')
+        console.log(this.state)
+    }
+
+    remove() {
+        CameraService
+            .remove(this.state.cameraID, user.id)
+        window.location.reload()
     }
 
     render() {
@@ -34,7 +50,8 @@ export default class Camera extends Component {
                         <strong>URL: </strong>
                         {this.state.url}
                     </p>
-                    <EditCamera />
+                    <EditCamera state={this.state} />
+                    <Button variant="danger" onClick={this.remove}>Remove</Button>
                 </div>
             </div>
         )

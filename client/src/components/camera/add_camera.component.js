@@ -103,6 +103,8 @@ export default class AddCamera extends Component {
             //Dont do stuff
         }
 
+        window.location.reload()
+
     }
 
     handleShow() {

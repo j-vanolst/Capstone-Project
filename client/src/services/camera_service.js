@@ -30,6 +30,37 @@ class CameraService {
         //     return res.data
         // })
     }
+
+    edit(name, location, url, startTime, endTime, cameraID, userID) {
+        return axios
+            .post(API_URL + 'edit', {
+                name,
+                location,
+                url,
+                startTime,
+                endTime,
+                cameraID,
+                userID
+            })
+            .then(res => {
+                console.log(res)
+
+                return Response.data
+            })
+    }
+
+    remove(cameraID, userID) {
+        return axios
+            .post(API_URL + 'remove', {
+                cameraID,
+                userID
+            })
+            .then(res => {
+                console.log(res)
+
+                return Response.data
+            })
+    }
 }
 
 export default new CameraService()

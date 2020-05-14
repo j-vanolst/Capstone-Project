@@ -8,6 +8,7 @@ import './camera.css'
 
 import { isURL } from 'validator'
 import AuthService from '../../services/auth_service'
+import CameraService from '../../services/camera_service'
 
 const required = value => {
     if (!value) {
@@ -54,6 +55,7 @@ class MockCamera {
     }
 }
 
+const user = JSON.parse(localStorage.getItem('user'))
 
 export default class EditCamera extends Component {
     constructor(props) {
@@ -68,28 +70,8 @@ export default class EditCamera extends Component {
         this.handleShow = this.handleShow.bind(this)
         this.handleHide = this.handleHide.bind(this)
 
-        this.state = {
-            name: '',
-            location: '',
-            url: '',
-            startTime: '',
-            endTime: '',
-            showModal: false
-        }
-
-        // Code to get data from selected camera
-        let camera = new MockCamera('testCam', 'testLoc', 'rtsp://testCam', 8, 10)
-        this.setInitial(camera)
-    }
-
-    setInitial(camera) {
-        this.state = {
-            name: camera.getName(),
-            location: camera.getLocation(),
-            url: camera.getURL(),
-            startTime: camera.getSchedule().startTime,
-            endTime: camera.getSchedule().endTime
-        }
+        this.state = props.state
+        this.state.showModal = false
     }
 
     onChangeName(e) {
@@ -128,7 +110,15 @@ export default class EditCamera extends Component {
         this.form.validateAll()
 
         if (this.checkBtn.context._errors.length === 0) {
-            // DO STUFF
+            CameraService
+                .edit(this.state.name,
+                    this.state.location,
+                    this.state.url,
+                    this.state.startTime,
+                    this.state.endTime,
+                    this.state.cameraID,
+                    user.id)
+            window.location.reload()
         }
         else {
             //Dont do stuff
@@ -236,6 +226,19 @@ export default class EditCamera extends Component {
                                     this.checkBtn = c;
                                 }}
                             />
+                            {/* <Input
+                                type="text"
+                                name="cameraID"
+                                value={this.state.cameraID}
+                                style={{ display: "none" }}
+                            />
+                            <Input
+                                type="text"
+                                name="userID"
+                                value={user.id}
+                                style={{ display: "none" }}
+                            /> */}
+
                         </Form>
                     </Modal.Body>
 
