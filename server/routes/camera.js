@@ -17,8 +17,4 @@ router.post('/api/camera/get', cameraController.get)
 router.post('/api/camera/edit', cameraController.edit)
 router.post('/api/camera/remove', cameraController.remove)
 
-// router.post('./api/camera/edit',
-//     cameraController.edit
-// )
-
 module.exports = router

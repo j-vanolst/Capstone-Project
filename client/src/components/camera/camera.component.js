@@ -14,7 +14,6 @@ export default class Camera extends Component {
     constructor(props) {
         super(props)
 
-        this.test = this.test.bind(this)
         this.remove = this.remove.bind(this)
 
         this.state = {
@@ -27,10 +26,6 @@ export default class Camera extends Component {
         }
     }
 
-    test() {
-        console.log(this.state)
-    }
-
     remove() {
         CameraService
             .remove(this.state.cameraID, user.id)
@@ -39,7 +34,7 @@ export default class Camera extends Component {
 
     render() {
         return (
-            <div className="card card-camera-container" onClick={this.test}>
+            <div className="card card-camera-container">
                 <div className="card-body">
                     <h3 className="card-title">{this.state.name}</h3>
                     <p className="card-text">

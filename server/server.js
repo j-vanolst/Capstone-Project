@@ -11,6 +11,7 @@ const dashboardRoutes = require('./routes/dashboard')
 const authRoutes = require('./routes/auth')
 const userRoutes = require('./routes/user')
 const cameraRoutes = require('./routes/camera')
+const videoRoutes = require('./routes/video')
 
 const dbConfig = require('./config/db_conf')
 const db = require('./database/index')
@@ -52,6 +53,7 @@ db.mongoose
 app.use(authRoutes)
 app.use(userRoutes)
 app.use(cameraRoutes)
+app.use(videoRoutes)
 
 // Simple test route
 app.use('/', (req, res, next) => {

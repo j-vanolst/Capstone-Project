@@ -5,6 +5,7 @@ import Form from 'react-validation/build/form'
 import Camera from "./camera/camera.component"
 import AddCamera from "./camera/add_camera.component"
 import Video from "../components/video/video.component"
+import AddVideo from '../components/video/add_video.component'
 import AuthService from "../services/auth_service"
 import CameraService from "../services/camera_service"
 
@@ -21,14 +22,15 @@ export default class Dashboard extends Component {
     }
 
     componentDidMount() {
-        CameraService
-            .get(user.id)
-            .then((res) => {
-                this.setState({
-                    cameras: res.data.cameras
+        if (user) {
+            CameraService
+                .get(user.id)
+                .then((res) => {
+                    this.setState({
+                        cameras: res.data.cameras
+                    })
                 })
-            })
-
+        }
     }
 
 
@@ -56,6 +58,7 @@ export default class Dashboard extends Component {
                 <div className="row">
                     <div className="col-md-12 dashboard-section">
                         <h1>My Videos</h1>
+                        <AddVideo />
                         <Video filename="test.mp4"></Video>
                     </div>
                 </div>
