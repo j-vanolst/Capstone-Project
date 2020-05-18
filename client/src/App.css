@@ -40,3 +40,9 @@
 /* .dashboard-section {
   min-height: 250px;
 } */
+
+.canvas {
+  border-style: solid;
+  border-width: 1px;
+  border-color: black;
+}

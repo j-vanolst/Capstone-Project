@@ -25,8 +25,14 @@ export default class Camera extends Component {
             url: props.url,
             startTime: props.startTime,
             endTime: props.endTime,
-            cameraStream: new CameraStream()
+            cameraStream: ''
         }
+    }
+
+    componentDidMount() {
+        this.setState({
+            cameraStream: this.refs.cameraStream
+        })
     }
 
     remove() {
@@ -36,7 +42,7 @@ export default class Camera extends Component {
     }
 
     showStream() {
-        console.log('Show Stream')
+        console.log(this.state)
         this.state.cameraStream.handleShow()
     }
 
@@ -55,7 +61,7 @@ export default class Camera extends Component {
                     </p>
                     <EditCamera state={this.state} />
                     <Button variant="danger" onClick={this.remove}>Remove</Button>
-                    <CameraStream></CameraStream>
+                    <CameraStream refs="cameraStream"></CameraStream>
                 </div>
             </div>
         )
