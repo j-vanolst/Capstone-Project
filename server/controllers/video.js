@@ -1,6 +1,6 @@
 const config = require('../config/auth_key')
 const db = require('../database')
-const Video = db.Video
+const Video = db.video
 
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
@@ -22,12 +22,12 @@ exports.add = (req, res, next) => {
 }
 
 exports.get = (req, res, next) => {
-    Video.find({ 'userID': req.body.userID }, function (err, camera) {
+    Video.find({ 'userID': req.body.userID }, function (err, videos) {
         if (err) {
             console.log('Error retrieving videos')
             return
         }
-        res.send({ video })
+        res.send({ videos })
     })
 }
 

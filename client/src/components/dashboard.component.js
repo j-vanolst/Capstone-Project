@@ -8,6 +8,7 @@ import Video from "../components/video/video.component"
 import AddVideo from '../components/video/add_video.component'
 import AuthService from "../services/auth_service"
 import CameraService from "../services/camera_service"
+import VideoService from '../services/video_service'
 
 const user = JSON.parse(localStorage.getItem('user'))
 
@@ -17,7 +18,8 @@ export default class Dashboard extends Component {
 
         this.state = {
             currentUser: AuthService.getCurrentUser(),
-            cameras: []
+            cameras: [],
+            videos: []
         }
     }
 
@@ -30,18 +32,31 @@ export default class Dashboard extends Component {
                         cameras: res.data.cameras
                     })
                 })
+
+            VideoService
+                .get(user.id)
+                .then((res) => {
+                    this.setState({
+                        videos: res.data.videos
+                    })
+                })
         }
     }
 
 
     render() {
         const { currentUser } = this.state
-        console.log(this.state.cameras[0])
 
         const cameras = []
 
         for (let aCamera of this.state.cameras) {
             cameras.push(<Camera cameraID={aCamera._id} name={aCamera.name} location={aCamera.location} url={aCamera.url} startTime={aCamera.startTime} endTime={aCamera.endTime} />)
+        }
+
+        const videos = []
+
+        for (let aVideo of this.state.videos) {
+            videos.push(<Video fileID={aVideo._id} filename={aVideo.filename} />)
         }
 
         return (
@@ -59,12 +74,15 @@ export default class Dashboard extends Component {
                     <div className="col-md-12 dashboard-section">
                         <h1>My Videos</h1>
                         <AddVideo />
-                        <Video filename="test.mp4"></Video>
+                        <div>
+                            {videos}
+                        </div>
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-md-12 dashboard-section">
                         <h1>Metrics</h1>
+                        <h3>This feature is not implemented.</h3>
                     </div>
                 </div>
             </div>

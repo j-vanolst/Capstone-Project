@@ -37,7 +37,7 @@ export default class AddVideo extends Component {
 
     onChangeFile(e) {
         this.setState({
-            name: e.target.value
+            filename: e.target.value
         })
     }
 
@@ -90,12 +90,23 @@ export default class AddVideo extends Component {
                                 this.form = c
                             }}
                         >
-                            <div className="form-group">
+                            {/* <div className="form-group">
                                 <label htmlFor="file">Video File</label>
                                 <Input
                                     type="file"
                                     className="form-control"
                                     name="file"
+                                    value={this.state.filename}
+                                    onChange={this.onChangeFile}
+                                    validations={[required]}
+                                />
+                            </div> */}
+                            <div className="form-group">
+                                <label htmlFor="filename">Filename</label>
+                                <Input
+                                    type="text"
+                                    className="form-control"
+                                    name="filename"
                                     value={this.state.filename}
                                     onChange={this.onChangeFile}
                                     validations={[required]}

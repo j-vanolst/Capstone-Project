@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap'
 import "./camera.css"
 
 import EditCamera from './edit_camera.component'
+import CameraStream from './camera_stream.component'
 import CameraService from '../../services/camera_service'
 
 
@@ -15,6 +16,7 @@ export default class Camera extends Component {
         super(props)
 
         this.remove = this.remove.bind(this)
+        this.showStream = this.showStream.bind(this)
 
         this.state = {
             cameraID: props.cameraID,
@@ -22,7 +24,8 @@ export default class Camera extends Component {
             location: props.location,
             url: props.url,
             startTime: props.startTime,
-            endTime: props.endTime
+            endTime: props.endTime,
+            cameraStream: new CameraStream()
         }
     }
 
@@ -32,9 +35,14 @@ export default class Camera extends Component {
         window.location.reload()
     }
 
+    showStream() {
+        console.log('Show Stream')
+        this.state.cameraStream.handleShow()
+    }
+
     render() {
         return (
-            <div className="card card-camera-container">
+            <div className="card card-camera-container" onClick={this.showStream}>
                 <div className="card-body">
                     <h3 className="card-title">{this.state.name}</h3>
                     <p className="card-text">
@@ -47,6 +55,7 @@ export default class Camera extends Component {
                     </p>
                     <EditCamera state={this.state} />
                     <Button variant="danger" onClick={this.remove}>Remove</Button>
+                    <CameraStream></CameraStream>
                 </div>
             </div>
         )

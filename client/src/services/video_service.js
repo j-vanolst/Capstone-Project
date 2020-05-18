@@ -1,13 +1,15 @@
 import axios from 'axios'
 import authHeader from './auth_header'
 
-const API_URL = 'http://localhost:9000/api/video'
+const API_URL = 'http://localhost:9000/api/video/'
 
 class VideoService {
-    add(filename) {
+    add(filename, userID) {
+        console.log(filename)
         return axios
             .post(API_URL + 'add', {
-                filename
+                filename,
+                userID
             })
             .then(res => {
                 console.log(res)
