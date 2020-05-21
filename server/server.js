@@ -4,6 +4,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const methodOverride = require('method-override')
 
 
 // Local Dependancies
@@ -27,9 +28,10 @@ let corsOptions = {
 
 app.use(cors(corsOptions))
 app.use(cookieParser())
+app.use(methodOverride('_method'))
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json({ parameterLimit: 100000, limit: '50mb' }))
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
 app.use(express.static(path.join(__dirname, 'public')))
 
 

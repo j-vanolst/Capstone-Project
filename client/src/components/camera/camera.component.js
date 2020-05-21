@@ -48,7 +48,7 @@ export default class Camera extends Component {
 
     render() {
         return (
-            <div className="card card-camera-container" onClick={this.showStream}>
+            <div className="card card-camera-container">
                 <div className="card-body">
                     <h3 className="card-title">{this.state.name}</h3>
                     <p className="card-text">

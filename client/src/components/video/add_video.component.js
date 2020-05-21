@@ -6,6 +6,7 @@ import CheckButton from 'react-validation/build/button'
 
 import './video.css'
 
+import Uploader from './uploader.component'
 import VideoService from '../../services/video_service'
 
 const required = value => {
@@ -24,40 +25,44 @@ export default class AddVideo extends Component {
     constructor(props) {
         super(props)
 
-        this.handleAddVideo = this.handleAddVideo.bind(this)
-        this.onChangeFile = this.onChangeFile.bind(this)
+        //this.handleAddVideo = this.handleAddVideo.bind(this)
+        // this.onChangeFile = this.onChangeFile.bind(this)
         this.handleShow = this.handleShow.bind(this)
         this.handleHide = this.handleHide.bind(this)
 
         this.state = {
             filename: '',
+            file: '',
             showModal: false
         }
     }
 
-    onChangeFile(e) {
-        this.setState({
-            filename: e.target.value
-        })
-    }
+    // onChangeFile(e) {
+    //     let files = e.target.files
+    //     if (files.length) {
+    //         this.setState({
+    //             filename: files[0].name
+    //         })
+    //     }
+    // }
 
-    handleAddVideo(e) {
-        e.preventDefault()
+    // handleAddVideo(e) {
+    //     e.preventDefault()
 
-        this.form.validateAll()
+    //     this.form.validateAll()
 
-        if (this.checkBtn.context._errors.length === 0) {
-            VideoService
-                .add(this.state.filename,
-                    user.id)
-        }
-        else {
-            //Dont do stuff
-        }
+    //     if (this.checkBtn.context._errors.length === 0) {
+    //         VideoService
+    //             .add(this.state.filename,
+    //                 user.id)
+    //     }
+    //     else {
+    //         //Dont do stuff
+    //     }
 
-        window.location.reload()
+    //     //window.location.reload()
 
-    }
+    // }
 
     handleShow() {
         this.setState({
@@ -85,7 +90,7 @@ export default class AddVideo extends Component {
 
                     <Modal.Body>
                         <Form
-                            onSubmit={this.handleAddVideo}
+                            //onSubmit={this.handleAddVideo}
                             ref={c => {
                                 this.form = c
                             }}
@@ -101,7 +106,7 @@ export default class AddVideo extends Component {
                                     validations={[required]}
                                 />
                             </div> */}
-                            <div className="form-group">
+                            {/* <div className="form-group">
                                 <label htmlFor="filename">Filename</label>
                                 <Input
                                     type="text"
@@ -111,6 +116,9 @@ export default class AddVideo extends Component {
                                     onChange={this.onChangeFile}
                                     validations={[required]}
                                 />
+                            </div> */}
+                            <div className="form-group">
+                                <Uploader name="file" labelText="Video File" />
                             </div>
                             {this.state.message && (
                                 <div className="form-group">
@@ -130,7 +138,7 @@ export default class AddVideo extends Component {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="success" onClick={this.handleAddVideo}>Add</Button>
+                        <Button variant="success">Add</Button>
                         <Button variant="secondary" onClick={this.handleHide}>Close</Button>
                     </Modal.Footer>
                 </Modal>

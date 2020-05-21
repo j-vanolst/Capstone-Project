@@ -9,6 +9,7 @@ import AddVideo from '../components/video/add_video.component'
 import AuthService from "../services/auth_service"
 import CameraService from "../services/camera_service"
 import VideoService from '../services/video_service'
+import Uploader from '../components/video/uploader.component'
 
 const user = JSON.parse(localStorage.getItem('user'))
 

@@ -26,7 +26,7 @@ export default class CameraStream extends Component {
     constructor(props) {
         super(props)
 
-        this.handleChangeModel = this.handleChangeModel.bind(this)
+        this.onChangeModel = this.onChangeModel.bind(this)
         this.handleShow = this.handleShow.bind(this)
         this.handleHide = this.handleHide.bind(this)
 
@@ -36,9 +36,9 @@ export default class CameraStream extends Component {
         }
     }
 
-    handleChangeModel(e) {
+    onChangeModel(e) {
         this.setState({
-            model: e.value.target
+            model: e.target.value
         })
     }
 
