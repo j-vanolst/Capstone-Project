@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 
 import VideoService from '../services/video_service'
-
+import Uploader from '../components/video/uploader.component'
 
 const user = JSON.parse(localStorage.getItem('user'))
 
@@ -58,6 +58,8 @@ export default class Test extends React.Component {
                 <label htmlFor="file">Video File</label>
                 <input type="file" name="file" onChange={this.onChangeHandler} />
                 <button onClick={this.loadFile}>Submit</button>
+
+                <Uploader />
             </div>
 
         )

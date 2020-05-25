@@ -49,6 +49,7 @@ export default class CameraStream extends Component {
     }
 
     handleHide() {
+        console.log('hide')
         this.setState({
             showModal: false
         })
@@ -56,10 +57,6 @@ export default class CameraStream extends Component {
     render() {
         return (
             <div>
-                <Button variant="info" onClick={this.handleShow}>
-                    Show
-                </Button>
-
                 <Modal show={this.state.showModal} onHide={this.handleHide}>
                     <Modal.Header closeButton>
                         <Modal.Title>Camera Stream</Modal.Title>

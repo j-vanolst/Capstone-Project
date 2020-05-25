@@ -59,10 +59,10 @@ router.use((req, res, next) => {
     next()
 })
 
-router.post('/api/video/add', videoController.add)
+//router.post('/api/video/add', videoController.add)
 router.post('/api/video/get', videoController.get)
 router.post('/api/video/remove', videoController.remove)
-router.post('/api/video/test', upload.single('file'), (req, res, next) => {
+router.post('/api/video/add', upload.single('file'), (req, res, next) => {
     let filename = req.body.filename
     let userID = req.body.userID
     let fileID = req.file.id
@@ -82,6 +82,27 @@ router.post('/api/video/test', upload.single('file'), (req, res, next) => {
                 return
             }
             res.send({ message: 'Video was added successfully.' })
+        })
+})
+
+router.get('/api/video/getFile/:fileID', (req, res, next) => {
+    let userID = req.body.userID
+    let fileID = new mongoose.mongo.ObjectId(req.params.fileID)
+
+    gfs.files
+        .find({
+            _id: fileID
+        })
+        .toArray((err, files) => {
+            if (!files || files.length === 0) {
+                err = 'No file found'
+                res.status(500).send({ message: err })
+                return
+            }
+
+            // File Exists
+            const readStream = gfs.createReadStream(files[0].filename)
+            readStream.pipe(res)
         })
 })
 

@@ -57,7 +57,7 @@ export default class Dashboard extends Component {
         const videos = []
 
         for (let aVideo of this.state.videos) {
-            videos.push(<Video fileID={aVideo._id} filename={aVideo.filename} />)
+            videos.push(<Video fileID={aVideo.fileID} filename={aVideo.filename} />)
         }
 
         return (

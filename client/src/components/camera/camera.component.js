@@ -15,6 +15,8 @@ export default class Camera extends Component {
     constructor(props) {
         super(props)
 
+        this.streamRef = React.createRef()
+
         this.remove = this.remove.bind(this)
         this.showStream = this.showStream.bind(this)
 
@@ -42,13 +44,12 @@ export default class Camera extends Component {
     }
 
     showStream() {
-        console.log(this.state)
-        this.state.cameraStream.handleShow()
+        this.streamRef.current.handleShow()
     }
 
     render() {
         return (
-            <div className="card card-camera-container">
+            <div className="card card-camera-container" onClick={this.showStream}>
                 <div className="card-body">
                     <h3 className="card-title">{this.state.name}</h3>
                     <p className="card-text">
@@ -61,7 +62,7 @@ export default class Camera extends Component {
                     </p>
                     <EditCamera state={this.state} />
                     <Button variant="danger" onClick={this.remove}>Remove</Button>
-                    <CameraStream refs="cameraStream"></CameraStream>
+                    <CameraStream ref={this.streamRef}></CameraStream>
                 </div>
             </div>
         )

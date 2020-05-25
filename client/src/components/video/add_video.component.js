@@ -24,9 +24,9 @@ const user = JSON.parse(localStorage.getItem('user'))
 export default class AddVideo extends Component {
     constructor(props) {
         super(props)
+        this.uploaderRef = React.createRef()
 
-        //this.handleAddVideo = this.handleAddVideo.bind(this)
-        // this.onChangeFile = this.onChangeFile.bind(this)
+        this.handleAddVideo = this.handleAddVideo.bind(this)
         this.handleShow = this.handleShow.bind(this)
         this.handleHide = this.handleHide.bind(this)
 
@@ -37,32 +37,22 @@ export default class AddVideo extends Component {
         }
     }
 
-    // onChangeFile(e) {
-    //     let files = e.target.files
-    //     if (files.length) {
-    //         this.setState({
-    //             filename: files[0].name
-    //         })
-    //     }
-    // }
+    handleAddVideo(e) {
+        e.preventDefault()
 
-    // handleAddVideo(e) {
-    //     e.preventDefault()
+        this.form.validateAll()
 
-    //     this.form.validateAll()
+        if (this.checkBtn.context._errors.length === 0) {
+            console.log(this.uploaderRef.current.state)
+            this.uploaderRef.current.uploadFile()
+        }
+        else {
+            //Dont do stuff
+        }
 
-    //     if (this.checkBtn.context._errors.length === 0) {
-    //         VideoService
-    //             .add(this.state.filename,
-    //                 user.id)
-    //     }
-    //     else {
-    //         //Dont do stuff
-    //     }
+        window.location.reload()
 
-    //     //window.location.reload()
-
-    // }
+    }
 
     handleShow() {
         this.setState({
@@ -90,36 +80,16 @@ export default class AddVideo extends Component {
 
                     <Modal.Body>
                         <Form
-                            //onSubmit={this.handleAddVideo}
+                            onSubmit={this.handleAddVideo}
                             ref={c => {
                                 this.form = c
                             }}
                         >
-                            {/* <div className="form-group">
-                                <label htmlFor="file">Video File</label>
-                                <Input
-                                    type="file"
-                                    className="form-control"
-                                    name="file"
-                                    value={this.state.filename}
-                                    onChange={this.onChangeFile}
-                                    validations={[required]}
-                                />
-                            </div> */}
-                            {/* <div className="form-group">
-                                <label htmlFor="filename">Filename</label>
-                                <Input
-                                    type="text"
-                                    className="form-control"
-                                    name="filename"
-                                    value={this.state.filename}
-                                    onChange={this.onChangeFile}
-                                    validations={[required]}
-                                />
-                            </div> */}
+
                             <div className="form-group">
-                                <Uploader name="file" labelText="Video File" />
+                                <Uploader ref={this.uploaderRef} name="file" labelText="Video File" />
                             </div>
+
                             {this.state.message && (
                                 <div className="form-group">
                                     <div className="alert alert-danger" role="alert">
@@ -138,7 +108,7 @@ export default class AddVideo extends Component {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="success">Add</Button>
+                        <Button variant="success" onClick={this.handleAddVideo}>Add</Button>
                         <Button variant="secondary" onClick={this.handleHide}>Close</Button>
                     </Modal.Footer>
                 </Modal>
