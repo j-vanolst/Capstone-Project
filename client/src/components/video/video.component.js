@@ -12,7 +12,7 @@ export default class Video extends Component {
     constructor(props) {
         super(props)
 
-        this.streamRef = React.createRef()
+        this.streamRef = createRef()
 
         this.remove = this.remove.bind(this)
         this.showStream = this.showStream.bind(this)

@@ -1,6 +1,4 @@
 import React, { Component } from "react"
-import { Button } from 'react-bootstrap'
-import Form from 'react-validation/build/form'
 
 import Camera from "./camera/camera.component"
 import AddCamera from "./camera/add_camera.component"
@@ -9,7 +7,6 @@ import AddVideo from '../components/video/add_video.component'
 import AuthService from "../services/auth_service"
 import CameraService from "../services/camera_service"
 import VideoService from '../services/video_service'
-import Uploader from '../components/video/uploader.component'
 
 const user = JSON.parse(localStorage.getItem('user'))
 
@@ -46,8 +43,6 @@ export default class Dashboard extends Component {
 
 
     render() {
-        const { currentUser } = this.state
-
         const cameras = []
 
         for (let aCamera of this.state.cameras) {

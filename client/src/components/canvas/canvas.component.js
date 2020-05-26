@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import { Button } from 'react-bootstrap'
+import ReactPlayer from 'react-player'
 
-export default class Canvas extends React.Component {
+
+export default class Canvas extends Component {
     constructor(props) {
         super(props)
 
-        this.canvasRef = React.createRef()
+        this.canvasRef = createRef()
         this.drawRect = this.drawRect.bind(this)
 
         this.state = {
@@ -35,6 +37,7 @@ export default class Canvas extends React.Component {
             <div className="canvas">
                 <canvas ref={this.canvasRef} width={640} height={480} />
                 <Button variant="info" onClick={this.drawRect}>Test</Button>
+                <ReactPlayer url="http://localhost:9000/api/video/getFile/5ecb31f5a7cd084780c126ab" />
             </div>
         )
     }

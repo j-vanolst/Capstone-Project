@@ -1,14 +1,8 @@
 import React, { Component } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import Form from 'react-validation/build/form'
-import Input from 'react-validation/build/input'
-import CheckButton from 'react-validation/build/button'
 
 import './camera.css'
-
-import { isURL } from 'validator'
-import AuthService from '../../services/auth_service'
-import CameraService from '../../services/camera_service'
 
 const required = value => {
     if (!value) {
@@ -19,8 +13,6 @@ const required = value => {
         )
     }
 }
-
-const user = JSON.parse(localStorage.getItem('user'))
 
 export default class CameraStream extends Component {
     constructor(props) {
@@ -85,6 +77,7 @@ export default class CameraStream extends Component {
                                     name="model"
                                     value={this.state.model}
                                     onChange={this.onChangeModel}
+                                    validations={[required]}
                                 >
                                     <option value="ped">Pedestrian Counting</option>
                                     <option value="car">Car Counting</option>

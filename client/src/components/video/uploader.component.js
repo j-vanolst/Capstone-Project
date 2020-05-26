@@ -5,7 +5,7 @@ import VideoService from '../../services/video_service'
 
 const user = JSON.parse(localStorage.getItem('user'))
 
-export default class Uploader extends React.Component {
+export default class Uploader extends Component {
     constructor(props) {
         super(props)
 

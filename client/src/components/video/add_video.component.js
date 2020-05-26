@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import Form from 'react-validation/build/form'
-import Input from 'react-validation/build/input'
 import CheckButton from 'react-validation/build/button'
 
 import './video.css'
 
 import Uploader from './uploader.component'
-import VideoService from '../../services/video_service'
 
 const required = value => {
     if (!value) {
@@ -18,8 +16,6 @@ const required = value => {
         )
     }
 }
-
-const user = JSON.parse(localStorage.getItem('user'))
 
 export default class AddVideo extends Component {
     constructor(props) {
@@ -43,7 +39,6 @@ export default class AddVideo extends Component {
         this.form.validateAll()
 
         if (this.checkBtn.context._errors.length === 0) {
-            console.log(this.uploaderRef.current.state)
             this.uploaderRef.current.uploadFile()
         }
         else {
@@ -69,9 +64,7 @@ export default class AddVideo extends Component {
     render() {
         return (
             <div>
-                <a href="#" onClick={this.handleShow} className="add-video-button">
-                    Add New Video
-                </a>
+                <Button onClick={this.handleShow} className="btn btn-link add-video-button">Add New Video</Button>
 
                 <Modal show={this.state.showModal} onHide={this.handleHide}>
                     <Modal.Header closeButton>
@@ -87,7 +80,7 @@ export default class AddVideo extends Component {
                         >
 
                             <div className="form-group">
-                                <Uploader ref={this.uploaderRef} name="file" labelText="Video File" />
+                                <Uploader ref={this.uploaderRef} name="file" labelText="Video File" validations={[required]} />
                             </div>
 
                             {this.state.message && (
@@ -112,7 +105,7 @@ export default class AddVideo extends Component {
                         <Button variant="secondary" onClick={this.handleHide}>Close</Button>
                     </Modal.Footer>
                 </Modal>
-            </div>
+            </div >
         )
     }
 }

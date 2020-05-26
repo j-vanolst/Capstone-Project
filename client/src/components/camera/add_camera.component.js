@@ -122,12 +122,9 @@ export default class AddCamera extends Component {
     render() {
         return (
             <div>
-                {/* <Button variant="secondary" onClick={this.handleShow}>
+                <Button variant="secondary" onClick={this.handleShow} className="btn btn-link add-camera-button">
                     Add Camera
-                </Button> */}
-                <a href="#" onClick={this.handleShow} className="add-camera-button">
-                    Add New Camera
-                </a>
+                </Button>
 
                 <Modal show={this.state.showModal} onHide={this.handleHide}>
                     <Modal.Header closeButton>

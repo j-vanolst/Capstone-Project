@@ -7,7 +7,6 @@ import CheckButton from 'react-validation/build/button'
 import './camera.css'
 
 import { isURL } from 'validator'
-import AuthService from '../../services/auth_service'
 import CameraService from '../../services/camera_service'
 
 const required = value => {
@@ -27,31 +26,6 @@ const url = value => {
                 This is not a valid URL.
             </div>
         )
-    }
-}
-// Mock Camera Class for testing
-class MockCamera {
-    constructor(name, location, url, startTime, endTime) {
-        this.name = name
-        this.location = location
-        this.url = url
-        this.startTime = startTime
-        this.endTime = endTime
-    }
-    getName() {
-        return this.name
-    }
-    getLocation() {
-        return this.name
-    }
-    getURL() {
-        return this.url
-    }
-    getSchedule() {
-        return {
-            startTime: this.startTime,
-            endTime: this.endTime
-        }
     }
 }
 

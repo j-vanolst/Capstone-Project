@@ -1,5 +1,4 @@
 import axios from 'axios'
-import authHeader from './auth_header'
 
 const API_URL = 'http://localhost:9000/api/video/'
 
