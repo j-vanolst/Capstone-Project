@@ -1,3 +1,4 @@
 module.exports = {
-    secret: "testkey"
+    secret: "testkey",
+    sendgridPassword: 'zbCa9TDe&4Dfb*fQ'
 }

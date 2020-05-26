@@ -1,2 +1,4 @@
 node-clef-master/
 node_modules/
+server/config/auth_key.js
+server/config/auth_key.js

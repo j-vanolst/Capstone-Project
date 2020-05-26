@@ -23,4 +23,6 @@ router.post('/api/auth/register',
 
 router.post('/api/auth/login', authController.login)
 
+router.post('/api/auth/reset', authController.reset)
+
 module.exports = router

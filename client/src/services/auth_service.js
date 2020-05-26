@@ -32,6 +32,16 @@ class AuthService {
             })
     }
 
+    reset(email) {
+        return axios
+            .post(API_URL + 'reset', {
+                email
+            })
+            .then((res) => {
+                return Response.data
+            })
+    }
+
     getCurrentUser() {
         return JSON.parse(localStorage.getItem('user'))
     }

@@ -6,7 +6,9 @@ const User = mongoose.model(
         fName: String,
         lName: String,
         email: String,
-        password: String
+        password: String,
+        resetPasswordToken: String,
+        resetTokenExpires: Date
     })
 )
 
