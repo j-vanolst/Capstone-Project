@@ -37,8 +37,18 @@ class AuthService {
             .post(API_URL + 'reset', {
                 email
             })
-            .then((res) => {
+    }
+
+    verifyToken(token) {
+        return axios
+            .post(API_URL + 'verifyToken', {
+                token
+            })
+            .then(res => {
                 return Response.data
+            })
+            .catch(err => {
+                console.log(err)
             })
     }
 

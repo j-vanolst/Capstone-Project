@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const async = require('async')
 const crypto = require('crypto')
+const generator = require('generate-password')
 
 exports.register = (req, res, next) => {
     const user = new User({
@@ -90,7 +91,7 @@ exports.reset = (req, res, next) => {
                     }
 
                     user.resetPasswordToken = token
-                    user.resetPasswordExpires = Date.now() + 360000
+                    user.resetTokenExpires = Date.now() + 360000
 
                     user.save(function (err) {
                         done(err, token, user)
@@ -99,21 +100,23 @@ exports.reset = (req, res, next) => {
         },
         function (token, user, done) {
             const smtpTransport = new nodemailer_smtp_transport()
-            const mailTransport = nodemailer.createTransport(smtpTransport, {
-                service: 'gmail',
+            const mailTransport = nodemailer.createTransport({
+                host: 'smtp.gmail.com',
+                port: 465,
+                secure: true,
                 auth: {
                     user: 'vanolst.j@gmail.com',
-                    pass: config.sendgridPassword
+                    pass: config.gmailPassword
                 }
             })
 
             const mailOptions = {
                 to: user.email,
-                from: 'password.reset@test.com',
+                from: 'vanolst.j@gmail.com',
                 subject: 'Capstone Project Password Reset',
                 text: 'You are recieving this because you (or someone else) has requested a password reset for your account.\n\n' +
                     'Please click on the following link, or paste this into your browser to complete the password reset: \n\n' +
-                    'http://' + req.headers.host + '/reset/' + token + '\n\n' +
+                    'http://' + 'localhost:3000' + '/reset/' + token + '\n\n' +
                     'If you did not request this, please ignore this email and your password will remain unchanged.'
             }
             mailTransport.sendMail(mailOptions, function (err) {
@@ -128,6 +131,36 @@ exports.reset = (req, res, next) => {
                 return next(err)
             }
 
-            //res.redirect('/reset')
+        })
+}
+
+exports.verifyToken = (req, res, next) => {
+    let token = req.body.token
+    console.log(token)
+
+    User
+        .findOne({
+            resetPasswordToken: token,
+            resetTokenExpires: { $gt: Date.now() }
+        }, function (err, user) {
+            if (!user) {
+                res.status(404).send({ message: 'Reset token is invalid or has expired.' })
+                return
+            }
+            let newPassword = generator.generate({
+                length: 10,
+                numebers: true
+            })
+            user.password = bcrypt.hashSync(newPassword, 8)
+            user.resetPasswordToken = ''
+            user.resetTokenExpires = ''
+            user
+                .save((err, user) => {
+                    if (err) {
+                        res.status.send(500).send({ message: 'Error resetting password.' })
+                        return
+                    }
+                    res.status(200).send({ message: `Token is valid. Your new temporary password is: ${newPassword}` })
+                })
         })
 }

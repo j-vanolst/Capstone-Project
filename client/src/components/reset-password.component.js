@@ -31,6 +31,8 @@ const email = value => {
 export default class Reset extends Component {
     constructor(props) {
         super(props)
+        console.log(props.match.params.token)
+        console.log(this.props)
 
         this.onChangeEmail = this.onChangeEmail.bind(this)
         this.handleReset = this.handleReset.bind(this)
@@ -46,6 +48,16 @@ export default class Reset extends Component {
         this.setState({
             email: e.target.value
         })
+    }
+
+    componentDidMount() {
+        AuthService
+            .verifyToken(this.props.match.params.token)
+            .then((res) => {
+                this.setState({
+                    message: res.data.message
+                })
+            })
     }
 
     handleReset(e) {
@@ -79,30 +91,13 @@ export default class Reset extends Component {
             <div className="container-md">
                 <div className="card card-container">
                     <div className="card-body">
-                        <h1 className="card-title">Reset Password</h1>
+                        <h1 className="card-title">Password Reset</h1>
                         <Form
                             onSubmit={this.handleReset}
                             ref={c => {
                                 this.form = c
                             }}
                         >
-                            <div className="form-group">
-                                <label htmlFor="email">Email</label>
-                                <Input
-                                    type="text"
-                                    className="form-control"
-                                    name="email"
-                                    value={this.state.email}
-                                    onChange={this.onChangeEmail}
-                                    validations={[required, email]}
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <button className="btn btn-success btn-block">Reset</button>
-                            </div>
-
-
                             {this.state.message && (
                                 <div className="form-group">
                                     <div className="alert alert-danger" role="alert">
