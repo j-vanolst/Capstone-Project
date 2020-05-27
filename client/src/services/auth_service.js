@@ -14,7 +14,7 @@ class AuthService {
                     localStorage.setItem('user', JSON.stringify(res.data))
                 }
 
-                return Response.data
+                return res.data
             })
     }
 
@@ -30,12 +30,24 @@ class AuthService {
                 email,
                 password
             })
+            .then(res => {
+                return res.data
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     reset(email) {
         return axios
             .post(API_URL + 'reset', {
                 email
+            })
+            .then(res => {
+                return res.data
+            })
+            .catch(err => {
+                console.log(err)
             })
     }
 
@@ -45,7 +57,7 @@ class AuthService {
                 token
             })
             .then(res => {
-                return Response.data
+                return res.data
             })
             .catch(err => {
                 console.log(err)

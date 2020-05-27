@@ -12,10 +12,17 @@ const multer = require('multer')
 const GridFsStorage = require('multer-gridfs-storage')
 const Grid = require('gridfs-stream')
 
+const fileStorage = require('../middlewares/file_storage')
+
 exports.add = (req, res, next) => {
+    let filename = req.body.filename
+    let userID = req.body.userID
+    let fileID = req.file.id
+
     const video = new Video({
-        filename: req.body.filename,
-        userID: req.body.userID
+        filename: filename,
+        userID: userID,
+        fileID: fileID
     })
 
     video
@@ -25,6 +32,40 @@ exports.add = (req, res, next) => {
                 return
             }
             res.send({ message: 'Video was added successfully.' })
+        })
+}
+
+exports.getFile = (req, res, next) => {
+    let userID = req.body.userID
+    let fileID = new mongoose.mongo.ObjectId(req.params.fileID)
+
+    let conn = fileStorage.conn
+    let gfs
+
+    conn.once('open', () => {
+        gfs = Grid(fileStorage.conn.db, mongoose.mongo)
+        gfs.collection('videos')
+    })
+
+    if (!gfs) {
+        gfs = Grid(fileStorage.conn.db, mongoose.mongo)
+        gfs.collection('videos')
+    }
+
+    gfs.files
+        .find({
+            _id: fileID
+        })
+        .toArray((err, files) => {
+            if (!files || files.length === 0) {
+                err = 'No file found'
+                res.status(500).send({ message: err })
+                return
+            }
+
+            // File Exists
+            const readStream = gfs.createReadStream(files[0].filename)
+            readStream.pipe(res)
         })
 }
 

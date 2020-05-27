@@ -31,59 +31,32 @@ const email = value => {
 export default class Reset extends Component {
     constructor(props) {
         super(props)
-        console.log(props.match.params.token)
-        console.log(this.props)
-
-        this.onChangeEmail = this.onChangeEmail.bind(this)
-        this.handleReset = this.handleReset.bind(this)
 
         this.state = {
-            email: '',
-            loading: false,
-            message: ''
+            message: '',
+            successful: false
         }
-    }
-
-    onChangeEmail(e) {
-        this.setState({
-            email: e.target.value
-        })
     }
 
     componentDidMount() {
         AuthService
             .verifyToken(this.props.match.params.token)
             .then((res) => {
-                this.setState({
-                    message: res.data.message
-                })
-            })
-    }
-
-    handleReset(e) {
-        e.preventDefault()
-
-        this.setState({
-            message: '',
-            loading: true
-        })
-
-        this.form.validateAll()
-
-        if (this.checkBtn.context._errors.length === 0) {
-            AuthService
-                .reset(this.state.email)
-                .then((res) => {
+                console.log(res)
+                if (res) {
                     this.setState({
-                        message: res.data.message
+                        message: res.message,
+                        successful: res.successful
                     })
-                })
-        }
-        else {
-            this.setState({
-                loading: false
+                }
+                else {
+                    this.setState({
+                        message: 'Server Error.',
+                        successful: false
+                    })
+                }
+
             })
-        }
     }
 
     render() {
@@ -100,7 +73,14 @@ export default class Reset extends Component {
                         >
                             {this.state.message && (
                                 <div className="form-group">
-                                    <div className="alert alert-danger" role="alert">
+                                    <div
+                                        className={
+                                            this.state.successful
+                                                ? "alert alert-success"
+                                                : "alert alert-danger"
+                                        }
+                                        role="alert"
+                                    >
                                         {this.state.message}
                                     </div>
                                 </div>

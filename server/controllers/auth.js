@@ -144,7 +144,7 @@ exports.verifyToken = (req, res, next) => {
             resetTokenExpires: { $gt: Date.now() }
         }, function (err, user) {
             if (!user) {
-                res.status(404).send({ message: 'Reset token is invalid or has expired.' })
+                res.status(202).send({ message: 'Reset token is invalid or has expired.', successful: false })
                 return
             }
             let newPassword = generator.generate({
@@ -160,7 +160,7 @@ exports.verifyToken = (req, res, next) => {
                         res.status.send(500).send({ message: 'Error resetting password.' })
                         return
                     }
-                    res.status(200).send({ message: `Token is valid. Your new temporary password is: ${newPassword}` })
+                    res.status(200).send({ message: `Token is valid. Your new temporary password is: ${newPassword}`, successful: true })
                 })
         })
 }

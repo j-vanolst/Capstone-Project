@@ -122,7 +122,7 @@ export default class Register extends Component {
                         this.state.password)
                     .then(res => {
                         this.setState({
-                            message: res.data.message,
+                            message: res.message,
                             successful: true
                         })
                     },

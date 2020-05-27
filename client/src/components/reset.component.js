@@ -38,6 +38,7 @@ export default class Reset extends Component {
         this.state = {
             email: '',
             loading: false,
+            successful: false,
             message: ''
         }
     }
@@ -62,9 +63,18 @@ export default class Reset extends Component {
             AuthService
                 .reset(this.state.email)
                 .then((res) => {
-                    this.setState({
-                        message: res.data.message
-                    })
+                    if (res) {
+                        this.setState({
+                            message: res.message,
+                            successful: true
+                        })
+                    }
+                    else {
+                        this.setState({
+                            message: "Server Error.",
+                            successful: false
+                        })
+                    }
                 })
         }
         else {
@@ -102,10 +112,16 @@ export default class Reset extends Component {
                                 <button className="btn btn-success btn-block">Reset</button>
                             </div>
 
-
                             {this.state.message && (
                                 <div className="form-group">
-                                    <div className="alert alert-danger" role="alert">
+                                    <div
+                                        className={
+                                            this.state.successful
+                                                ? "alert alert-success"
+                                                : "alert alert-danger"
+                                        }
+                                        role="alert"
+                                    >
                                         {this.state.message}
                                     </div>
                                 </div>
