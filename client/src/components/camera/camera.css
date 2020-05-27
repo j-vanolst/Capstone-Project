@@ -12,19 +12,6 @@
     font-size: smaller;
 }
 
-
-.add-camera-button {
-    font-size: 24px;
-}
-
-.add-camera-button:link {
-    color: gray;
-}
-
-.add-camera-button:visited {
-    color: gray;
-}
-
-.add-camera-button:hover {
-    color: #333333;
+.btn-add-camera {
+    
 }

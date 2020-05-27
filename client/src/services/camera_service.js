@@ -14,9 +14,10 @@ class CameraService {
                 userID
             })
             .then(res => {
-                console.log(res)
-
-                return Response.data
+                return res.data
+            })
+            .catch(err => {
+                console.log(err)
             })
     }
 
@@ -25,9 +26,12 @@ class CameraService {
             .post(API_URL + 'get', {
                 userID
             })
-        // .then((res) => {
-        //     return res.data
-        // })
+            .then((res) => {
+                return res.data
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     edit(name, location, url, startTime, endTime, cameraID, userID) {
@@ -42,22 +46,25 @@ class CameraService {
                 userID
             })
             .then(res => {
-                console.log(res)
-
-                return Response.data
+                return res.data
+            })
+            .catch(err => {
+                console.log(err)
             })
     }
 
     remove(cameraID, userID) {
+        console.log(userID)
         return axios
             .post(API_URL + 'remove', {
                 cameraID,
                 userID
             })
             .then(res => {
-                console.log(res)
-
-                return Response.data
+                return res.data
+            })
+            .catch(err => {
+                console.log(err)
             })
     }
 }

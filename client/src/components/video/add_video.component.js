@@ -41,12 +41,6 @@ export default class AddVideo extends Component {
         if (this.checkBtn.context._errors.length === 0) {
             this.uploaderRef.current.uploadFile()
         }
-        else {
-            //Dont do stuff
-        }
-
-        window.location.reload()
-
     }
 
     handleShow() {
@@ -64,7 +58,7 @@ export default class AddVideo extends Component {
     render() {
         return (
             <div>
-                <Button onClick={this.handleShow} className="btn btn-link add-video-button">Add New Video</Button>
+                <button onClick={this.handleShow} className="btn btn-link btn-add-video">Add New Video</button>
 
                 <Modal show={this.state.showModal} onHide={this.handleHide}>
                     <Modal.Header closeButton>
@@ -82,14 +76,6 @@ export default class AddVideo extends Component {
                             <div className="form-group">
                                 <Uploader ref={this.uploaderRef} name="file" labelText="Video File" validations={[required]} />
                             </div>
-
-                            {this.state.message && (
-                                <div className="form-group">
-                                    <div className="alert alert-danger" role="alert">
-                                        {this.state.message}
-                                    </div>
-                                </div>
-                            )}
 
                             <CheckButton
                                 style={{ display: "none" }}

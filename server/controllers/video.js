@@ -7,9 +7,6 @@ const bcrypt = require('bcryptjs')
 const fs = require('fs')
 
 const mongoose = require('mongoose')
-const crypto = require('crypto')
-const multer = require('multer')
-const GridFsStorage = require('multer-gridfs-storage')
 const Grid = require('gridfs-stream')
 
 const fileStorage = require('../middlewares/file_storage')
@@ -31,7 +28,7 @@ exports.add = (req, res, next) => {
                 res.status(500).send({ message: err })
                 return
             }
-            res.send({ message: 'Video was added successfully.' })
+            res.send({ message: 'Video successfully added.' })
         })
 }
 
@@ -79,45 +76,31 @@ exports.get = (req, res, next) => {
     })
 }
 
-exports.remove = async (req, res, next) => {
-    console.log(req.body)
-
+exports.remove = (req, res, next) => {
     let userID = req.body.userID
     let videoID = req.body.videoID
 
-    let video = await Video.findById(
-        { _id: videoID }
-    )
-
-    if (video.userID == userID) {
-        video
-            .remove((err, video) => {
-                if (err) {
-                    res.status(500).send({ message: err })
-                    return
-                }
-                res.send({ message: 'Video removed successfully.' })
-            })
-    }
-    else {
-        res.status(401).send({ message: 'Authorization error.' })
-    }
-}
-
-exports.test = (req, res, next) => {
-    //console.log(req.body)
-
-    // let filename = req.body.filename
-    // let file = req.body.file
-
-
-    // fs.writeFile(filename, file, (err) => {
-    //     if (err) {
-    //         console.log('Error writing file')
-    //     }
-    // })
-    // res.send({ message: 'success' })
-
-    // Mongo URL
-
+    Video
+        .findOne({
+            fileID: videoID
+        }, (err, video) => {
+            if (!video) {
+                res.status(404).send({ message: 'Video could not be found.' })
+                return
+            }
+            if (video.userID == userID) {
+                video
+                    .remove((err, video) => {
+                        if (err) {
+                            res.status(500).send({ message: err })
+                            return
+                        }
+                        res.status(200).send({ message: 'Video successfully removed.' })
+                        return
+                    })
+            }
+            else {
+                res.status(401).send({ message: 'Authorization error.' })
+            }
+        })
 }

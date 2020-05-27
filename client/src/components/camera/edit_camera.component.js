@@ -4,6 +4,10 @@ import Form from 'react-validation/build/form'
 import Input from 'react-validation/build/input'
 import CheckButton from 'react-validation/build/button'
 
+import { store } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import 'animate.css'
+
 import './camera.css'
 
 import { isURL } from 'validator'
@@ -46,6 +50,9 @@ export default class EditCamera extends Component {
 
         this.state = props.state
         this.state.showModal = false
+        this.state.notificationTitle = 'Error'
+        this.state.message = 'Error'
+        this.state.notificationType = 'danger'
     }
 
     onChangeName(e) {
@@ -92,12 +99,41 @@ export default class EditCamera extends Component {
                     this.state.endTime,
                     this.state.cameraID,
                     user.id)
-            window.location.reload()
+                .then(res => {
+                    if (res) {
+                        this.setState({
+                            notificationTitle: 'Success',
+                            message: res.message,
+                            notificationType: 'success'
+                        })
+                    }
+                    else {
+                        this.setState({
+                            notificationTitle: 'Error',
+                            message: res.message,
+                            notificationType: 'danger'
+                        })
+                    }
+                    // Add notification
+                    let notification = {
+                        title: this.state.notificationTitle,
+                        message: this.state.message,
+                        type: this.state.notificationType,
+                        insert: 'top',
+                        container: 'top-center',
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                            duration: 3000,
+                            onScreen: true
+                        }
+                    }
+                    store.addNotification(notification)
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 2000)
+                })
         }
-        else {
-            //Dont do stuff
-        }
-
     }
 
     handleShow() {
@@ -186,13 +222,6 @@ export default class EditCamera extends Component {
                                 />
                             </div>
 
-                            {this.state.message && (
-                                <div className="form-group">
-                                    <div className="alert alert-danger" role="alert">
-                                        {this.state.message}
-                                    </div>
-                                </div>
-                            )}
 
                             <CheckButton
                                 style={{ display: "none" }}
@@ -200,19 +229,6 @@ export default class EditCamera extends Component {
                                     this.checkBtn = c;
                                 }}
                             />
-                            {/* <Input
-                                type="text"
-                                name="cameraID"
-                                value={this.state.cameraID}
-                                style={{ display: "none" }}
-                            />
-                            <Input
-                                type="text"
-                                name="userID"
-                                value={user.id}
-                                style={{ display: "none" }}
-                            /> */}
-
                         </Form>
                     </Modal.Body>
 

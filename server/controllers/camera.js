@@ -21,7 +21,7 @@ exports.add = (req, res, next) => {
                 res.status(500).send({ message: err })
                 return
             }
-            res.send({ message: 'Camera was added successfully.' })
+            res.status(200).send({ message: 'Camera successfully added.' })
         })
 }
 
@@ -66,27 +66,34 @@ exports.edit = async (req, res, next) => {
     }
 }
 
-exports.remove = async (req, res, next) => {
-    console.log(req.body)
-
+exports.remove = (req, res, next) => {
     let userID = req.body.userID
     let cameraID = req.body.cameraID
 
-    let camera = await Camera.findById(
-        { _id: cameraID }
-    )
+    console.log(userID, cameraID)
 
-    if (camera.userID == userID) {
-        camera
-            .remove((err, camera) => {
-                if (err) {
-                    res.status(500).send({ message: err })
-                    return
-                }
-                res.send({ message: 'Camera removed successfully.' })
-            })
-    }
-    else {
-        res.status(401).send({ message: 'Authorization error.' })
-    }
+
+    Camera
+        .findById({
+            _id: cameraID
+        }, (err, camera) => {
+            if (!camera) {
+                res.status(404).send({ message: 'Camera could not be found.' })
+                return
+            }
+            if (camera.userID == userID) {
+                camera
+                    .remove((err, camera) => {
+                        if (err) {
+                            res.status(500).send({ message: err })
+                            return
+                        }
+                        res.status(200).send({ message: 'Camera successfully removed.' })
+                        return
+                    })
+            }
+            else {
+                res.status(401).send({ message: 'Authorization error.' })
+            }
+        })
 }

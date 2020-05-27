@@ -8,6 +8,7 @@ import AuthService from "../services/auth_service"
 import CameraService from "../services/camera_service"
 import VideoService from '../services/video_service'
 
+
 const user = JSON.parse(localStorage.getItem('user'))
 
 export default class Dashboard extends Component {
@@ -25,17 +26,17 @@ export default class Dashboard extends Component {
         if (user) {
             CameraService
                 .get(user.id)
-                .then((res) => {
+                .then(res => {
                     this.setState({
-                        cameras: res.data.cameras
+                        cameras: res.cameras
                     })
                 })
 
             VideoService
                 .get(user.id)
-                .then((res) => {
+                .then(res => {
                     this.setState({
-                        videos: res.data.videos
+                        videos: res.videos
                     })
                 })
         }

@@ -37,9 +37,9 @@
   }
 }
 
-/* .dashboard-section {
-  min-height: 250px;
-} */
+.dashboard-section {
+  margin-bottom: 50px;
+}
 
 .canvas {
   border-style: solid;

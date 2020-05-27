@@ -19,9 +19,10 @@ class VideoService {
         return axios
             .post(API_URL + 'add', formData, config)
             .then(res => {
-                console.log(res)
-
-                return Response.data
+                return res.data
+            })
+            .catch(err => {
+                console.log(err)
             })
     }
 
@@ -29,6 +30,12 @@ class VideoService {
         return axios
             .post(API_URL + 'get', {
                 userID
+            })
+            .then(res => {
+                return res.data
+            })
+            .catch(err => {
+                console.log(err)
             })
     }
 
@@ -39,17 +46,12 @@ class VideoService {
                 userID
             })
             .then(res => {
-                console.log(res)
-
-                return Response.data
+                return res.data
+            })
+            .catch(err => {
+                console.log(err)
             })
     }
-
-    getFile(fileID) {
-
-    }
-
-
 }
 
 export default new VideoService()

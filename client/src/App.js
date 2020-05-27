@@ -1,4 +1,9 @@
 import React, { Component } from 'react'
+
+import ReactNotification from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import 'animate.css'
+
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import "./App.css";
@@ -20,6 +25,7 @@ class App extends Component {
     render() {
         return (
             <Router>
+                <ReactNotification />
                 <div>
                     <Navigation></Navigation>
 
