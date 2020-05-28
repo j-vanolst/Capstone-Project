@@ -10,7 +10,7 @@ const methodOverride = require('method-override')
 // Local Dependancies
 const dashboardRoutes = require('./routes/dashboard')
 const authRoutes = require('./routes/auth')
-const userRoutes = require('./routes/user')
+//const userRoutes = require('./routes/user')
 const cameraRoutes = require('./routes/camera')
 const videoRoutes = require('./routes/video')
 
@@ -53,7 +53,7 @@ db.mongoose
 
 
 app.use(authRoutes)
-app.use(userRoutes)
+//app.use(userRoutes)
 app.use(cameraRoutes)
 app.use(videoRoutes)
 

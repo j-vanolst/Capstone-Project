@@ -32,42 +32,44 @@ export default class Video extends Component {
     }
 
     remove() {
-        VideoService
-            .remove(this.state.fileID, user.id)
-            .then(res => {
-                if (res) {
-                    this.setState({
-                        notificationTitle: 'Success',
-                        message: res.message,
-                        notificationType: 'success'
-                    })
-                }
-                else {
-                    this.setState({
-                        notificationTitle: 'Error',
-                        message: 'Error',
-                        notificationType: 'danger'
-                    })
-                }
-                // Add notification
-                let notification = {
-                    title: this.state.notificationTitle,
-                    message: this.state.message,
-                    type: this.state.notificationType,
-                    insert: 'top',
-                    container: 'top-center',
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: {
-                        duration: 3000,
-                        onScreen: true
+        if (user && user.id) {
+            VideoService
+                .remove(this.state.fileID, user.id)
+                .then(res => {
+                    if (res) {
+                        this.setState({
+                            notificationTitle: 'Success',
+                            message: res.message,
+                            notificationType: 'success'
+                        })
                     }
-                }
-                store.addNotification(notification)
-                setTimeout(() => {
-                    window.location.reload()
-                }, 2000)
-            })
+                    else {
+                        this.setState({
+                            notificationTitle: 'Error',
+                            message: 'Error',
+                            notificationType: 'danger'
+                        })
+                    }
+                    // Add notification
+                    let notification = {
+                        title: this.state.notificationTitle,
+                        message: this.state.message,
+                        type: this.state.notificationType,
+                        insert: 'top',
+                        container: 'top-center',
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                            duration: 3000,
+                            onScreen: true
+                        }
+                    }
+                    store.addNotification(notification)
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 2000)
+                })
+        }
     }
 
     showStream() {

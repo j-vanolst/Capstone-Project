@@ -5,6 +5,7 @@ const Video = db.video
 
 const videoController = require('../controllers/video')
 const fileStorage = require('../middlewares/file_storage')
+const verifyJWT = require('../middlewares/auth_jwt')
 
 const router = express.Router()
 
@@ -16,9 +17,9 @@ router.use((req, res, next) => {
     next()
 })
 
-router.post('/api/video/get', videoController.get)
-router.post('/api/video/remove', videoController.remove)
-router.post('/api/video/add', fileStorage.upload.single('file'), videoController.add)
-router.get('/api/video/getFile/:fileID', videoController.getFile)
+router.post('/api/video/get', [verifyJWT], videoController.get)
+router.post('/api/video/remove', [verifyJWT], videoController.remove)
+router.post('/api/video/add', [verifyJWT, fileStorage.upload.single('file')], videoController.add)
+router.get('/api/video/getFile/:fileID', [verifyJWT], videoController.getFile)
 
 module.exports = router

@@ -1,7 +1,7 @@
-const verifyToken = require('./auth_jwt')
+const verifyJWT = require('./auth_jwt')
 const verifyRegister = require('./verify_registration')
 
 module.exports = {
-    verifyToken,
+    verifyJWT,
     verifyRegister
 }

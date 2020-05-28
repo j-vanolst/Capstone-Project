@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+import authHeader from './auth_header'
+
 const API_URL = 'http://localhost:9000/api/camera/'
 
 class CameraService {
@@ -12,8 +14,11 @@ class CameraService {
                 startTime,
                 endTime,
                 userID
+            }, {
+                headers: authHeader()
             })
             .then(res => {
+                console.log(res)
                 return res.data
             })
             .catch(err => {
@@ -25,6 +30,8 @@ class CameraService {
         return axios
             .post(API_URL + 'get', {
                 userID
+            }, {
+                headers: authHeader()
             })
             .then((res) => {
                 return res.data
@@ -44,6 +51,8 @@ class CameraService {
                 endTime,
                 cameraID,
                 userID
+            }, {
+                headers: authHeader()
             })
             .then(res => {
                 return res.data
@@ -59,6 +68,8 @@ class CameraService {
             .post(API_URL + 'remove', {
                 cameraID,
                 userID
+            }, {
+                headers: authHeader()
             })
             .then(res => {
                 return res.data

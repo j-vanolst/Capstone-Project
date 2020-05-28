@@ -11,6 +11,7 @@ const Grid = require('gridfs-stream')
 
 const fileStorage = require('../middlewares/file_storage')
 
+
 exports.add = (req, res, next) => {
     let filename = req.body.filename
     let userID = req.body.userID
@@ -40,11 +41,13 @@ exports.getFile = (req, res, next) => {
     let gfs
 
     conn.once('open', () => {
+        //gfs = Grid(fileStorage.conn.db, mongoose.mongo)
         gfs = Grid(fileStorage.conn.db, mongoose.mongo)
         gfs.collection('videos')
     })
 
     if (!gfs) {
+        //gfs = Grid(fileStorage.conn.db, mongoose.mongo)
         gfs = Grid(fileStorage.conn.db, mongoose.mongo)
         gfs.collection('videos')
     }
@@ -69,7 +72,6 @@ exports.getFile = (req, res, next) => {
 exports.get = (req, res, next) => {
     Video.find({ 'userID': req.body.userID }, function (err, videos) {
         if (err) {
-            console.log('Error retrieving videos')
             return
         }
         res.send({ videos })
@@ -78,7 +80,22 @@ exports.get = (req, res, next) => {
 
 exports.remove = (req, res, next) => {
     let userID = req.body.userID
-    let videoID = req.body.videoID
+    let videoID = new mongoose.mongo.ObjectId(req.body.videoID)
+
+    let conn = fileStorage.conn
+    let gfs
+
+    conn.once('open', () => {
+        //gfs = Grid(fileStorage.conn.db, mongoose.mongo)
+        gfs = Grid(fileStorage.conn.db, mongoose.mongo)
+        gfs.collection('videos')
+    })
+
+    if (!gfs) {
+        //gfs = Grid(fileStorage.conn.db, mongoose.mongo)
+        gfs = Grid(fileStorage.conn.db, mongoose.mongo)
+        gfs.collection('videos')
+    }
 
     Video
         .findOne({
@@ -91,6 +108,15 @@ exports.remove = (req, res, next) => {
             if (video.userID == userID) {
                 video
                     .remove((err, video) => {
+                        if (err) {
+                            res.status(500).send({ message: err })
+                            return
+                        }
+                        // Remove the file + its chunks
+                        gfs.remove({
+                            _id: videoID,
+                            root: 'videos'
+                        })
                         if (err) {
                             res.status(500).send({ message: err })
                             return

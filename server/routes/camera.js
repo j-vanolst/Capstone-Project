@@ -1,6 +1,7 @@
 const express = require('express')
 
 const cameraController = require('../controllers/camera')
+const verifyJWT = require('../middlewares/auth_jwt')
 
 const router = express.Router()
 
@@ -12,9 +13,9 @@ router.use((req, res, next) => {
     next()
 })
 
-router.post('/api/camera/add', cameraController.add)
-router.post('/api/camera/get', cameraController.get)
-router.post('/api/camera/edit', cameraController.edit)
-router.post('/api/camera/remove', cameraController.remove)
+router.post('/api/camera/add', [verifyJWT], cameraController.add)
+router.post('/api/camera/get', [verifyJWT], cameraController.get)
+router.post('/api/camera/edit', [verifyJWT], cameraController.edit)
+router.post('/api/camera/remove', [verifyJWT], cameraController.remove)
 
 module.exports = router

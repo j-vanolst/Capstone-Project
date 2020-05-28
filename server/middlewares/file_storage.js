@@ -12,7 +12,6 @@ const conn = mongoose.createConnection(dbConf.mongooseURI)
 const storage = new GridFsStorage({
     url: dbConf.mongooseURI,
     file: (req, file) => {
-        console.log(file)
         return new Promise((resolve, reject) => {
             crypto.randomBytes(16, (err, buf) => {
                 if (err) {

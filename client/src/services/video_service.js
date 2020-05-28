@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+import authHeader from './auth_header'
+
 const API_URL = 'http://localhost:9000/api/video/'
 
 class VideoService {
@@ -11,10 +13,10 @@ class VideoService {
         formData.append('file', file)
 
         const config = {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
+            headers: authHeader()
         }
+        // Add multipart to header
+        config.headers['content-type'] = 'multipart/form-data'
 
         return axios
             .post(API_URL + 'add', formData, config)
@@ -30,6 +32,8 @@ class VideoService {
         return axios
             .post(API_URL + 'get', {
                 userID
+            }, {
+                headers: authHeader()
             })
             .then(res => {
                 return res.data
@@ -44,6 +48,8 @@ class VideoService {
             .post(API_URL + 'remove', {
                 videoID,
                 userID
+            }, {
+                headers: authHeader()
             })
             .then(res => {
                 return res.data

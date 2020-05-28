@@ -42,18 +42,17 @@ export default class Dashboard extends Component {
         }
     }
 
-
     render() {
         const cameras = []
 
         for (let aCamera of this.state.cameras) {
-            cameras.push(<Camera cameraID={aCamera._id} name={aCamera.name} location={aCamera.location} url={aCamera.url} startTime={aCamera.startTime} endTime={aCamera.endTime} />)
+            cameras.push(<Camera key={aCamera._id} cameraID={aCamera._id} name={aCamera.name} location={aCamera.location} url={aCamera.url} startTime={aCamera.startTime} endTime={aCamera.endTime} />)
         }
 
         const videos = []
 
         for (let aVideo of this.state.videos) {
-            videos.push(<Video fileID={aVideo.fileID} filename={aVideo.filename} />)
+            videos.push(<Video key={aVideo._id} fileID={aVideo.fileID} filename={aVideo.filename} />)
         }
 
         return (

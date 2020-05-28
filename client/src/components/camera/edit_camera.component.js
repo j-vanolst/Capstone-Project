@@ -91,48 +91,50 @@ export default class EditCamera extends Component {
         this.form.validateAll()
 
         if (this.checkBtn.context._errors.length === 0) {
-            CameraService
-                .edit(this.state.name,
-                    this.state.location,
-                    this.state.url,
-                    this.state.startTime,
-                    this.state.endTime,
-                    this.state.cameraID,
-                    user.id)
-                .then(res => {
-                    if (res) {
-                        this.setState({
-                            notificationTitle: 'Success',
-                            message: res.message,
-                            notificationType: 'success'
-                        })
-                    }
-                    else {
-                        this.setState({
-                            notificationTitle: 'Error',
-                            message: res.message,
-                            notificationType: 'danger'
-                        })
-                    }
-                    // Add notification
-                    let notification = {
-                        title: this.state.notificationTitle,
-                        message: this.state.message,
-                        type: this.state.notificationType,
-                        insert: 'top',
-                        container: 'top-center',
-                        animationIn: ["animated", "fadeIn"],
-                        animationOut: ["animated", "fadeOut"],
-                        dismiss: {
-                            duration: 3000,
-                            onScreen: true
+            if (user && user.id) {
+                CameraService
+                    .edit(this.state.name,
+                        this.state.location,
+                        this.state.url,
+                        this.state.startTime,
+                        this.state.endTime,
+                        this.state.cameraID,
+                        user.id)
+                    .then(res => {
+                        if (res) {
+                            this.setState({
+                                notificationTitle: 'Success',
+                                message: res.message,
+                                notificationType: 'success'
+                            })
                         }
-                    }
-                    store.addNotification(notification)
-                    setTimeout(() => {
-                        window.location.reload()
-                    }, 2000)
-                })
+                        else {
+                            this.setState({
+                                notificationTitle: 'Error',
+                                message: res.message,
+                                notificationType: 'danger'
+                            })
+                        }
+                        // Add notification
+                        let notification = {
+                            title: this.state.notificationTitle,
+                            message: this.state.message,
+                            type: this.state.notificationType,
+                            insert: 'top',
+                            container: 'top-center',
+                            animationIn: ["animated", "fadeIn"],
+                            animationOut: ["animated", "fadeOut"],
+                            dismiss: {
+                                duration: 3000,
+                                onScreen: true
+                            }
+                        }
+                        store.addNotification(notification)
+                        setTimeout(() => {
+                            window.location.reload()
+                        }, 2000)
+                    })
+            }
         }
     }
 
