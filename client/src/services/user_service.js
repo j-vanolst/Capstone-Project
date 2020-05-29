@@ -1,15 +1,43 @@
 import axios from 'axios'
+
 import authHeader from './auth_header'
 
-const API_URL = 'http://localhost:9000/api/test/'
+const API_URL = 'http://localhost:9000/api/user/'
 
 class UserService {
-    getPublicContent() {
-        return axios.get(API_URL + 'all')
+    edit(fName, lName, email, userID) {
+        return axios
+            .post(API_URL + 'edit', {
+                fName,
+                lName,
+                email,
+                userID
+            }, {
+                headers: authHeader()
+            })
+            .then(res => {
+                return res.data
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
-
-    getUserContent() {
-        return axios.get(API_URL + 'user', { headers: authHeader() })
+    changePassword(currentPassword, newPassword, newPasswordConfirm, userID) {
+        return axios
+            .post(API_URL + 'changePassword', {
+                currentPassword,
+                newPassword,
+                newPasswordConfirm,
+                userID
+            }, {
+                headers: authHeader()
+            })
+            .then(res => {
+                return res.data
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 }
 

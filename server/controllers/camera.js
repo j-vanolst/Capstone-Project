@@ -58,7 +58,7 @@ exports.edit = async (req, res, next) => {
                     res.status(500).send({ message: err })
                     return
                 }
-                res.send({ message: 'Camera edited successfully.' })
+                res.status(200).send({ message: 'Camera edited successfully.' })
             })
     }
     else {

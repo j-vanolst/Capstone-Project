@@ -8,9 +8,6 @@ import { store } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import 'animate.css'
 
-import { isEmail } from 'validator'
-
-import AuthService from '../services/auth_service'
 import UserService from '../services/user_service'
 
 const required = value => {
@@ -23,54 +20,56 @@ const required = value => {
     }
 }
 
-const email = value => {
-    if (!isEmail(value)) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                This is not a valid email.
-            </div>
-        )
-    }
-}
-
 const user = JSON.parse(localStorage.getItem('user'))
 
-export default class Profile extends Component {
+export default class ChangePassword extends Component {
     constructor(props) {
         super(props)
 
-        this.handleUpdateProfile = this.handleUpdateProfile.bind(this)
-        this.onChangeFName = this.onChangeFName.bind(this)
-        this.onChangeLName = this.onChangeLName.bind(this)
-        this.onChangeEmail = this.onChangeEmail.bind(this)
-        this.toggleEditable = this.toggleEditable.bind(this)
-
-        let currentUser = AuthService.getCurrentUser()
+        this.onChangeCurrentPassword = this.onChangeCurrentPassword.bind(this)
+        this.onChangeNewPassword = this.onChangeNewPassword.bind(this)
+        this.onChangeNewPasswordConfirm = this.onChangeNewPasswordConfirm.bind(this)
+        this.handleChangePassword = this.handleChangePassword.bind(this)
 
         this.state = {
-            fName: currentUser.fName,
-            lName: currentUser.lName,
-            email: currentUser.email,
-            password: '',
-            readOnly: true,
+            currentPassword: '',
+            newPassword: '',
+            newPasswordConfirm: '',
             notificationTitle: 'Error',
             message: 'Error',
             notificationType: 'danger'
         }
     }
 
-    handleUpdateProfile(e){ 
+    onChangeCurrentPassword(e) {
+        this.setState({
+            currentPassword: e.target.value
+        })
+    }
+
+    onChangeNewPassword(e) {
+        this.setState({
+            newPassword: e.target.value
+        })
+    }
+
+    onChangeNewPasswordConfirm(e) {
+        this.setState({
+            newPasswordConfirm: e.target.value
+        })
+    }
+
+    handleChangePassword(e){ 
         e.preventDefault()
 
         this.form.validateAll()
 
         if (this.checkBtn.context._errors.length === 0) {
-            console.log('test')
             if (user && user.id) {
                 UserService
-                    .edit(this.state.fName,
-                        this.state.lName,
-                        this.state.email,
+                    .changePassword(this.state.currentPassword,
+                        this.state.newPassword,
+                        this.state.newPasswordConfirm,
                         user.id)
                     .then(res => {
                         if (res) {
@@ -103,15 +102,6 @@ export default class Profile extends Component {
                         }
                         store.addNotification(notification)
 
-                        // Update LocalStorage
-                        localStorage.setItem('user', JSON.stringify({
-                            id: user.id,
-                            fName: this.state.fName,
-                            lName: this.state.lName,
-                            email: this.state.email,
-                            token: user.accessToken
-                        }))
-
                         setTimeout(() => {
                             window.location.reload()
                         }, 2000)
@@ -120,85 +110,51 @@ export default class Profile extends Component {
         }
     }
 
-    onChangeFName(e) {
-        this.setState({
-            fName: e.target.value
-        })
-    }
-
-    onChangeLName(e) {
-        this.setState({
-            lName: e.target.value
-        })
-    }
-
-    onChangeEmail(e) {
-        this.setState({
-            email: e.target.value
-        })
-    }
-
-    toggleEditable() {
-        this.setState({
-            readOnly: !this.state.readOnly
-        })
-    }
-
     render() {
-        const { currentUser } = this.state
-
         return (
             <div className="container">
                 <div className="card card-container">
                     <div className="card-body">
-                        <h1 className="card-title">Your Profile</h1>
+                        <h1 className="card-title">Change Password</h1>
                         <Form
-                            onSubmit={this.handleUpdateProfile}
+                            onSubmit={this.handleChangePassword}
                             ref={c => {
                                 this.form = c
                             }}
                             >
                             <div className="form-group">
-                                <label htmlFor="fName">First Name</label>
+                                <label htmlFor="currentPassword">Current Password</label>
                                 <Input
-                                    type="text"
+                                    type="password"
                                     className="form-control"
-                                    name="fName"
-                                    value={this.state.fName}
-                                    onChange={this.onChangeFName}
-                                    readOnly={this.state.readOnly}
-                                    validations={[required]}
-                                />
-                                <label htmlFor="lname">Last Name</label>
-                                <Input
-                                    type="text"
-                                    className="form-control"
-                                    name="lName"
-                                    value={this.state.lName}
-                                    onChange={this.onChangeLName}
-                                    readOnly={this.state.readOnly}
+                                    name="currentPassword"
+                                    value={this.state.currentPassword}
+                                    onChange={this.onChangeCurrentPassword}
                                     validations={[required]}
                                 />
                             </div>
-
                             <div className="form-group">
-                                <label htmlFor="email">Email</label>
+                                <label htmlFor="newPassword">New Password</label>
                                 <Input
-                                    type="email"
+                                    type="password"
                                     className="form-control"
-                                    name="email"
-                                    value={this.state.email}
-                                    onChange={this.onChangeEmail}
-                                    readOnly={this.state.readOnly}
-                                    validations={[required, email]}
+                                    name="newPassword"
+                                    value={this.state.newPassword}
+                                    onChange={this.onChangeNewPassword}
+                                    validations={[required]}
+                                />
+                                <label htmlFor="newPasswordConfirm">Confirm New Password</label>
+                                <Input
+                                    type="password"
+                                    className="form-control"
+                                    name="newPasswordConfirm"
+                                    value={this.state.newPasswordConfirm}
+                                    onChange={this.onChangeNewPasswordConfirm}
+                                    validations={[required]}
                                 />
                             </div>
 
-                            <Button variant="success" onClick={this.handleUpdateProfile}>Save</Button>
-
-                            <Button variant="info" onClick={this.toggleEditable}>Edit</Button>
-
-                            <a href="/changePassword" className="btn btn-warning">Change Password</a>
+                            <Button variant="success" onClick={this.handleChangePassword}>Change Password</Button>
 
                             <CheckButton
                                 style={{ display: "none" }}

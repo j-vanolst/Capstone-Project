@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { verifyToken } = require('../middlewares')
+const verifyJWT = require('../middlewares/auth_jwt')
 
 const userController = require('../controllers/user')
 
@@ -14,8 +14,7 @@ router.use((req, res, next) => {
     next()
 })
 
-router.get('/api/test/all', userController.allAccess)
-
-router.get('/api/test/user', [verifyToken], userController.userBoard)
+router.post('/api/user/edit', [verifyJWT], userController.edit)
+router.post('/api/user/changePassword', [verifyJWT], userController.changePassword)
 
 module.exports = router

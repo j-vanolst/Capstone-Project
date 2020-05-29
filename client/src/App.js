@@ -16,6 +16,7 @@ import Dashboard from './components/dashboard.component'
 import Profile from './components/profile.component'
 import Reset from './components/reset.component'
 import ResetPassword from './components/reset-password.component'
+import ChangePassword from './components/change-password.component'
 import Test from './components/test.component'
 import PrivateRoute from './components/private-route'
 
@@ -40,6 +41,7 @@ class App extends Component {
                             <Route exact path="/dashboard" component={Dashboard} />
                             <Route exact path="/profile" component={Profile} />
                             <Route exact path="/canvas" component={Canvas} />
+                            <Route exact path="/changePassword" component={ChangePassword} />
                             <PrivateRoute authenticated={test} path="/test" component={Test} />
                         </Switch>
                     </div>
