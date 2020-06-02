@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script>
+        window.onload = function () {
+            // Initial Setup
+            let height = 400
+            let width = 400
+
+            let canvas = document.getElementById('canvas')
+            let ctx = canvas.getContext('2d')
+            ctx.save()
+            ctx.strokeStyle = '#ff9d00'
+            ctx.lineWidth = 3
+
+            document.body.style.margin = 0
+            let points = []
+
+            document.addEventListener('mousedown', getPosition)
+
+
+            function checkOutOfBounds(e) {
+                if (e.clientX > width || e.clientY > height) {
+                    return true
+                }
+                return false
+            }
+
+            function getPosition(e) {
+                console.log(`Window Dimensions: Width: ${window.innerWidth} Height: ${window.innerHeight}`)
+                console.log(`Point Position: Width: ${e.clientX} Height: ${e.clientY}`)
+
+
+                // Check if the mouse is in the bounds of the canvas
+                // if (checkOutOfBounds(e)) {
+                //     console.log('OoB')
+                //     return
+                // }
+                let x = e.clientX - ((window.innerWidth / 2) - (width / 2))
+                let y = e.clientY
+                let point = {
+                    x: x,
+                    y: y
+                }
+                console.log(point)
+                points.push(point)
+                //clearCanvas(ctx, canvas)
+                drawPoint(point)
+                drawPolygon(points)
+            }
+
+            function drawPoint(point) {
+                ctx.beginPath()
+                ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI)
+                ctx.stroke()
+                ctx.closePath()
+            }
+
+            function drawPolygon(points) {
+                // Set ctx styles
+                ctx.strokeStyle = '#ff9d00'
+                ctx.lineWidth = 2
+                ctx.fillStyle = 'rgba(255, 157, 0, 0.5)'
+
+                console.log('Drawing Polygon')
+
+                // Move to the first point to start drawing the polygon
+                let firstPoint = points[0]
+                ctx.beginPath()
+                ctx.moveTo(firstPoint.x, firstPoint.y)
+
+                // Loop through each point and draw a line to it
+                for (let i = 1; i < points.length; i++) {
+                    let currentPoint = points[i]
+                    ctx.lineTo(currentPoint.x, currentPoint.y)
+                }
+
+                // Close off the polygon, reconnect it to the first point
+                ctx.lineTo(firstPoint.x, firstPoint.y)
+                ctx.stroke()
+                ctx.closePath()
+                ctx.fill()
+            }
+
+            function clearCanvas(ctx, canvas) {
+                //ctx.clearRect(0, 0, width, height)
+                ctx.restore()
+            }
+
+            document.getElementById('drawPolygon').addEventListener('click', () => {
+                drawPolygon(points)
+            })
+        }
+    </script>
+    <style>
+        #canvas {
+            background-color: grey;
+        }
+
+        canvas {
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <canvas id="canvas" width="400px" height="400px">
+
+        </canvas>
+    </div>
+
+    <button id="drawPolygon">Draw Polygon</button>
+</body>
+
+</html>
