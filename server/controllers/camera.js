@@ -97,3 +97,38 @@ exports.remove = (req, res, next) => {
             }
         })
 }
+
+exports.update = (req, res, next) => {
+    let cameraID = req.body.cameraID
+    let polygon = req.body.polygon
+    let model = req.body.model
+    let userID = req.body.userID
+
+    console.log(cameraID, polygon, model, userID)
+
+    Camera
+        .findById({
+            _id: cameraID
+        }, (err, camera) => {
+            if (!camera) {
+                res.status(404).send({ message: 'Camera could not be found.' })
+                return
+            }
+            if (camera.userID == userID) {
+                camera.polygon = polygon
+                camera.model = model
+
+                camera
+                    .save((err, camera) => {
+                        if (err) {
+                            res.status(500).send({ message: err })
+                            return
+                        }
+                        res.status(200).send({ message: 'Camera successfully updated.' })
+                    })
+            }
+            else {
+                res.status(401).send({ message: 'Authorization error.' })
+            }
+        })
+}

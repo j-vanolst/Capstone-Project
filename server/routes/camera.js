@@ -17,5 +17,6 @@ router.post('/api/camera/add', [verifyJWT], cameraController.add)
 router.post('/api/camera/get', [verifyJWT], cameraController.get)
 router.post('/api/camera/edit', [verifyJWT], cameraController.edit)
 router.post('/api/camera/remove', [verifyJWT], cameraController.remove)
+router.post('/api/camera/update', [verifyJWT], cameraController.update)
 
 module.exports = router

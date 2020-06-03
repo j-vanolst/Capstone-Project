@@ -105,7 +105,7 @@ export default class Video extends Component {
                             <Modal.Title>Video Stream</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <VideoStream ref={this.streamRef} fileID={this.state.fileID} />
+                            <VideoStream ref={this.streamRef} videoID={this.props.videoID} polygon={this.props.polygon} model={this.props.model} />
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={this.handleHide}>Close</Button>

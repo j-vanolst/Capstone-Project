@@ -78,6 +78,24 @@ class CameraService {
                 console.log(err)
             })
     }
+
+    update(cameraID, polygon, model, userID) {
+        return axios
+            .post(API_URL + 'update', {
+                cameraID,
+                polygon,
+                model,
+                userID
+            }, {
+                headers: authHeader()
+            })
+            .then(res => {
+                return res.data
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 }
 
 export default new CameraService()

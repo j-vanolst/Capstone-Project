@@ -14,7 +14,12 @@ export default class Canvas extends Component {
         this.verticalCorrection = this.props.verticalCorrection
 
         // Polygon points
-        this.points = []
+        if (props.polygon) {
+            this.points = JSON.parse(props.polygon)
+        }
+        else {
+            this.points = []
+        }
 
         this.checkBounds = this.checkBounds.bind(this)
         this.getPosition = this.getPosition.bind(this)
@@ -22,6 +27,7 @@ export default class Canvas extends Component {
         this.drawPolygon = this.drawPolygon.bind(this)
         this.clearCanvas = this.clearCanvas.bind(this)
         this.undo = this.undo.bind(this)
+        this.getPoints = this.getPoints.bind(this)
 
         this.canvasRef = createRef()
 
@@ -34,6 +40,8 @@ export default class Canvas extends Component {
     componentDidMount() {
         let canvas = this.canvasRef.current
         canvas.addEventListener('mousedown', this.getPosition)
+        this.drawPoints(this.points)
+        this.drawPolygon(this.points)
     }
 
     checkBounds(x, y) {

@@ -1,9 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
+import { Button } from 'react-bootstrap'
 import Form from 'react-validation/build/form'
+
+import { store } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import 'animate.css'
 
 import Canvas from '../canvas/canvas.component'
 
 import './camera.css'
+import CameraService from '../../services/camera_service'
 
 const required = value => {
     if (!value) {
@@ -15,14 +21,22 @@ const required = value => {
     }
 }
 
+const user = JSON.parse(localStorage.getItem('user'))
+
 export default class CameraStream extends Component {
     constructor(props) {
         super(props)
 
+        this.canvasRef = createRef()
+
         this.onChangeModel = this.onChangeModel.bind(this)
+        this.handleUpdateModelAndPolygon = this.handleUpdateModelAndPolygon.bind(this)
 
         this.state = {
-            model: ''
+            model: props.model,
+            notificationTitle: 'Error',
+            message: 'Error',
+            notificationType: 'danger'
         }
     }
 
@@ -30,6 +44,56 @@ export default class CameraStream extends Component {
         this.setState({
             model: e.target.value
         })
+    }
+
+    handleUpdateModelAndPolygon() {
+        if (user && user.id) {
+            // Get the polygon points from the canvas
+            let polygon = this.canvasRef.current.getPoints()
+            if (polygon.length) {
+                polygon = JSON.stringify(polygon)
+            }
+            else {
+                polygon = ''
+            }
+            CameraService
+                .update(this.props.cameraID, polygon, this.state.model, user.id)
+                .then(res => {
+                    if (res) {
+                        this.setState({
+                            notificationTitle: 'Success',
+                            message: res.message,
+                            notificationType: 'success'
+                        })
+                    }
+                    else {
+                        this.setState({
+                            notificationTitle: 'Error',
+                            message: 'Error',
+                            notificationType: 'danger'
+                        })
+                    }
+                    // Add notification
+                    let notification = {
+                        title: this.state.notificationTitle,
+                        message: this.state.message,
+                        type: this.state.notificationType,
+                        insert: 'top',
+                        container: 'top-center',
+                        animationIn: ["animated", "fadeIn"],
+                        animationOut: ["animated", "fadeOut"],
+                        dismiss: {
+                            duration: 3000,
+                            onScreen: true
+                        }
+                    }
+                    store.addNotification(notification)
+
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 2000)
+                })
+        }
     }
 
     render() {
@@ -42,7 +106,7 @@ export default class CameraStream extends Component {
                     }}
                 >
                     <div className="cameraStream">
-                        <Canvas width={640} height={360} verticalCorrection={115} />
+                        <Canvas ref={this.canvasRef} width={640} height={360} verticalCorrection={115} polygon={this.props.polygon} />
                     </div>
 
                     <div className="form-group">
@@ -59,56 +123,10 @@ export default class CameraStream extends Component {
                             <option value="lpr">License Plate Recognition</option>
                         </select>
                     </div>
+
+                    <Button variant="success" onClick={this.handleUpdateModelAndPolygon}>Update</Button>
                 </Form>
             </div>
         )
     }
-    // render() {
-    //     return (
-    //         <div>
-    //             <Modal show={this.props.showModal} onHide={this.props.handleHide}>
-    //                 <Modal.Header closeButton>
-    //                     <Modal.Title>Camera Stream</Modal.Title>
-    //                 </Modal.Header>
-
-    //                 <Modal.Body>
-    //                     <Form
-    //                         onSubmit={this.handleAddCamera}
-    //                         ref={c => {
-    //                             this.form = c
-    //                         }}
-    //                     >
-    //                         <div className="cameraStream">
-    //                             <img
-    //                                 src="https://f0.pngfuel.com/png/146/778/camera-logo-png-clip-art.png"
-    //                                 alt="Camera Feed"
-    //                                 width="400px"
-    //                             >
-    //                             </img>
-
-    //                         </div>
-    //                         <div className="form-group">
-    //                             <label htmlFor="model">Model</label>
-    //                             <select
-    //                                 className="form-control"
-    //                                 name="model"
-    //                                 value={this.state.model}
-    //                                 onChange={this.onChangeModel}
-    //                                 validations={[required]}
-    //                             >
-    //                                 <option value="ped">Pedestrian Counting</option>
-    //                                 <option value="car">Car Counting</option>
-    //                                 <option value="lpr">License Plate Recognition</option>
-    //                             </select>
-    //                         </div>
-    //                     </Form>
-    //                 </Modal.Body>
-
-    //                 <Modal.Footer>
-    //                     <Button variant="secondary" onClick={this.props.handleHide}>Close</Button>
-    //                 </Modal.Footer>
-    //             </Modal>
-    //         </div>
-    //     )
-    // }
 }

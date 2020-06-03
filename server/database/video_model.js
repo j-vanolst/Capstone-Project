@@ -5,7 +5,9 @@ const Video = mongoose.model(
     new mongoose.Schema({
         filename: String,
         userID: String,
-        fileID: mongoose.Schema.Types.ObjectId
+        fileID: mongoose.Schema.Types.ObjectId,
+        polygon: String,
+        model: String
     })
 )
 

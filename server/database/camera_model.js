@@ -8,7 +8,9 @@ const Camera = mongoose.model(
         url: String,
         startTime: String,
         endTime: String,
-        userID: String
+        userID: String,
+        polygon: String,
+        model: String
     })
 )
 

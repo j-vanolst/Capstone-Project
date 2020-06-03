@@ -29,7 +29,6 @@ export default class Camera extends Component {
             url: props.url,
             startTime: props.startTime,
             endTime: props.endTime,
-            cameraStream: '',
             notificationTitle: 'Error',
             message: 'Error',
             notificationType: 'danger',
@@ -123,7 +122,7 @@ export default class Camera extends Component {
                             <Modal.Title>Camera Stream</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <CameraStream handleHide={this.handleHide}></CameraStream>
+                            <CameraStream cameraID={this.state.cameraID} handleHide={this.handleHide} polygon={this.props.polygon} model={this.props.model}></CameraStream>
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={this.handleHide}>Close</Button>

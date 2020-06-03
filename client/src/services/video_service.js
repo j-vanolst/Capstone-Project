@@ -58,6 +58,24 @@ class VideoService {
                 console.log(err)
             })
     }
+
+    update(videoID, polygon, model, userID) {
+        return axios
+            .post(API_URL + 'update', {
+                videoID,
+                polygon,
+                model,
+                userID
+            }, {
+                headers: authHeader()
+            })
+            .then(res => {
+                return res.data
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 }
 
 export default new VideoService()

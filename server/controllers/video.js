@@ -130,3 +130,38 @@ exports.remove = (req, res, next) => {
             }
         })
 }
+
+exports.update = (req, res, next) => {
+    let videoID = req.body.videoID
+    let polygon = req.body.polygon
+    let model = req.body.model
+    let userID = req.body.userID
+
+    console.log(videoID, polygon, model, userID)
+
+    Video
+        .findById({
+            _id: videoID
+        }, (err, video) => {
+            if (!video) {
+                res.status(404).send({ message: 'Video could not be found.' })
+                return
+            }
+            if (video.userID == userID) {
+                video.polygon = polygon
+                video.model = model
+
+                video
+                    .save((err, camera) => {
+                        if (err) {
+                            res.status(500).send({ message: err })
+                            return
+                        }
+                        res.status(200).send({ message: 'Video successfully update.' })
+                    })
+            }
+            else {
+                res.status(401).send({ message: 'Authorization error.' })
+            }
+        })
+}
