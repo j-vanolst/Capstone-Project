@@ -32,8 +32,6 @@ app.use(methodOverride('_method'))
 
 app.use(bodyParser.json({ parameterLimit: 100000, limit: '50mb' }))
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
-app.use(express.static(path.join(__dirname, 'public')))
-
 
 
 // Database initialization
