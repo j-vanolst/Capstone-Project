@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Button } from 'react-bootstrap'
+import { Modal, Button } from 'react-bootstrap'
 
 import { store } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
@@ -18,10 +18,9 @@ export default class Camera extends Component {
     constructor(props) {
         super(props)
 
-        this.streamRef = React.createRef()
-
         this.remove = this.remove.bind(this)
-        this.showStream = this.showStream.bind(this)
+        this.handleHide = this.handleHide.bind(this)
+        this.handleShow = this.handleShow.bind(this)
 
         this.state = {
             cameraID: props.cameraID,
@@ -33,14 +32,16 @@ export default class Camera extends Component {
             cameraStream: '',
             notificationTitle: 'Error',
             message: 'Error',
-            notificationType: 'danger'
+            notificationType: 'danger',
+            showModal: false
         }
+        this.toggle = false
     }
 
     componentDidMount() {
-        this.setState({
-            cameraStream: this.refs.cameraStream
-        })
+        // this.setState({
+        //     cameraStream: this.refs.cameraStream.current
+        // })
     }
 
     remove() {
@@ -85,14 +86,27 @@ export default class Camera extends Component {
         }
     }
 
-    showStream() {
-        this.streamRef.current.handleShow()
+    handleHide() {
+        this.toggle = true
+        this.setState({
+            showModal: false
+        })
+    }
+
+    handleShow() {
+        if (this.toggle) {
+            this.toggle = false
+            return
+        }
+        this.setState({
+            showModal: true
+        })
     }
 
     render() {
         return (
             <div className="card card-camera-container">
-                <div className="card-body">
+                <div className="card-body" onClick={this.handleShow}>
                     <h3 className="card-title">{this.state.name}</h3>
                     <p className="card-text">
                         <strong>Location: </strong>
@@ -104,7 +118,17 @@ export default class Camera extends Component {
                     </p>
                     <EditCamera state={this.state} />
                     <Button variant="danger" onClick={this.remove}>Remove</Button>
-                    <CameraStream ref={this.streamRef}></CameraStream>
+                    <Modal show={this.state.showModal} onHide={this.handleHide} size="lg">
+                        <Modal.Header closeButton>
+                            <Modal.Title>Camera Stream</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <CameraStream handleHide={this.handleHide}></CameraStream>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={this.handleHide}>Close</Button>
+                        </Modal.Footer>
+                    </Modal>
                 </div>
             </div>
         )

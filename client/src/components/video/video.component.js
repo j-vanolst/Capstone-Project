@@ -1,5 +1,5 @@
 import React, { Component, createRef } from 'react'
-import { Button } from 'react-bootstrap'
+import { Modal, Button } from 'react-bootstrap'
 
 import { store } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
@@ -20,15 +20,19 @@ export default class Video extends Component {
         this.streamRef = createRef()
 
         this.remove = this.remove.bind(this)
-        this.showStream = this.showStream.bind(this)
+        this.handleShow = this.handleShow.bind(this)
+        this.handleHide = this.handleHide.bind(this)
 
         this.state = {
             fileID: props.fileID,
             filename: props.filename,
             notificationTitle: 'Error',
             message: 'Error',
-            notificationType: 'danger'
+            notificationType: 'danger',
+            showModal: false
         }
+
+        this.toggle = false
     }
 
     remove() {
@@ -72,17 +76,42 @@ export default class Video extends Component {
         }
     }
 
-    showStream() {
-        this.streamRef.current.handleShow()
+    handleHide() {
+        this.toggle = true
+        this.setState({
+            showModal: false
+        })
     }
+
+    handleShow() {
+        if (this.toggle) {
+            this.toggle = false
+            return
+        }
+        this.setState({
+            showModal: true
+        })
+    }
+
 
     render() {
         return (
             <div className="card card-video-container">
-                <div className="card-body">
+                <div className="card-body" onClick={this.handleShow}>
                     <h3 className="card-title">{this.state.filename}</h3>
                     <Button variant="danger" onClick={this.remove}>Remove</Button>
-                    <VideoStream ref={this.streamRef} fileID={this.state.fileID} />
+                    <Modal show={this.state.showModal} onHide={this.handleHide} size="lg">
+                        <Modal.Header closeButton>
+                            <Modal.Title>Video Stream</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <VideoStream ref={this.streamRef} fileID={this.state.fileID} />
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={this.handleHide}>Close</Button>
+                        </Modal.Footer>
+                    </Modal>
+
                 </div>
             </div>
         )

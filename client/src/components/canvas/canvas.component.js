@@ -9,17 +9,19 @@ export default class Canvas extends Component {
         super(props)
 
         // Canvas Config
-        this.canvasWidth = 400
-        this.canvasHeight = 400
-        this.verticalCorrection = 72
+        this.canvasWidth = this.props.width
+        this.canvasHeight = this.props.height
+        this.verticalCorrection = this.props.verticalCorrection
 
         // Polygon points
         this.points = []
 
         this.checkBounds = this.checkBounds.bind(this)
         this.getPosition = this.getPosition.bind(this)
-        this.drawPoint = this.drawPoint.bind(this)
+        this.drawPoints = this.drawPoints.bind(this)
         this.drawPolygon = this.drawPolygon.bind(this)
+        this.clearCanvas = this.clearCanvas.bind(this)
+        this.undo = this.undo.bind(this)
 
         this.canvasRef = createRef()
 
@@ -30,23 +32,20 @@ export default class Canvas extends Component {
     }
 
     componentDidMount() {
-        const canvas = this.canvasRef.current
-        const ctx = canvas.getContext('2d')
-        this.setState({
-            canvas: canvas,
-            ctx: ctx
-        })
-        document.addEventListener('mousedown', this.getPosition)
+        let canvas = this.canvasRef.current
+        canvas.addEventListener('mousedown', this.getPosition)
     }
 
     checkBounds(x, y) {
-        if (x > this.width || x < 0 || y > this.height || y < 0) {
+        if (x > this.canvasWidth || x < 0 || y > this.canvasHeight || y < 0) {
+            console.log('oob')
             return true
         }
         return false
     }
 
     getPosition(e) {
+        // Get window dimensions and mouse point position
         console.log(`Window Dimensions: Width: ${window.innerWidth} Height: ${window.innerHeight}`)
         console.log(`Point Position: Width: ${e.clientX} Height: ${e.clientY}`)
 
@@ -65,12 +64,14 @@ export default class Canvas extends Component {
         }
 
         this.points.push(point)
-        this.drawPoint(point)
+        // Need to clear the canvas each time so fill opacity doesn't stack
+        this.clearCanvas(false)
+        this.drawPoints(this.points)
         this.drawPolygon(this.points)
         console.log(point)
     }
 
-    drawPoint(point) {
+    drawPoints(points) {
         const canvas = this.canvasRef.current
         const ctx = canvas.getContext('2d')
 
@@ -78,11 +79,14 @@ export default class Canvas extends Component {
         ctx.strokeStyle = '#ff9d00'
         ctx.lineWidth = 3
 
-        // Draw a small circle around the point
-        ctx.beginPath()
-        ctx.arc(point.x, point.y, 5, 0, 2 * Math.PI)
-        ctx.stroke()
-        ctx.closePath()
+        // Draw a small circle around each point
+        for (let aPoint of points) {
+            ctx.beginPath()
+            ctx.arc(aPoint.x, aPoint.y, 5, 0, 2 * Math.PI)
+            ctx.stroke()
+            ctx.closePath()
+        }
+
     }
 
     drawPolygon(points) {
@@ -95,6 +99,10 @@ export default class Canvas extends Component {
 
         console.log('Drawing Polygon')
 
+        // Make sure points exist
+        if (!points.length) {
+            return
+        }
         // Move to the first point to start drawing
         let firstPoint = this.points[0]
         ctx.beginPath()
@@ -113,11 +121,33 @@ export default class Canvas extends Component {
         ctx.fill()
     }
 
+    clearCanvas(reset = true) {
+        if (reset) {
+            this.points = []
+        }
+        const canvas = this.canvasRef.current
+        if (canvas.width) {
+            canvas.width = canvas.width
+        }
+    }
+
+    undo() {
+        this.points.pop()
+        this.clearCanvas(false)
+        this.drawPoints(this.points)
+        this.drawPolygon(this.points)
+    }
+
+    getPoints() {
+        return this.points
+    }
+
     render() {
         return (
             <div className="canvas">
                 <canvas ref={this.canvasRef} width={this.canvasWidth} height={this.canvasHeight} />
-                <Button variant="info" onClick={this.drawPolygon}>Draw Polygon</Button>
+                <Button variant="danger" onClick={this.clearCanvas}>Clear Polygon</Button>
+                <Button variant="warning" onClick={this.undo}>Undo</Button>
             </div>
         )
     }
