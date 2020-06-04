@@ -152,7 +152,7 @@ export default class EditCamera extends Component {
     render() {
         return (
             <div>
-                <Button variant="info" onClick={this.handleShow}>
+                <Button variant="outline-primary" onClick={this.handleShow}>
                     Edit
                 </Button>
 
@@ -235,7 +235,7 @@ export default class EditCamera extends Component {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="info" onClick={this.handleEditCamera}>Save</Button>
+                        <Button variant="info" onClick={this.handleEditCamera} className="mx-auto btn-modal-edit-camera">Save</Button>
                         <Button variant="secondary" onClick={this.handleHide}>Close</Button>
                     </Modal.Footer>
                 </Modal>

@@ -241,7 +241,7 @@ export default class AddCamera extends Component {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="success" onClick={this.handleAddCamera}>Add</Button>
+                        <Button variant="success" onClick={this.handleAddCamera} className="mx-auto btn-modal-add-camera">Add</Button>
                         <Button variant="secondary" onClick={this.handleHide}>Close</Button>
                     </Modal.Footer>
                 </Modal>

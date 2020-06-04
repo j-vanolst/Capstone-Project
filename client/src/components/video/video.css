@@ -1,10 +1,4 @@
-.card-video-container.card {
-    padding: 0;
-    margin: 0;
-    max-width: 200px;
-}
-
-.card-video-container.card:hover {
+.card-video-container .card-body:hover {
     background-color: #e7e7e7;
 }
 
@@ -12,19 +6,33 @@
     font-size: smaller;
 }
 
-
-.add-video-button {
-    font-size: 24px;
+.btn-add-video {
+    color: #67daff;
+    color: #03a9f4;
+    font-size: 18px;
+    margin: 0;
+    padding: 0 0 0 20px;
 }
-
-.add-video-button:link {
-    color: gray;
+.btn-add-video:hover {
+    text-decoration: underline;
+    color: #67daff;
 }
-
-.add-video-button:visited {
-    color: gray;
+.card-video-container {
+    width: 200px;
+    padding: 0;
+    margin: 10px 20px 20px 20px;
 }
-
-.add-video-button:hover {
-    color: #333333;
+.video-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.video-buttons button {
+    margin: 0 5px 0 5px;
+}
+.btn-modal-add-video {
+    width: 80%;
+}
+.btn-update-video-stream {
+    width: 85%;
 }

@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component, createRef } from "react"
 import { Modal, Button } from 'react-bootstrap'
 
 import { store } from 'react-notifications-component'
@@ -18,9 +18,12 @@ export default class Camera extends Component {
     constructor(props) {
         super(props)
 
+        this.streamRef = createRef()
+
         this.remove = this.remove.bind(this)
         this.handleHide = this.handleHide.bind(this)
         this.handleShow = this.handleShow.bind(this)
+        this.handleUpdateModelAndPolygon = this.handleUpdateModelAndPolygon.bind(this)
 
         this.state = {
             cameraID: props.cameraID,
@@ -102,29 +105,43 @@ export default class Camera extends Component {
         })
     }
 
+    handleUpdateModelAndPolygon() {
+        const cameraStream = this.streamRef.current
+        cameraStream.handleUpdateModelAndPolygon()
+    }
+
     render() {
         return (
-            <div className="card card-camera-container">
-                <div className="card-body" onClick={this.handleShow}>
-                    <h3 className="card-title">{this.state.name}</h3>
-                    <p className="card-text">
-                        <strong>Location: </strong>
-                        {this.state.location}
-                    </p>
-                    <p className="card-text">
-                        <strong>URL: </strong>
-                        {this.state.url}
-                    </p>
-                    <EditCamera state={this.state} />
-                    <Button variant="danger" onClick={this.remove}>Remove</Button>
+            <div>
+                <div className="card card-camera-container">
+                    <div className="card-body" onClick={this.handleShow}>
+                        <h3 className="card-title">{this.state.name}</h3>
+                        <p className="card-text">
+                            <strong>Location: </strong>
+                            {this.state.location}
+                        </p>
+                        <p className="card-text">
+                            <strong>URL: </strong>
+                            {this.state.url}
+                        </p>
+                    </div>
+                    <div className="card-footer">
+                        <div className="camera-buttons">
+                            <EditCamera state={this.state} />
+                            <Button variant="outline-danger" onClick={this.remove}>Remove</Button>
+                        </div>
+                    </div>
+                </div>
+                <div>
                     <Modal show={this.state.showModal} onHide={this.handleHide} size="lg">
                         <Modal.Header closeButton>
                             <Modal.Title>Camera Stream</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <CameraStream cameraID={this.state.cameraID} handleHide={this.handleHide} polygon={this.props.polygon} model={this.props.model}></CameraStream>
+                            <CameraStream ref={this.streamRef} cameraID={this.state.cameraID} handleHide={this.handleHide} polygon={this.props.polygon} model={this.props.model}></CameraStream>
                         </Modal.Body>
                         <Modal.Footer>
+                            <Button variant="success" onClick={this.handleUpdateModelAndPolygon} className="mx-auto btn-update-camera-stream">Update</Button>
                             <Button variant="secondary" onClick={this.handleHide}>Close</Button>
                         </Modal.Footer>
                     </Modal>

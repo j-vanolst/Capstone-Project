@@ -1,17 +1,40 @@
-.card-camera-container.card {
-    padding: 0;
-    margin: 0;
-    max-width: 200px;
-}
-
-.card-camera-container.card:hover {
+.card-camera-container .card-body:hover {
     background-color: #e7e7e7;
 }
-
 .card-text {
     font-size: smaller;
 }
 
 .btn-add-camera {
-    
+    color: #67daff;
+    color: #03a9f4;
+    font-size: 18px;
+    margin: 0;
+    padding: 0 0 0 20px;
+}
+.btn-add-camera:hover {
+    text-decoration: underline;
+    color: #67daff;
+}
+.card-camera-container {
+    width: 200px;
+    padding: 0;
+    margin: 10px 20px 20px 20px;
+}
+.camera-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.camera-buttons button {
+    margin: 0 5px 0 5px;
+}
+.btn-modal-add-camera {
+    width: 80%;
+}
+.btn-modal-edit-camera {
+    width: 80%;
+}
+.btn-update-camera-stream {
+    width: 85%;
 }

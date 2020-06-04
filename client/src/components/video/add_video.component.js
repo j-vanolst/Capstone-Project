@@ -87,7 +87,7 @@ export default class AddVideo extends Component {
                     </Modal.Body>
 
                     <Modal.Footer>
-                        <Button variant="success" onClick={this.handleAddVideo}>Add</Button>
+                        <Button variant="success" onClick={this.handleAddVideo} className="mx-auto btn-modal-add-video">Add</Button>
                         <Button variant="secondary" onClick={this.handleHide}>Close</Button>
                     </Modal.Footer>
                 </Modal>

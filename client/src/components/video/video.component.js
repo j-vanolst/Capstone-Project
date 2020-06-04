@@ -22,6 +22,7 @@ export default class Video extends Component {
         this.remove = this.remove.bind(this)
         this.handleShow = this.handleShow.bind(this)
         this.handleHide = this.handleHide.bind(this)
+        this.handleUpdateModelAndPolygon = this.handleUpdateModelAndPolygon.bind(this)
 
         this.state = {
             fileID: props.fileID,
@@ -93,13 +94,25 @@ export default class Video extends Component {
         })
     }
 
+    handleUpdateModelAndPolygon() {
+        const videoStream = this.streamRef.current
+        videoStream.handleUpdateModelAndPolygon()
+    }
 
     render() {
         return (
-            <div className="card card-video-container">
-                <div className="card-body" onClick={this.handleShow}>
-                    <h3 className="card-title">{this.state.filename}</h3>
-                    <Button variant="danger" onClick={this.remove}>Remove</Button>
+            <div>
+                <div className="card card-video-container">
+                    <div className="card-body" onClick={this.handleShow}>
+                        <h3 className="card-title">{this.state.filename}</h3>
+                    </div>
+                    <div className="card-footer">
+                        <div className="video-buttons">
+                            <Button variant="outline-danger" onClick={this.remove}>Remove</Button>
+                        </div>
+                    </div>
+                </div>
+                <div>
                     <Modal show={this.state.showModal} onHide={this.handleHide} size="lg">
                         <Modal.Header closeButton>
                             <Modal.Title>Video Stream</Modal.Title>
@@ -108,10 +121,10 @@ export default class Video extends Component {
                             <VideoStream ref={this.streamRef} videoID={this.props.videoID} polygon={this.props.polygon} model={this.props.model} />
                         </Modal.Body>
                         <Modal.Footer>
+                            <Button variant="success" onClick={this.handleUpdateModelAndPolygon} className="mx-auto btn-update-video-stream">Update</Button>
                             <Button variant="secondary" onClick={this.handleHide}>Close</Button>
                         </Modal.Footer>
                     </Modal>
-
                 </div>
             </div>
         )

@@ -23,21 +23,25 @@ export default class Dashboard extends Component {
     }
 
     componentDidMount() {
-        if (user) {
+        if (user && user.id) {
             CameraService
                 .get(user.id)
                 .then(res => {
-                    this.setState({
-                        cameras: res.cameras
-                    })
+                    if (res) {
+                        this.setState({
+                            cameras: res.cameras
+                        })
+                    }
                 })
 
             VideoService
                 .get(user.id)
                 .then(res => {
-                    this.setState({
-                        videos: res.videos
-                    })
+                    if (res) {
+                        this.setState({
+                            videos: res.videos
+                        })
+                    }
                 })
         }
     }
@@ -58,30 +62,54 @@ export default class Dashboard extends Component {
         return (
             <div className="container-fluid">
                 <div className="row">
+                    <nav className="navbar nav-section">
+                        <ul className="navbar-nav">
+                            <h1 className="navbar-brand dashboard-header">My Cameras</h1>
+                            <div className="navbar-nav mr-auto">
+                                <li className="nav-item">
+                                    <AddCamera />
+                                </li>
+                            </div>
+                        </ul>
+                    </nav>
                     <div className="col-md-12 dashboard-section">
-                        <h1>My Cameras</h1>
-                        <AddCamera />
-                        <div>
+                        <div className="cameras">
                             {cameras}
                         </div>
                     </div>
                 </div>
                 <div className="row">
+                    <nav className="navbar nav-section">
+                        <ul className="navbar-nav">
+                            <h1 className="navbar-brand dashboard-header">My Videos</h1>
+                            <div className="navbar-nav mr-auto">
+                                <li className="nav-item">
+                                    <AddVideo />
+                                </li>
+                            </div>
+                        </ul>
+                    </nav>
                     <div className="col-md-12 dashboard-section">
-                        <h1>My Videos</h1>
-                        <AddVideo />
-                        <div>
+                        <div className="videos">
                             {videos}
                         </div>
                     </div>
                 </div>
                 <div className="row">
+                    <nav className="navbar nav-section">
+                        <ul className="navbar-nav">
+                            <h1 className="navbar-brand dashboard-header">Metrics</h1>
+                            <div className="navbar-nav mr-auto">
+                                <li className="nav-item">
+                                    <h3 className="metrics">This feature is not implemented.</h3>
+                                </li>
+                            </div>
+                        </ul>
+                    </nav>
                     <div className="col-md-12 dashboard-section">
-                        <h1>Metrics</h1>
-                        <h3>This feature is not implemented.</h3>
                     </div>
                 </div>
-            </div>
+            </div >
         )
     }
 }

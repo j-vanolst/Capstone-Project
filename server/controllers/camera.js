@@ -31,7 +31,10 @@ exports.get = (req, res, next) => {
             console.log('Error retrieving cameras')
             return
         }
-        res.send({ cameras })
+        if (cameras.length == 0) {
+            cameras = []
+        }
+        res.status(200).send({ cameras })
     })
 }
 

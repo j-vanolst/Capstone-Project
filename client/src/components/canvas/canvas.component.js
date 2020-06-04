@@ -154,8 +154,10 @@ export default class Canvas extends Component {
         return (
             <div className="canvas">
                 <canvas ref={this.canvasRef} width={this.canvasWidth} height={this.canvasHeight} />
-                <Button variant="danger" onClick={this.clearCanvas}>Clear Polygon</Button>
-                <Button variant="warning" onClick={this.undo}>Undo</Button>
+                <div className="canvas-buttons">
+                    <Button variant="outline-danger" onClick={this.clearCanvas}>Clear Polygon</Button>
+                    <Button variant="outline-warning" onClick={this.undo}>Undo</Button>
+                </div>
             </div>
         )
     }

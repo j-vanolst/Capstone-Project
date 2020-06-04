@@ -8,3 +8,13 @@ canvas {
     border-width: 1px;
     border-color: #000;
 }
+
+.canvas-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.canvas-buttons button {
+    margin: 0 5px 0 5px;
+    width: 40%;
+}

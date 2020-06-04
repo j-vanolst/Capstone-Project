@@ -123,8 +123,6 @@ export default class CameraStream extends Component {
                             <option value="lpr">License Plate Recognition</option>
                         </select>
                     </div>
-
-                    <Button variant="success" onClick={this.handleUpdateModelAndPolygon}>Update</Button>
                 </Form>
             </div>
         )

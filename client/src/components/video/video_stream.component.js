@@ -113,7 +113,6 @@ export default class VideoStream extends Component {
                         <option value="lpr">License Plate Recognition</option>
                     </select>
                 </div>
-                <Button variant="success" onClick={this.handleUpdateModelAndPolygon}>Update</Button>
             </div>
         )
     }

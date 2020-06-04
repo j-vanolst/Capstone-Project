@@ -59,7 +59,7 @@ export default class Profile extends Component {
         }
     }
 
-    handleUpdateProfile(e){ 
+    handleUpdateProfile(e) {
         e.preventDefault()
 
         this.form.validateAll()
@@ -157,7 +157,7 @@ export default class Profile extends Component {
                             ref={c => {
                                 this.form = c
                             }}
-                            >
+                        >
                             <div className="form-group">
                                 <label htmlFor="fName">First Name</label>
                                 <Input
@@ -194,11 +194,11 @@ export default class Profile extends Component {
                                 />
                             </div>
 
-                            <Button variant="success" onClick={this.handleUpdateProfile}>Save</Button>
-
-                            <Button variant="info" onClick={this.toggleEditable}>Edit</Button>
-
-                            <a href="/changePassword" className="btn btn-warning">Change Password</a>
+                            <div className="profile-buttons">
+                                <Button variant="success" onClick={this.handleUpdateProfile}>Save</Button>
+                                <Button variant="info" onClick={this.toggleEditable}>Edit</Button>
+                                <a href="/changePassword" className="btn btn-warning">Change Password</a>
+                            </div>
 
                             <CheckButton
                                 style={{ display: "none" }}
