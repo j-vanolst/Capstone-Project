@@ -1,20 +1,10 @@
-.card-camera-container .card-body:hover {
-    background-color: #e7e7e7;
-}
 .card-text {
     font-size: smaller;
 }
 
 .btn-add-camera {
-    color: #67daff;
-    color: #03a9f4;
-    font-size: 18px;
     margin: 0;
     padding: 0 0 0 20px;
-}
-.btn-add-camera:hover {
-    text-decoration: underline;
-    color: #67daff;
 }
 .card-camera-container {
     width: 200px;

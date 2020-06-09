@@ -4,10 +4,12 @@ import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import 'animate.css'
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import 'bootstrap/dist/css/bootstrap.min.css'
-import "./App.css";
+import "./App.css"
 
+// Import Theme CSS
+import './theme.css'
 
 import Navigation from './components/navigation.component'
 import Login from './components/login.component'

@@ -96,7 +96,7 @@ export default class Login extends Component {
     render() {
         return (
             <div className="container-md">
-                <div className="card card-container">
+                <div className="login-form card card-container">
                     <div className="card-body">
                         <h1 className="card-title">Login</h1>
                         <Form

@@ -32,7 +32,7 @@ export default class Navigation extends Component {
         const { currentUser } = this.state
 
         return (
-            <nav className="navbar navbar-expand navbar-dark bg-dark">
+            <nav className="navbar navbar-expand navbar-dark bg-dark main-nav">
                 <Link to={"/"} className="navbar-brand">
                     Capstone Project
                 </Link>

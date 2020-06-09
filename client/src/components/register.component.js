@@ -152,7 +152,7 @@ export default class Register extends Component {
     render() {
         return (
             <div className="col-md-12">
-                <div className="card card-container">
+                <div className="login-form card card-container">
                     <div className="card-body">
                         <h1 className="card-title">Register</h1>
                         <Form

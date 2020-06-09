@@ -6,9 +6,10 @@ import { store } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import 'animate.css'
 
+import './camera.css'
+
 import Canvas from '../canvas/canvas.component'
 
-import './camera.css'
 import CameraService from '../../services/camera_service'
 
 const required = value => {

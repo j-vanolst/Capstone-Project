@@ -5,7 +5,7 @@ import { store } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import 'animate.css'
 
-import "./camera.css"
+import './camera.css'
 
 import EditCamera from './edit_camera.component'
 import CameraStream from './camera_stream.component'

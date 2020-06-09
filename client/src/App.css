@@ -40,7 +40,6 @@
 .dashboard-section {
   margin-bottom: 50px;
   border-radius: 2px;
-  background-color: #f7f7f7;
   padding: 0;
   margin: 0 auto 15px auto;
   max-width: 99%;
@@ -54,14 +53,11 @@
 
 .dashboard-header {
   font-size: 40px;
-  color: #fff;
   padding: 0;
   margin: 0;
 }
 
 .nav-section {
-  /* background-color: #263238; */
-  background-color: #343a40;
   margin: 0;
   border-radius: 2px;
   width: 100%;

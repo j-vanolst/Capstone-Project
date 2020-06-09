@@ -1,0 +1,88 @@
+/* Main Navigation Bar CSS */
+
+/* Set background colour for main navigation */
+.main-nav {
+    background-color: #343a40 !important;
+}
+
+/* CSS For Navbar brand */
+.main-nav .navbar-brand {
+    color:#fff !important;
+}
+
+/* CSS for Navbar links */
+.main-nav a {
+    color:  #869c9f !important;
+}
+.main-nav a:hover {
+    color: rgba(255,255,255,.75) !important;
+}
+
+/* Body CSS */
+body {
+    background-color: #fff; 
+}
+
+/* Camera Specific CSS */
+.card-camera-container .card-body {
+    color:#000;
+    background-color: #f7f7f7;
+}
+.card-camera-container .card-body:hover {
+    background-color: #e7e7e7;
+}
+
+.btn-add-camera {
+    color: #67daff;
+    color: #03a9f4;
+    font-size: 18px;
+}
+
+.btn-add-camera:hover {
+    text-decoration: underline;
+    color: #67daff;
+}
+
+/* Video File Specific CSS */
+.card-video-container .card-body {
+    color:#000;
+    background-color: #f7f7f7;
+}
+.card-video-container .card-body:hover {
+    background-color: #e7e7e7;
+}
+
+.btn-add-video {
+    color: #67daff;
+    color: #03a9f4;
+    font-size: 18px;
+}
+
+.btn-add-video:hover {
+    text-decoration: underline;
+    color: #67daff;
+}
+
+/* Canvas Specific CSS */
+canvas {
+    background-color: #f3f3f3f3;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000;
+}
+
+/* Dashboard Specific CSS */
+/* Section Header for Dashboard */
+.dashboard-header {
+    font-size: 40px;
+    color: #fff;
+  }
+
+/* Div containing the list of cameras/videos */
+.dashboard-section {
+    background-color: #f7f7f7;
+  }
+/* Div containing the navigation for the dashboard headers */
+.nav-section {
+    background-color: #343a40;
+}
