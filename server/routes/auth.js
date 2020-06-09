@@ -27,4 +27,6 @@ router.post('/api/auth/reset', authController.reset)
 
 router.post('/api/auth/verifyToken', authController.verifyToken)
 
+router.post('/api/auth/confirmJWT', authController.confirmJWT)
+
 module.exports = router

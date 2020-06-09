@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Form from 'react-validation/build/form'
 import Input from 'react-validation/build/input'
 import CheckButton from 'react-validation/build/button'
+import { Redirect } from 'react-router-dom'
 
 import "../form.css"
 
@@ -38,8 +39,41 @@ export default class Login extends Component {
         this.state = {
             email: '',
             password: '',
-            loading: false,
-            message: ''
+            loading: 'initial',
+            message: '',
+            authorized: false
+        }
+    }
+
+    componentDidMount() {
+        console.log('second')
+        this.setState({
+            loading: 'true'
+        })
+
+        const user = JSON.parse(localStorage.getItem('user'))
+        if (user && user.id) {
+            AuthService.confirmJWT(user.accessToken)
+                .then(res => {
+                    if (res) {
+                        this.setState({
+                            loading: 'false',
+                            authorized: true
+                        })
+                    }
+                    else {
+                        this.setState({
+                            loading: 'false',
+                            authorized: false
+                        })
+                    }
+                })
+        }
+        else {
+            this.setState({
+                loading: 'false',
+                authorized: false
+            })
         }
     }
 
@@ -60,7 +94,7 @@ export default class Login extends Component {
 
         this.setState({
             message: '',
-            loading: true
+            loading: 'true'
         })
 
         this.form.validateAll()
@@ -81,19 +115,31 @@ export default class Login extends Component {
                             error.toString()
 
                         this.setState({
-                            loading: false,
+                            loading: 'false',
                             message: resMessage
                         })
                     })
         }
         else {
             this.setState({
-                loading: false
+                loading: 'false'
             })
         }
     }
 
     render() {
+        if (this.state.loading === 'initial') {
+            console.log('first')
+            return <h2>Initializing...</h2>
+        }
+
+        if (this.state.loading === 'true') {
+            console.log('loading')
+            return <h2>Loading...</h2>
+        }
+        if (this.state.authorized) {
+            return <Redirect to="/dashboard" />
+        }
         return (
             <div className="container-md">
                 <div className="login-form card card-container">
@@ -132,13 +178,7 @@ export default class Login extends Component {
                             </div>
 
                             <div className="form-group">
-                                <button
-                                    className="btn btn-success btn-block"
-                                    disabled={this.state.loading}
-                                >
-                                    {this.state.loading && (
-                                        <span className="spinner-border spinnder-border-sm"></span>
-                                    )}
+                                <button className="btn btn-success btn-block">
                                     <span>Login</span>
                                 </button>
                             </div>

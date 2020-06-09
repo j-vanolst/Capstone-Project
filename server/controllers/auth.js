@@ -164,3 +164,23 @@ exports.verifyToken = (req, res, next) => {
                 })
         })
 }
+
+exports.confirmJWT = (req, res, next) => {
+    let token = req.body.token
+    // jwt.verify(token, config.secret, (err, decoded) => {
+    //     if (decoded) {
+    //         res.status(200).send({ message: 'JWT Token successfully verified.' })
+    //         console.log('Valid JWT token')
+    //         return
+    //     }
+    //     console.log('Invalid JWT token')
+    //     return res.status(401).send({ message: 'JWT Expired/Invalid' })
+    // })
+    if (jwt.verify(token, config.secret)) {
+        res.status(200).send({ message: 'JWT Token successfully verified.' })
+        console.log('Valid JWT token')
+        return
+    }
+    console.log('Invalid JWT token')
+    return res.status(401).send({ message: 'JWT Expired/Invalid' })
+}

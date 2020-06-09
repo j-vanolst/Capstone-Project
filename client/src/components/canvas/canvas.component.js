@@ -30,6 +30,7 @@ export default class Canvas extends Component {
         this.getPoints = this.getPoints.bind(this)
 
         this.canvasRef = createRef()
+        this.imageRef = createRef()
 
         this.state = {
             canvas: '',
@@ -39,7 +40,13 @@ export default class Canvas extends Component {
 
     componentDidMount() {
         let canvas = this.canvasRef.current
+        let ctx = canvas.getContext('2d')
+
+        let image = this.imageRef.current
+        ctx.drawImage(image, 0, 0)
+
         canvas.addEventListener('mousedown', this.getPosition)
+
         this.drawPoints(this.points)
         this.drawPolygon(this.points)
     }
@@ -158,6 +165,7 @@ export default class Canvas extends Component {
                     <Button variant="outline-danger" onClick={this.clearCanvas}>Clear Polygon</Button>
                     <Button variant="outline-warning" onClick={this.undo}>Undo</Button>
                 </div>
+                <img ref={this.imageRef} className="canvas-background" src="https://i1.wp.com/www.greaterauckland.org.nz/wp-content/uploads/2018/05/Takapuna-Gasometer-Carpark-site.jpg"></img>
             </div>
         )
     }

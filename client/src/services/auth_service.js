@@ -64,6 +64,19 @@ class AuthService {
             })
     }
 
+    async confirmJWT(token) {
+        return axios
+            .post(API_URL + 'confirmJWT', {
+                token
+            })
+            .then(res => {
+                return res.data
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
     getCurrentUser() {
         return JSON.parse(localStorage.getItem('user'))
     }
