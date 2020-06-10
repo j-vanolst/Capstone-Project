@@ -3,6 +3,7 @@ canvas {
     margin-right: auto;
     margin-bottom: 40px;
     display: block;
+    background-image: image('test.jpg');
 }
 
 .canvas-buttons {

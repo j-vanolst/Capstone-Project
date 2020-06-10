@@ -93,9 +93,6 @@ export default class VideoStream extends Component {
     render() {
         return (
             <div>
-                {/* <div>
-                    <video src={API_URL + this.props.fileID} height="320" width="480" controls />
-                </div> */}
                 <div>
                     <Canvas ref={this.canvasRef} width={640} height={360} verticalCorrection={115} polygon={this.props.polygon} />
                 </div>
@@ -112,6 +109,9 @@ export default class VideoStream extends Component {
                         <option value="car">Car Counting</option>
                         <option value="lpr">License Plate Recognition</option>
                     </select>
+                </div>
+                <div>
+                    <video src={API_URL + this.props.fileID} height="320" width="480" controls autoPlay />
                 </div>
             </div>
         )

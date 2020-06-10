@@ -1,8 +1,10 @@
-import React, { Component, createRef } from 'react'
+import React, { Component, createRef, createContext } from 'react'
 import { Button } from 'react-bootstrap'
 import ReactPlayer from 'react-player'
+import ImageService from '../../services/image_service'
 
 import './canvas.css'
+import test from './test.jpg'
 
 export default class Canvas extends Component {
     constructor(props) {
@@ -28,6 +30,7 @@ export default class Canvas extends Component {
         this.clearCanvas = this.clearCanvas.bind(this)
         this.undo = this.undo.bind(this)
         this.getPoints = this.getPoints.bind(this)
+        this.setBackground = this.setBackground.bind(this)
 
         this.canvasRef = createRef()
         this.imageRef = createRef()
@@ -42,13 +45,38 @@ export default class Canvas extends Component {
         let canvas = this.canvasRef.current
         let ctx = canvas.getContext('2d')
 
-        let image = this.imageRef.current
-        ctx.drawImage(image, 0, 0)
-
         canvas.addEventListener('mousedown', this.getPosition)
 
-        this.drawPoints(this.points)
-        this.drawPolygon(this.points)
+        this.setBackground()
+            .then(res => {
+                this.drawPoints(this.points)
+                this.drawPolygon(this.points)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    setBackground() {
+        let canvas = this.canvasRef.current
+        let ctx = canvas.getContext('2d')
+
+        let image = this.imageRef.current
+
+        ctx.drawImage(image, 0, 0)
+
+        return new Promise((resolve, reject) => {
+            image.onload = () => {
+                console.log('Image Loaded')
+                ctx.drawImage(image, 0, 0)
+                resolve()
+            }
+            image.error = () => {
+                console.log('Image Failed Loading')
+                ctx.drawImage(image, 0, 0)
+                reject()
+            }
+        })
     }
 
     checkBounds(x, y) {
@@ -81,6 +109,7 @@ export default class Canvas extends Component {
         this.points.push(point)
         // Need to clear the canvas each time so fill opacity doesn't stack
         this.clearCanvas(false)
+        this.setBackground()
         this.drawPoints(this.points)
         this.drawPolygon(this.points)
         console.log(point)
@@ -144,6 +173,7 @@ export default class Canvas extends Component {
         if (canvas.width) {
             canvas.width = canvas.width
         }
+        this.setBackground()
     }
 
     undo() {
@@ -165,7 +195,7 @@ export default class Canvas extends Component {
                     <Button variant="outline-danger" onClick={this.clearCanvas}>Clear Polygon</Button>
                     <Button variant="outline-warning" onClick={this.undo}>Undo</Button>
                 </div>
-                <img ref={this.imageRef} className="canvas-background" src="https://i1.wp.com/www.greaterauckland.org.nz/wp-content/uploads/2018/05/Takapuna-Gasometer-Carpark-site.jpg"></img>
+                <img ref={this.imageRef} className="canvas-background" src={test}></img>
             </div>
         )
     }

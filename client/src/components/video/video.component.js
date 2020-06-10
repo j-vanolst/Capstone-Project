@@ -118,7 +118,7 @@ export default class Video extends Component {
                             <Modal.Title>Video Stream</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <VideoStream ref={this.streamRef} videoID={this.props.videoID} polygon={this.props.polygon} model={this.props.model} />
+                            <VideoStream ref={this.streamRef} fileID={this.props.fileID} videoID={this.props.videoID} polygon={this.props.polygon} model={this.props.model} />
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="success" onClick={this.handleUpdateModelAndPolygon} className="mx-auto btn-update-video-stream">Update</Button>

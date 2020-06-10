@@ -43,6 +43,21 @@ class VideoService {
             })
     }
 
+    getFile(videoID) {
+        return axios
+            .get(API_URL + 'getFile/' + videoID, {
+                videoID
+            }, {
+                headers: authHeader()
+            })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
     remove(videoID, userID) {
         return axios
             .post(API_URL + 'remove', {

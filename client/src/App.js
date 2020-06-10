@@ -58,6 +58,7 @@ class App extends Component {
                             loading: 'false',
                             authorized: false
                         })
+                        localStorage.removeItem('user')
                     }
                 })
         }
@@ -66,6 +67,7 @@ class App extends Component {
                 loading: 'false',
                 authorized: false
             })
+            localStorage.removeItem('user')
         }
     }
 
