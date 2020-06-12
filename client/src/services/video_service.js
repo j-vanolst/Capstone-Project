@@ -43,15 +43,15 @@ class VideoService {
             })
     }
 
-    getFile(videoID) {
+    getFile(fileID) {
         return axios
-            .get(API_URL + 'getFile/' + videoID, {
-                videoID
+            .get(API_URL + 'getFile/' + fileID, {
+                fileID
             }, {
                 headers: authHeader()
             })
             .then(res => {
-                console.log(res)
+                return res
             })
             .catch(err => {
                 console.log(err)

@@ -1,3 +1,5 @@
+const Stream = require('node-rtsp-stream')
+
 const config = require('../config/auth_key')
 const db = require('../database')
 const Camera = db.camera
@@ -134,4 +136,13 @@ exports.update = (req, res, next) => {
                 res.status(401).send({ message: 'Authorization error.' })
             }
         })
+}
+
+exports.captureFrame = (req, res, next) => {
+    let rtspURL = 'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov'
+    let stream = new Stream({
+        name: 'name',
+        streamURL: rtspURL,
+        wsPort: 9999
+    })
 }

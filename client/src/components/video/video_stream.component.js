@@ -111,7 +111,7 @@ export default class VideoStream extends Component {
                     </select>
                 </div>
                 <div>
-                    <video src={API_URL + this.props.fileID} height="320" width="480" controls autoPlay />
+                    <video src={API_URL + this.props.fileID} height="320" width="480" controls autoPlay muted />
                 </div>
             </div>
         )
