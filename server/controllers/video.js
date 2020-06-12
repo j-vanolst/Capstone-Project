@@ -37,36 +37,46 @@ exports.getFile = (req, res, next) => {
     let userID = req.body.userID
     let fileID = new mongoose.mongo.ObjectId(req.params.fileID)
 
-    let conn = fileStorage.conn
-    let gfs
+    // Check the user owns the fileID
+    Video.findOne({
+        'userID': userID,
+        'fileID': fileID
+    }, (err, video) => {
+        if (err) {
+            console.log(err)
+            return
+        }
+        let conn = fileStorage.conn
+        let gfs
 
-    conn.once('open', () => {
-        //gfs = Grid(fileStorage.conn.db, mongoose.mongo)
-        gfs = Grid(fileStorage.conn.db, mongoose.mongo)
-        gfs.collection('videos')
+        conn.once('open', () => {
+            //gfs = Grid(fileStorage.conn.db, mongoose.mongo)
+            gfs = Grid(fileStorage.conn.db, mongoose.mongo)
+            gfs.collection('videos')
+        })
+
+        if (!gfs) {
+            //gfs = Grid(fileStorage.conn.db, mongoose.mongo)
+            gfs = Grid(fileStorage.conn.db, mongoose.mongo)
+            gfs.collection('videos')
+        }
+
+        gfs.files
+            .find({
+                _id: fileID
+            })
+            .toArray((err, files) => {
+                if (!files || files.length === 0) {
+                    err = 'No file found'
+                    res.status(500).send({ message: err })
+                    return
+                }
+
+                // File Exists
+                const readStream = gfs.createReadStream(files[0].filename)
+                readStream.pipe(res)
+            })
     })
-
-    if (!gfs) {
-        //gfs = Grid(fileStorage.conn.db, mongoose.mongo)
-        gfs = Grid(fileStorage.conn.db, mongoose.mongo)
-        gfs.collection('videos')
-    }
-
-    gfs.files
-        .find({
-            _id: fileID
-        })
-        .toArray((err, files) => {
-            if (!files || files.length === 0) {
-                err = 'No file found'
-                res.status(500).send({ message: err })
-                return
-            }
-
-            // File Exists
-            const readStream = gfs.createReadStream(files[0].filename)
-            readStream.pipe(res)
-        })
 }
 
 exports.get = (req, res, next) => {

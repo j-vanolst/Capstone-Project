@@ -20,7 +20,7 @@ router.use((req, res, next) => {
 router.post('/api/video/get', [verifyJWT], videoController.get)
 router.post('/api/video/remove', [verifyJWT], videoController.remove)
 router.post('/api/video/add', [verifyJWT, fileStorage.upload.single('file')], videoController.add)
-router.get('/api/video/getFile/:fileID', videoController.getFile)
+router.get('/api/video/getFile/:fileID/:userID', videoController.getFile)
 router.post('/api/video/update', [verifyJWT], videoController.update)
 
 module.exports = router

@@ -7,11 +7,8 @@ import 'animate.css'
 
 import Canvas from '../canvas/canvas.component'
 
-
 import './video.css'
 import VideoService from '../../services/video_service'
-
-const API_URL = 'http://localhost:9000/api/video/getFile/'
 
 const user = JSON.parse(localStorage.getItem('user'))
 
@@ -25,14 +22,25 @@ export default class VideoStream extends Component {
         this.onChangeModel = this.onChangeModel.bind(this)
         this.handleUpdateModelAndPolygon = this.handleUpdateModelAndPolygon.bind(this)
 
-
         this.state = {
             model: props.model,
             notificationTitle: 'Error',
             message: 'Error',
-            notificationType: 'danger'
+            notificationType: 'danger',
+            blob: ''
         }
     }
+
+    // componentDidMount() {
+    //     let frameCapture = new FrameCapture(this.props.fileID, user.id)
+    //     frameCapture.setup()
+    //         .then(res => {
+    //             this.setState({
+    //                 blob: frameCapture.getBlob()
+    //             })
+    //             console.log(this.state)
+    //         })
+    // }
 
     onChangeModel(e) {
         this.setState({
@@ -94,7 +102,7 @@ export default class VideoStream extends Component {
         return (
             <div>
                 <div>
-                    <Canvas ref={this.canvasRef} width={640} height={360} verticalCorrection={115} polygon={this.props.polygon} />
+                    <Canvas ref={this.canvasRef} width={640} height={360} verticalCorrection={115} polygon={this.props.polygon} fileID={this.props.fileID} isVideo={true} />
                 </div>
 
                 <div className="form-group">
@@ -111,7 +119,8 @@ export default class VideoStream extends Component {
                     </select>
                 </div>
                 <div>
-                    <video src={API_URL + this.props.fileID} height="320" width="480" controls autoPlay muted />
+                    {/* <video src={API_URL + this.props.fileID} height="320" width="480" controls autoPlay muted /> */}
+                    {/* <img src={this.state.blob} width={640}></img> */}
                 </div>
             </div>
         )

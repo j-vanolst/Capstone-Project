@@ -1,10 +1,16 @@
 import React, { Component, createRef, createContext } from 'react'
 import { Button } from 'react-bootstrap'
-import ReactPlayer from 'react-player'
-import ImageService from '../../services/image_service'
+
+import { store } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import 'animate.css'
+
+import FrameCapture from '../../services/frame-capture'
 
 import './canvas.css'
-import test from './test.jpg'
+
+
+const user = JSON.parse(localStorage.getItem('user'))
 
 export default class Canvas extends Component {
     constructor(props) {
@@ -35,6 +41,8 @@ export default class Canvas extends Component {
         this.canvasRef = createRef()
         this.imageRef = createRef()
 
+        this.image = new Image()
+
         this.state = {
             canvas: '',
             ctx: ''
@@ -47,10 +55,50 @@ export default class Canvas extends Component {
 
         canvas.addEventListener('mousedown', this.getPosition)
 
-        this.setBackground()
+        // Loading notification
+        let notification = {
+            title: 'Loading...',
+            message: 'Loading Camera or Video',
+            type: 'warning',
+            insert: 'top',
+            container: 'top-center',
+            animationIn: ["animated", "fadeIn"],
+            animationOut: ["animated", "fadeOut"],
+            dismiss: {
+                duration: 1500,
+                onScreen: true
+            }
+        }
+        this.notificationID = store.addNotification(notification)
+
+        // The canvas is a child of a video file
+        if (this.props.isVideo) {
+            this.setImage()
+            store.removeNotification(this.notificationID)
+        }
+        // The canvas is a child of a camera feed
+        else {
+            this.drawPoints(this.points)
+            this.drawPolygon(this.points)
+        }
+    }
+
+    setImage() {
+        // Sets the image src and waits till its loaded,
+        // then draws the background and points on the canvas
+        let frameCapture = new FrameCapture(this.props.fileID, user.id)
+        frameCapture.setup()
             .then(res => {
-                this.drawPoints(this.points)
-                this.drawPolygon(this.points)
+                this.setState({
+                    blob: frameCapture.getBlob()
+                })
+                this.image.src = this.state.blob
+                setTimeout(() => { }, 1000)
+                this.image.onload = () => {
+                    this.setBackground()
+                    this.drawPoints(this.points)
+                    this.drawPolygon(this.points)
+                }
             })
             .catch(err => {
                 console.log(err)
@@ -61,22 +109,7 @@ export default class Canvas extends Component {
         let canvas = this.canvasRef.current
         let ctx = canvas.getContext('2d')
 
-        let image = this.imageRef.current
-
-        ctx.drawImage(image, 0, 0)
-
-        return new Promise((resolve, reject) => {
-            image.onload = () => {
-                console.log('Image Loaded')
-                ctx.drawImage(image, 0, 0)
-                resolve()
-            }
-            image.error = () => {
-                console.log('Image Failed Loading')
-                ctx.drawImage(image, 0, 0)
-                reject()
-            }
-        })
+        ctx.drawImage(this.image, 0, 0, this.props.width, this.props.height)
     }
 
     checkBounds(x, y) {
@@ -141,8 +174,6 @@ export default class Canvas extends Component {
         ctx.lineWidth = 2
         ctx.fillStyle = 'rgba(255, 157, 0, 0.5)'
 
-        console.log('Drawing Polygon')
-
         // Make sure points exist
         if (!points.length) {
             return
@@ -195,9 +226,7 @@ export default class Canvas extends Component {
                     <Button variant="outline-danger" onClick={this.clearCanvas}>Clear Polygon</Button>
                     <Button variant="outline-warning" onClick={this.undo}>Undo</Button>
                 </div>
-                <img ref={this.imageRef} className="canvas-background" src={test}></img>
             </div>
         )
     }
 }
-//<ReactPlayer url="http://localhost:9000/api/video/getFile/5ecb31f5a7cd084780c126ab" />

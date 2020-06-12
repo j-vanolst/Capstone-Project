@@ -9,6 +9,7 @@
     "animate.css": "^4.1.0",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "capture-frame": "^3.0.2",
     "image-to-base64": "^2.1.0",
     "image-to-uri": "^1.0.0",
     "method-override": "^3.0.0",

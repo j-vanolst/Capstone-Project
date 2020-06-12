@@ -23,8 +23,6 @@ import ResetPassword from './components/reset-password.component'
 import ChangePassword from './components/change-password.component'
 import Test from './components/test.component'
 import PrivateRoute from './components/private-route'
-import FrameCapture from './components/capture-frame.component'
-
 
 class App extends Component {
 
@@ -99,7 +97,6 @@ class App extends Component {
                             <PrivateRoute authenticated={this.state.authorized} path="/profile" redirect="/login" component={Profile} />
                             <PrivateRoute authenticated={this.state.authorized} path="/changePassword" redirect="/login" component={ChangePassword} />
                             <PrivateRoute authenticated={this.state.authorized} path="/test" redirect="/login" component={Test} />
-                            <Route path="/capture" component={FrameCapture} />
                         </Switch>
                     </div>
                 </div>
