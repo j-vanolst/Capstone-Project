@@ -1,5 +1,7 @@
 const Stream = require('node-rtsp-stream')
 
+const Recorder = require('node-rtsp-recorder').Recorder
+
 const config = require('../config/auth_key')
 const db = require('../database')
 const Camera = db.camera
@@ -145,4 +147,34 @@ exports.captureFrame = (req, res, next) => {
         streamURL: rtspURL,
         wsPort: 9999
     })
+}
+
+
+exports.test = (req, res, next) => {
+    let recorder = new Recorder({
+        url: 'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov',
+        folder: 'C:/temp/',
+        name: 'test',
+        type: 'image'
+    })
+
+    recorder.captureImage(() => {
+        console.log('Image Captured')
+    })
+}
+
+exports.testVideo = (req, res, next) => {
+    let recorder = new Recorder({
+        url: 'rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mov',
+        timeLimit: 20,
+        folder: 'C:/temp/',
+        name: 'testCam'
+    })
+
+    recorder.startRecording()
+    setTimeout(() => {
+        console.log('Stop Recording')
+        recorder.stopRecording()
+        recorder = null
+    }, 5000)
 }

@@ -24,6 +24,8 @@ import ChangePassword from './components/change-password.component'
 import Test from './components/test.component'
 import PrivateRoute from './components/private-route'
 
+import Scheduler from './components/widgets/scheduler.component'
+
 class App extends Component {
 
     constructor(props) {
@@ -96,7 +98,7 @@ class App extends Component {
                             <PrivateRoute authenticated={this.state.authorized} path="/dashboard" redirect="/login" component={Dashboard} />
                             <PrivateRoute authenticated={this.state.authorized} path="/profile" redirect="/login" component={Profile} />
                             <PrivateRoute authenticated={this.state.authorized} path="/changePassword" redirect="/login" component={ChangePassword} />
-                            <PrivateRoute authenticated={this.state.authorized} path="/test" redirect="/login" component={Test} />
+                            <PrivateRoute authenticated={this.state.authorized} path="/test" redirect="/login" component={Scheduler} />
                         </Switch>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import React, { Component, createRef, createContext } from 'react'
+import React, { Component, createRef } from 'react'
 import { Button } from 'react-bootstrap'
 
 import { store } from 'react-notifications-component'
@@ -60,8 +60,8 @@ export default class Canvas extends Component {
             title: 'Loading...',
             message: 'Loading Camera or Video',
             type: 'warning',
-            insert: 'top',
-            container: 'top-center',
+            insert: 'bottom',
+            container: 'bottom-center',
             animationIn: ["animated", "fadeIn"],
             animationOut: ["animated", "fadeOut"],
             dismiss: {
