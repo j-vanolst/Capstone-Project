@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import Form from 'react-validation/build/form'
 import Input from 'react-validation/build/input'
@@ -12,6 +12,7 @@ import './camera.css'
 
 import { isURL } from 'validator'
 import CameraService from '../../services/camera_service'
+import Scheduler from '../widgets/scheduler.component'
 
 const required = value => {
     if (!value) {
@@ -39,14 +40,20 @@ export default class AddCamera extends Component {
     constructor(props) {
         super(props)
 
+
+        this.schedulerRef = createRef()
+
         this.handleAddCamera = this.handleAddCamera.bind(this)
         this.onChangeName = this.onChangeName.bind(this)
         this.onChangeLocation = this.onChangeLocation.bind(this)
         this.onChangeURL = this.onChangeURL.bind(this)
-        this.onChangeStartTime = this.onChangeStartTime.bind(this)
-        this.onChangeEndTime = this.onChangeEndTime.bind(this)
+        // this.onChangeStartTime = this.onChangeStartTime.bind(this)
+        // this.onChangeEndTime = this.onChangeEndTime.bind(this)
+        this.onChangeSchedule = this.onChangeSchedule.bind(this)
         this.handleShow = this.handleShow.bind(this)
         this.handleHide = this.handleHide.bind(this)
+        this.handleScheduleShow = this.handleScheduleShow.bind(this)
+        this.handleScheduleHide = this.handleScheduleHide.bind(this)
 
         this.state = {
             name: '',
@@ -57,7 +64,8 @@ export default class AddCamera extends Component {
             showModal: false,
             notificationTitle: 'Error',
             message: 'Error',
-            notificationType: 'danger'
+            notificationType: 'danger',
+            showScheduleModal: false
         }
     }
 
@@ -79,16 +87,25 @@ export default class AddCamera extends Component {
         })
     }
 
-    onChangeStartTime(e) {
-        this.setState({
-            startTime: e.target.value
-        })
-    }
+    // onChangeStartTime(e) {
+    //     this.setState({
+    //         startTime: e.target.value
+    //     })
+    // }
 
-    onChangeEndTime(e) {
+    // onChangeEndTime(e) {
+    //     this.setState({
+    //         endTime: e.target.value
+    //     })
+    // }
+
+    onChangeSchedule() {
+        let scheduler = this.schedulerRef.current
         this.setState({
-            endTime: e.target.value
+            schedule: scheduler.toJSON()
         })
+        console.log(this.state.schedule)
+        this.handleScheduleHide()
     }
 
     handleAddCamera(e) {
@@ -156,6 +173,18 @@ export default class AddCamera extends Component {
         })
     }
 
+    handleScheduleShow() {
+        this.setState({
+            showScheduleModal: true,
+        })
+    }
+
+    handleScheduleHide() {
+        this.setState({
+            showScheduleModal: false,
+        })
+    }
+
     render() {
         return (
             <div>
@@ -211,7 +240,7 @@ export default class AddCamera extends Component {
                                 />
                             </div>
 
-                            <div className="form-group">
+                            {/* <div className="form-group">
                                 <label htmlFor="schedule">Schedule</label>
                                 <Input
                                     type="time"
@@ -229,7 +258,24 @@ export default class AddCamera extends Component {
                                     onChange={this.onChangeEndTime}
                                     validations={[required]}
                                 />
-                            </div>
+                            </div> */}
+                            <button onClick={this.handleScheduleShow} className="btn btn-outline-success">
+                                Add Schedule
+                            </button>
+                            <Modal show={this.state.showScheduleModal} onHide={this.handleScheduleHide}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Schedule</Modal.Title>
+                                </Modal.Header>
+
+                                <Modal.Body>
+                                    <Scheduler ref={this.schedulerRef} />
+                                </Modal.Body>
+
+                                <Modal.Footer>
+                                    <Button variant="success" onClick={this.onChangeSchedule} className="mx-auto btn-modal-add-camera">Add</Button>
+                                    <Button variant="secondary" onClick={this.handleScheduleHide}>Close</Button>
+                                </Modal.Footer>
+                            </Modal>
 
                             <CheckButton
                                 style={{ display: "none" }}

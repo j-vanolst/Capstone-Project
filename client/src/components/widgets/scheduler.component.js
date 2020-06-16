@@ -2,19 +2,15 @@ import React, { Component, createRef } from 'react'
 
 import ScheduleDay from './schedule-day'
 
+import { store } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
+import 'animate.css'
+
+import CameraService from '../../services/camera_service'
+import VideoService from '../../services/video_service'
 
 import './scheduler.css'
 import input from 'react-validation/build/input'
-
-const days = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday'
-]
 
 export default class Scheduler extends Component {
     constructor(props) {
@@ -23,32 +19,69 @@ export default class Scheduler extends Component {
         this.scheduleRef = createRef()
 
         this.addDay = this.addDay.bind(this)
-        this.save = this.save.bind(this)
+        this.toJSON = this.toJSON.bind(this)
+        this.handler = this.handler.bind(this)
 
-        this.dayRefs = []
-        this.days = []
+        this.schedule = new Schedule()
 
         this.state = {
             days: []
         }
-        this.children = []
     }
 
     addDay() {
-        let newDay = new test()
-        this.dayRefs.push(newDay)
-        this.days.push(<ScheduleDay dayRef={newDay} />)
+        let newDay = new Day()
+        this.schedule.addDay(newDay, this.schedule, this.handler)
         this.setState({
-            days: this.days
+            days: this.schedule.allMyDaysElements
         })
     }
 
-    save() {
-        let output = []
-        for (let aDay of this.dayRefs) {
-            output.push(aDay.toJSON())
+    toJSON() {
+        if (!this.schedule.checkDays()) {
+            // Add notification
+            let notification = {
+                title: 'Error',
+                message: `Two or more instances of a the same day scheduled.`,
+                type: 'danger',
+                insert: 'top',
+                container: 'top-center',
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: true
+                }
+            }
+            store.addNotification(notification)
+            return
         }
-        console.log(JSON.stringify(output))
+        else {
+            return this.schedule.toJSON()
+            let outputJSON = this.schedule.toJSON()
+            console.log(outputJSON)
+            let notification = {
+                title: 'Success',
+                message: `Schedule successfully updated.`,
+                type: 'success',
+                insert: 'top',
+                container: 'top-center',
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                    duration: 2000,
+                    onScreen: true
+                }
+            }
+            store.addNotification(notification)
+            return
+        }
+
+    }
+    handler() {
+        this.setState({
+            days: this.schedule.allMyDaysElements
+        })
     }
 
     render() {
@@ -57,17 +90,57 @@ export default class Scheduler extends Component {
                 <div ref={this.scheduleRef} className="schedule">
                     {this.state.days}
                 </div>
-                <button className="btn btn-primary" onClick={this.addDay}>Add Day</button>
-                <button className="btn btn-success" onClick={this.save}>Save</button>
+                <button className="btn btn-outline-primary" onClick={this.addDay}>Add Day</button>
+                <button className="btn btn-outline-success" onClick={this.toJSON}>Save</button>
             </div>
         )
     }
 }
 
-class test {
+
+class Schedule {
+    constructor() {
+        this.allMyDays = []
+        this.allMyDaysElements = []
+    }
+
+    addDay(newDay, schedule, handler) {
+        this.allMyDays.push(newDay)
+        this.allMyDaysElements.push(<ScheduleDay dayRef={newDay} schedule={schedule} handler={handler} />)
+    }
+
+    checkDays() {
+        let usedDays = []
+        for (let aDay of this.allMyDays) {
+            if (!usedDays.includes(aDay.schedule.day)) {
+                usedDays.push(aDay.schedule.day)
+            }
+            else {
+                return false
+            }
+        }
+        return true
+    }
+
+    toJSON() {
+        let output = []
+        for (let aDay of this.allMyDays) {
+            output.push(aDay.toJSON())
+        }
+        return JSON.stringify(output)
+    }
+
+    remove(aDay) {
+        let removedIndex = this.allMyDays.findIndex(day => day.schedule.day == aDay.schedule.day)
+        this.allMyDays.splice(removedIndex)
+        this.allMyDaysElements.splice(removedIndex)
+    }
+}
+
+class Day {
     constructor() {
         this.schedule = {
-            day: '',
+            day: 'monday',
             startTime: '',
             endTime: ''
         }
