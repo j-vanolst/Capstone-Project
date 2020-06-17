@@ -14,8 +14,7 @@ exports.add = (req, res, next) => {
         name: req.body.name,
         location: req.body.location,
         url: req.body.url,
-        startTime: req.body.startTime,
-        endTime: req.body.endTime,
+        schedule: req.body.schedule,
         userID: req.body.userID
     })
 

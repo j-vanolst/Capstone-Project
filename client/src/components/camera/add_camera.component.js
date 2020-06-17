@@ -47,8 +47,6 @@ export default class AddCamera extends Component {
         this.onChangeName = this.onChangeName.bind(this)
         this.onChangeLocation = this.onChangeLocation.bind(this)
         this.onChangeURL = this.onChangeURL.bind(this)
-        // this.onChangeStartTime = this.onChangeStartTime.bind(this)
-        // this.onChangeEndTime = this.onChangeEndTime.bind(this)
         this.onChangeSchedule = this.onChangeSchedule.bind(this)
         this.handleShow = this.handleShow.bind(this)
         this.handleHide = this.handleHide.bind(this)
@@ -59,8 +57,7 @@ export default class AddCamera extends Component {
             name: '',
             location: '',
             url: '',
-            startTime: '',
-            endTime: '',
+            schedule: '',
             showModal: false,
             notificationTitle: 'Error',
             message: 'Error',
@@ -87,40 +84,27 @@ export default class AddCamera extends Component {
         })
     }
 
-    // onChangeStartTime(e) {
-    //     this.setState({
-    //         startTime: e.target.value
-    //     })
-    // }
-
-    // onChangeEndTime(e) {
-    //     this.setState({
-    //         endTime: e.target.value
-    //     })
-    // }
-
     onChangeSchedule() {
         let scheduler = this.schedulerRef.current
         this.setState({
             schedule: scheduler.toJSON()
         })
-        console.log(this.state.schedule)
-        this.handleScheduleHide()
+        if (scheduler.schedule.checkDays()) {
+            this.handleScheduleHide()
+        }
     }
 
     handleAddCamera(e) {
         e.preventDefault()
 
         this.form.validateAll()
-
         if (this.checkBtn.context._errors.length === 0) {
             if (user && user.id) {
                 CameraService
                     .add(this.state.name,
                         this.state.location,
                         this.state.url,
-                        this.state.startTime,
-                        this.state.endTime,
+                        this.state.schedule,
                         user.id)
                     .then(res => {
                         if (res) {
@@ -192,7 +176,7 @@ export default class AddCamera extends Component {
                     Add Camera
                 </button>
 
-                <Modal show={this.state.showModal} onHide={this.handleHide}>
+                <Modal show={this.state.showModal} onHide={this.handleHide} size="lg">
                     <Modal.Header closeButton>
                         <Modal.Title>Add Camera</Modal.Title>
                     </Modal.Header>
@@ -240,35 +224,16 @@ export default class AddCamera extends Component {
                                 />
                             </div>
 
-                            {/* <div className="form-group">
-                                <label htmlFor="schedule">Schedule</label>
-                                <Input
-                                    type="time"
-                                    className="form-control"
-                                    name="startTime"
-                                    value={this.state.startTime}
-                                    onChange={this.onChangeStartTime}
-                                    validations={[required]}
-                                />
-                                <Input
-                                    type="time"
-                                    className="form-control"
-                                    name="endTime"
-                                    value={this.state.endTime}
-                                    onChange={this.onChangeEndTime}
-                                    validations={[required]}
-                                />
-                            </div> */}
                             <button onClick={this.handleScheduleShow} className="btn btn-outline-success">
                                 Add Schedule
                             </button>
-                            <Modal show={this.state.showScheduleModal} onHide={this.handleScheduleHide}>
+                            <Modal show={this.state.showScheduleModal} onHide={this.handleScheduleHide} size="md">
                                 <Modal.Header closeButton>
                                     <Modal.Title>Schedule</Modal.Title>
                                 </Modal.Header>
 
                                 <Modal.Body>
-                                    <Scheduler ref={this.schedulerRef} />
+                                    <Scheduler ref={this.schedulerRef} schedule={this.state.schedule} />
                                 </Modal.Body>
 
                                 <Modal.Footer>

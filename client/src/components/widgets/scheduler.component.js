@@ -29,6 +29,15 @@ export default class Scheduler extends Component {
         }
     }
 
+    componentDidMount() {
+        if (!this.props.schedule == '') {
+            this.readJSON()
+            this.setState({
+                days: this.schedule.allMyDaysElements
+            })
+        }
+    }
+
     addDay() {
         let newDay = new Day()
         this.schedule.addDay(newDay, this.schedule, this.handler)
@@ -56,32 +65,22 @@ export default class Scheduler extends Component {
             store.addNotification(notification)
             return
         }
-        else {
-            return this.schedule.toJSON()
-            let outputJSON = this.schedule.toJSON()
-            console.log(outputJSON)
-            let notification = {
-                title: 'Success',
-                message: `Schedule successfully updated.`,
-                type: 'success',
-                insert: 'top',
-                container: 'top-center',
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                    duration: 2000,
-                    onScreen: true
-                }
-            }
-            store.addNotification(notification)
-            return
-        }
-
+        return this.schedule.toJSON()
     }
+
     handler() {
         this.setState({
             days: this.schedule.allMyDaysElements
         })
+    }
+
+    readJSON() {
+        this.schedule = new Schedule()
+        let scheduleJSON = JSON.parse(this.props.schedule)
+        for (let aDay of scheduleJSON) {
+            this.schedule.addDay(aDay, this.schedule, this.handler)
+        }
+        return
     }
 
     render() {
@@ -91,7 +90,6 @@ export default class Scheduler extends Component {
                     {this.state.days}
                 </div>
                 <button className="btn btn-outline-primary" onClick={this.addDay}>Add Day</button>
-                <button className="btn btn-outline-success" onClick={this.toJSON}>Save</button>
             </div>
         )
     }

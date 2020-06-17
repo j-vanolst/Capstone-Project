@@ -5,14 +5,13 @@ import authHeader from './auth_header'
 const API_URL = 'http://localhost:9000/api/camera/'
 
 class CameraService {
-    add(name, location, url, startTime, endTime, userID) {
+    add(name, location, url, schedule, userID) {
         return axios
             .post(API_URL + 'add', {
                 name,
                 location,
                 url,
-                startTime,
-                endTime,
+                schedule,
                 userID
             }, {
                 headers: authHeader()
