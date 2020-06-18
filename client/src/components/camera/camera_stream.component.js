@@ -39,6 +39,7 @@ export default class CameraStream extends Component {
             message: 'Error',
             notificationType: 'danger'
         }
+        console.log(props.schedule)
     }
 
     onChangeModel(e) {

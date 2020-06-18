@@ -95,6 +95,7 @@ export default class AddCamera extends Component {
     }
 
     handleAddCamera(e) {
+        console.log('submit')
         e.preventDefault()
 
         this.form.validateAll()
@@ -158,6 +159,7 @@ export default class AddCamera extends Component {
     }
 
     handleScheduleShow() {
+        console.log('show')
         this.setState({
             showScheduleModal: true,
         })
@@ -227,7 +229,7 @@ export default class AddCamera extends Component {
                             <button onClick={this.handleScheduleShow} className="btn btn-outline-success">
                                 Add Schedule
                             </button>
-                            <Modal show={this.state.showScheduleModal} onHide={this.handleScheduleHide} size="md">
+                            {/* <Modal show={this.state.showScheduleModal} onHide={this.handleScheduleHide} size="md">
                                 <Modal.Header closeButton>
                                     <Modal.Title>Schedule</Modal.Title>
                                 </Modal.Header>
@@ -237,10 +239,11 @@ export default class AddCamera extends Component {
                                 </Modal.Body>
 
                                 <Modal.Footer>
-                                    <Button variant="success" onClick={this.onChangeSchedule} className="mx-auto btn-modal-add-camera">Add</Button>
+                                    <Button variant="success" onClick={this.onChangeSchedule} className="mx-auto btn-modal-add-camera">Add Schedule</Button>
                                     <Button variant="secondary" onClick={this.handleScheduleHide}>Close</Button>
                                 </Modal.Footer>
-                            </Modal>
+                            </Modal> */}
+                            <Scheduler ref={this.schedulerRef} schedule={this.state.schedule} />
 
                             <CheckButton
                                 style={{ display: "none" }}
@@ -256,7 +259,7 @@ export default class AddCamera extends Component {
                         <Button variant="secondary" onClick={this.handleHide}>Close</Button>
                     </Modal.Footer>
                 </Modal>
-            </div>
+            </div >
         )
     }
 }

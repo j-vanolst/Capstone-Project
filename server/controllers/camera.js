@@ -55,8 +55,7 @@ exports.edit = async (req, res, next) => {
         camera.name = req.body.name,
             camera.location = req.body.location,
             camera.url = req.body.url,
-            camera.startTime = req.body.startTime,
-            camera.endTime = req.body.endTime
+            camera.schedule = req.body.schedule
 
         camera
             .save((err, camera) => {

@@ -30,8 +30,7 @@ export default class Camera extends Component {
             name: props.name,
             location: props.location,
             url: props.url,
-            startTime: props.startTime,
-            endTime: props.endTime,
+            schedule: props.schedule,
             notificationTitle: 'Error',
             message: 'Error',
             notificationType: 'danger',
@@ -138,7 +137,7 @@ export default class Camera extends Component {
                             <Modal.Title>Camera Stream</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <CameraStream ref={this.streamRef} cameraID={this.state.cameraID} handleHide={this.handleHide} polygon={this.props.polygon} model={this.props.model}></CameraStream>
+                            <CameraStream ref={this.streamRef} cameraID={this.state.cameraID} handleHide={this.handleHide} polygon={this.props.polygon} model={this.props.model} schedule={this.props.schedule}></CameraStream>
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="success" onClick={this.handleUpdateModelAndPolygon} className="mx-auto btn-update-camera-stream">Update</Button>

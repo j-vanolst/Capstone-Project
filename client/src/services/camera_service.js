@@ -40,14 +40,13 @@ class CameraService {
             })
     }
 
-    edit(name, location, url, startTime, endTime, cameraID, userID) {
+    edit(name, location, url, schedule, cameraID, userID) {
         return axios
             .post(API_URL + 'edit', {
                 name,
                 location,
                 url,
-                startTime,
-                endTime,
+                schedule,
                 cameraID,
                 userID
             }, {

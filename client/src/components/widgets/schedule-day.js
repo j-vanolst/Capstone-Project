@@ -56,7 +56,7 @@ export default class ScheduleDay extends Component {
                 <div className="form-row mb-3">
                     <div className="col-auto">
                         <label htmlFor="day">Day</label>
-                        <select name="day" onChange={this.onChangeDay} value={this.state.dayRef.day} className="form-control">
+                        <select name="day" onChange={this.onChangeDay} value={this.state.dayRef.schedule.day} className="form-control">
                             <option value="monday">Monday</option>
                             <option value="tuesday">Tuesday</option>
                             <option value="wednesday">Wednesday</option>
@@ -68,11 +68,11 @@ export default class ScheduleDay extends Component {
                     </div>
                     <div className="col-auto">
                         <label htmlFor="startTime">Start</label>
-                        <input name="startTime" type="time" className="form-control" onChange={this.onChangeStartTime} value={this.state.dayRef.startTime}></input>
+                        <input name="startTime" type="time" className="form-control" onChange={this.onChangeStartTime} value={this.state.dayRef.schedule.startTime}></input>
                     </div>
                     <div className="col-auto">
                         <label htmlFor="endTime">End</label>
-                        <input name="endTime" type="time" className="form-control" onChange={this.onChangeEndTime} value={this.state.dayRef.endTime}></input>
+                        <input name="endTime" type="time" className="form-control" onChange={this.onChangeEndTime} value={this.state.dayRef.schedule.endTime}></input>
                     </div>
                     <div className="col-auto">
                         <button className="btn btn-outline-danger my-3 btn-sm" onClick={this.remove}>Remove</button>

@@ -50,7 +50,7 @@ export default class Dashboard extends Component {
         const cameras = []
 
         for (let aCamera of this.state.cameras) {
-            cameras.push(<Camera key={aCamera._id} cameraID={aCamera._id} name={aCamera.name} location={aCamera.location} url={aCamera.url} startTime={aCamera.startTime} endTime={aCamera.endTime} polygon={aCamera.polygon} model={aCamera.model} />)
+            cameras.push(<Camera key={aCamera._id} cameraID={aCamera._id} name={aCamera.name} location={aCamera.location} url={aCamera.url} schedule={aCamera.schedule} polygon={aCamera.polygon} model={aCamera.model} />)
         }
 
         const videos = []

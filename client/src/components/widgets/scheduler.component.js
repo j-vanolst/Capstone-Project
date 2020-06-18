@@ -78,7 +78,9 @@ export default class Scheduler extends Component {
         this.schedule = new Schedule()
         let scheduleJSON = JSON.parse(this.props.schedule)
         for (let aDay of scheduleJSON) {
-            this.schedule.addDay(aDay, this.schedule, this.handler)
+            let newDay = new Day()
+            newDay.setSchedule(aDay)
+            this.schedule.addDay(newDay, this.schedule, this.handler)
         }
         return
     }
@@ -154,6 +156,10 @@ class Day {
 
     setEndTime(endTime) {
         this.schedule.endTime = endTime
+    }
+
+    setSchedule(schedule) {
+        this.schedule = schedule
     }
 
     toJSON() {
