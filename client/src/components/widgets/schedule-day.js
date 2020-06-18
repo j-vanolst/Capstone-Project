@@ -1,53 +1,40 @@
 import React, { Component } from 'react'
 
-export default class ScheduleDay extends Component {
+export default class ScheduleDayForm extends Component {
     constructor(props) {
         super(props)
 
         this.onChangeDay = this.onChangeDay.bind(this)
         this.onChangeStartTime = this.onChangeStartTime.bind(this)
         this.onChangeEndTime = this.onChangeEndTime.bind(this)
-        this.toJSON = this.toJSON.bind(this)
-        this.remove = this.remove.bind(this)
-
-        this.schedule = this.props.schedule
 
         this.state = {
-            dayRef: this.props.dayRef
+            day: this.props.day,
+            startTime: this.props.startTime,
+            endTime: this.props.endTime
         }
+
     }
 
     onChangeDay(e) {
-        let dayRef = this.state.dayRef
-        dayRef.schedule.day = e.target.value
+        this.props.dayRef.setDay(e.target.value)
         this.setState({
-            dayRef: dayRef
+            day: e.target.value
         })
     }
 
     onChangeStartTime(e) {
-        let dayRef = this.state.dayRef
-        dayRef.schedule.startTime = e.target.value
+        this.props.dayRef.setStartTime(e.target.value)
         this.setState({
-            dayRef: dayRef
+            startTime: e.target.value
         })
     }
 
     onChangeEndTime(e) {
-        let dayRef = this.state.dayRef
-        dayRef.schedule.endTime = e.target.value
+        this.props.dayRef.setEndTime(e.target.value)
         this.setState({
-            dayRef: dayRef
+            endTime: e.target.value
         })
-    }
-
-    toJSON() {
-        return JSON.stringify(this.state)
-    }
-
-    remove() {
-        this.props.schedule.remove(this.state.dayRef)
-        this.props.handler()
     }
 
     render() {
@@ -56,7 +43,7 @@ export default class ScheduleDay extends Component {
                 <div className="form-row mb-3">
                     <div className="col-auto">
                         <label htmlFor="day">Day</label>
-                        <select name="day" onChange={this.onChangeDay} value={this.state.dayRef.schedule.day} className="form-control">
+                        <select name="day" onChange={this.onChangeDay} value={this.state.day} className="form-control">
                             <option value="monday">Monday</option>
                             <option value="tuesday">Tuesday</option>
                             <option value="wednesday">Wednesday</option>
@@ -68,14 +55,14 @@ export default class ScheduleDay extends Component {
                     </div>
                     <div className="col-auto">
                         <label htmlFor="startTime">Start</label>
-                        <input name="startTime" type="time" className="form-control" onChange={this.onChangeStartTime} value={this.state.dayRef.schedule.startTime}></input>
+                        <input name="startTime" type="time" className="form-control" onChange={this.onChangeStartTime} value={this.state.startTime}></input>
                     </div>
                     <div className="col-auto">
                         <label htmlFor="endTime">End</label>
-                        <input name="endTime" type="time" className="form-control" onChange={this.onChangeEndTime} value={this.state.dayRef.schedule.endTime}></input>
+                        <input name="endTime" type="time" className="form-control" onChange={this.onChangeEndTime} value={this.state.endTime}></input>
                     </div>
                     <div className="col-auto">
-                        <button className="btn btn-outline-danger my-3 btn-sm" onClick={this.remove}>Remove</button>
+                        <button className="btn btn-outline-danger my-3 btn-sm" onClick={this.props.removeDay}>Remove</button>
                     </div>
                 </div>
             </div>

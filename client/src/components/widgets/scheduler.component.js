@@ -1,168 +1,103 @@
 import React, { Component, createRef } from 'react'
+import { Button } from 'react-bootstrap'
 
-import ScheduleDay from './schedule-day'
-
-import { store } from 'react-notifications-component'
-import 'react-notifications-component/dist/theme.css'
-import 'animate.css'
-
-import CameraService from '../../services/camera_service'
-import VideoService from '../../services/video_service'
-
-import './scheduler.css'
-import input from 'react-validation/build/input'
+import ScheduleDayForm from './schedule-day'
 
 export default class Scheduler extends Component {
     constructor(props) {
         super(props)
 
-        this.scheduleRef = createRef()
-
         this.addDay = this.addDay.bind(this)
-        this.toJSON = this.toJSON.bind(this)
-        this.handler = this.handler.bind(this)
-
-        this.schedule = new Schedule()
+        this.removeDay = this.removeDay.bind(this)
 
         this.state = {
-            days: []
+            scheduleDays: []
         }
     }
 
     componentDidMount() {
-        if (!this.props.schedule == '') {
-            this.readJSON()
-            this.setState({
-                days: this.schedule.allMyDaysElements
-            })
-        }
+        this.parseJSON()
     }
 
     addDay() {
-        let newDay = new Day()
-        this.schedule.addDay(newDay, this.schedule, this.handler)
+        let newDay = new ScheduleDay()
+        let scheduleDays = this.state.scheduleDays
+        scheduleDays.push(newDay)
         this.setState({
-            days: this.schedule.allMyDaysElements
+            scheduleDays: scheduleDays
         })
     }
 
-    toJSON() {
-        if (!this.schedule.checkDays()) {
-            // Add notification
-            let notification = {
-                title: 'Error',
-                message: `Two or more instances of a the same day scheduled.`,
-                type: 'danger',
-                insert: 'top',
-                container: 'top-center',
-                animationIn: ["animated", "fadeIn"],
-                animationOut: ["animated", "fadeOut"],
-                dismiss: {
-                    duration: 2000,
-                    onScreen: true
-                }
-            }
-            store.addNotification(notification)
+    removeDay(removeDay) {
+        let removedIndex = this.state.scheduleDays.findIndex(aDay => aDay.day == removeDay.day)
+        let scheduleDays = this.state.scheduleDays
+        scheduleDays.splice(removedIndex)
+        this.setState({
+            scheduleDays: scheduleDays
+        })
+    }
+
+    getInput() {
+        let schedule = []
+        for (let aDay of this.state.scheduleDays) {
+            schedule.push({ day: aDay.day, startTime: aDay.startTime, endTime: aDay.endTime })
+        }
+        return schedule
+    }
+
+    parseJSON() {
+        if (!this.props.schedule) {
             return
         }
-        return this.schedule.toJSON()
-    }
 
-    handler() {
-        this.setState({
-            days: this.schedule.allMyDaysElements
-        })
-    }
+        let schedule = JSON.parse(this.props.schedule)
+        let scheduleDays = this.state.scheduleDays
 
-    readJSON() {
-        this.schedule = new Schedule()
-        let scheduleJSON = JSON.parse(this.props.schedule)
-        for (let aDay of scheduleJSON) {
-            let newDay = new Day()
-            newDay.setSchedule(aDay)
-            this.schedule.addDay(newDay, this.schedule, this.handler)
+        for (let aDay of schedule) {
+            let newDay = new ScheduleDay(aDay.day, aDay.startTime, aDay.endTime)
+            scheduleDays.push(newDay)
         }
-        return
+
+        this.setState({
+            scheduleDays: scheduleDays
+        })
     }
 
     render() {
+        const scheduleDays = []
+        for (let i = 0; i < this.state.scheduleDays.length; i++) {
+            let aDay = this.state.scheduleDays[i]
+            console.log(aDay)
+            scheduleDays.push(<ScheduleDayForm key={i} day={aDay.day} startTime={aDay.startTime} endTime={aDay.endTime} dayRef={aDay} removeDay={this.removeDay} />)
+        }
         return (
             <div>
-                <div ref={this.scheduleRef} className="schedule">
-                    {this.state.days}
+                <div>
+                    {scheduleDays}
                 </div>
-                <button className="btn btn-outline-primary" onClick={this.addDay}>Add Day</button>
+                <Button variant="success" onClick={this.addDay}>Add Day</Button>
+                {this.state.key}
             </div>
         )
     }
 }
 
-
-class Schedule {
-    constructor() {
-        this.allMyDays = []
-        this.allMyDaysElements = []
+class ScheduleDay {
+    constructor(day = 'monday', startTime = '', endTime = '') {
+        this.day = day
+        this.startTime = startTime
+        this.endTime = endTime
     }
 
-    addDay(newDay, schedule, handler) {
-        this.allMyDays.push(newDay)
-        this.allMyDaysElements.push(<ScheduleDay dayRef={newDay} schedule={schedule} handler={handler} />)
+    setDay(newDay) {
+        this.day = newDay
     }
 
-    checkDays() {
-        let usedDays = []
-        for (let aDay of this.allMyDays) {
-            if (!usedDays.includes(aDay.schedule.day)) {
-                usedDays.push(aDay.schedule.day)
-            }
-            else {
-                return false
-            }
-        }
-        return true
+    setStartTime(newStartTime) {
+        this.startTime = newStartTime
     }
 
-    toJSON() {
-        let output = []
-        for (let aDay of this.allMyDays) {
-            output.push(aDay.toJSON())
-        }
-        return JSON.stringify(output)
-    }
-
-    remove(aDay) {
-        let removedIndex = this.allMyDays.findIndex(day => day.schedule.day == aDay.schedule.day)
-        this.allMyDays.splice(removedIndex)
-        this.allMyDaysElements.splice(removedIndex)
-    }
-}
-
-class Day {
-    constructor() {
-        this.schedule = {
-            day: 'monday',
-            startTime: '',
-            endTime: ''
-        }
-    }
-
-    setDay(day) {
-        this.schedule.day = day
-    }
-
-    setStartTime(startTime) {
-        this.schedule.startTime = startTime
-    }
-
-    setEndTime(endTime) {
-        this.schedule.endTime = endTime
-    }
-
-    setSchedule(schedule) {
-        this.schedule = schedule
-    }
-
-    toJSON() {
-        return this.schedule
+    setEndTime(newEndTime) {
+        this.endTime = newEndTime
     }
 }
