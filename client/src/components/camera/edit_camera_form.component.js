@@ -27,7 +27,7 @@ const url = value => {
 }
 
 
-export default class AddCameraForm extends Component {
+export default class EditCameraForm extends Component {
     constructor(props) {
         super(props)
 
@@ -39,10 +39,16 @@ export default class AddCameraForm extends Component {
 
 
         this.state = {
-            name: '',
-            location: '',
-            url: ''
+            name: this.props.camera.name,
+            location: this.props.camera.location,
+            url: this.props.camera.url
         }
+
+        // this.state = {
+        //     name: '',
+        //     location: '',
+        //     url: ''
+        // }
     }
 
     onChangeName(e) {

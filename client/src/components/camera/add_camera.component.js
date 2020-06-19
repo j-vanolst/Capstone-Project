@@ -1,41 +1,9 @@
-import React, { Component, createRef } from 'react'
-import { Modal, Button } from 'react-bootstrap'
-import Form from 'react-validation/build/form'
-import Input from 'react-validation/build/input'
-import CheckButton from 'react-validation/build/button'
-
-import { store } from 'react-notifications-component'
-import 'react-notifications-component/dist/theme.css'
-import 'animate.css'
+import React, { Component } from 'react'
 
 import './camera.css'
 
-import { isURL } from 'validator'
-import CameraService from '../../services/camera_service'
-import Scheduler from '../widgets/scheduler.component'
-
-
 import AddCameraModal from './add_camera_modal.component'
 
-const required = value => {
-    if (!value) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                This field is required!
-            </div>
-        )
-    }
-}
-
-const url = value => {
-    if (!isURL(value)) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                This is not a valid URL.
-            </div>
-        )
-    }
-}
 
 const user = JSON.parse(localStorage.getItem('user'))
 

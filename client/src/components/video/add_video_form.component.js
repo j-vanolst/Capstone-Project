@@ -27,7 +27,7 @@ const url = value => {
 }
 
 
-export default class AddCameraForm extends Component {
+export default class AddVideoForm extends Component {
     constructor(props) {
         super(props)
 

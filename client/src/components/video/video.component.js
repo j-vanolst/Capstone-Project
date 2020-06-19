@@ -7,6 +7,7 @@ import 'animate.css'
 
 import './video.css'
 
+import EditVideoModal from './edit_video_modal.component'
 
 import VideoStream from './video_stream.component'
 import VideoService from '../../services/video_service'
@@ -22,6 +23,8 @@ export default class Video extends Component {
         this.remove = this.remove.bind(this)
         this.handleShow = this.handleShow.bind(this)
         this.handleHide = this.handleHide.bind(this)
+        this.handleShowEdit = this.handleShowEdit.bind(this)
+        this.handleHideEdit = this.handleHideEdit.bind(this)
         this.handleUpdateModelAndPolygon = this.handleUpdateModelAndPolygon.bind(this)
 
         this.state = {
@@ -30,7 +33,8 @@ export default class Video extends Component {
             notificationTitle: 'Error',
             message: 'Error',
             notificationType: 'danger',
-            showModal: false
+            showModal: false,
+            showModalEdit: false,
         }
 
         this.toggle = false
@@ -94,6 +98,19 @@ export default class Video extends Component {
         })
     }
 
+    handleShowEdit() {
+        console.log('set true')
+        this.setState({
+            showModalEdit: true
+        })
+    }
+
+    handleHideEdit() {
+        this.setState({
+            showModalEdit: false
+        })
+    }
+
     handleUpdateModelAndPolygon() {
         const videoStream = this.streamRef.current
         videoStream.handleUpdateModelAndPolygon()
@@ -108,6 +125,7 @@ export default class Video extends Component {
                     </div>
                     <div className="card-footer">
                         <div className="video-buttons">
+                            <Button variant="outline-info" onClick={this.handleShowEdit}>Edit</Button>
                             <Button variant="outline-danger" onClick={this.remove}>Remove</Button>
                         </div>
                     </div>
@@ -125,6 +143,9 @@ export default class Video extends Component {
                             <Button variant="secondary" onClick={this.handleHide}>Close</Button>
                         </Modal.Footer>
                     </Modal>
+                </div>
+                <div>
+                    <EditVideoModal showModal={this.state.showModalEdit} handleHide={this.handleHideEdit} videoID={this.props.videoID} schedule={this.props.schedule} />
                 </div>
             </div>
         )

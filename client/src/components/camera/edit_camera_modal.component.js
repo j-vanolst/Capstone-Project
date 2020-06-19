@@ -7,31 +7,30 @@ import { store } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import 'animate.css'
 
-import AddCameraForm from './add_camera_form.component'
+import EditCameraForm from './edit_camera_form.component'
 import Scheduler from '../widgets/scheduler.component'
 
 import CameraService from '../../services/camera_service'
 
 const user = JSON.parse(localStorage.getItem('user'))
 
-export default class AddCameraModal extends Component {
+export default class EditCameraModal extends Component {
     constructor(props) {
         super(props)
 
         this.formRef = createRef()
         this.scheduleRef = createRef()
 
-        this.addCamera = this.addCamera.bind(this)
+        this.editCamera = this.editCamera.bind(this)
 
         this.setState({
-            camera: null,
             notificationTitle: '',
             message: '',
             notificationType: ''
         })
     }
 
-    addCamera() {
+    editCamera() {
         let form = this.formRef.current
         let schedule = this.scheduleRef.current
 
@@ -43,11 +42,13 @@ export default class AddCameraModal extends Component {
             if (user && user.id) {
                 let camera = form.getInput()
                 camera.schedule = schedule.getInput()
+                camera.cameraID = this.props.camera._id
                 CameraService
-                    .add(camera.name,
+                    .edit(camera.name,
                         camera.location,
                         camera.url,
                         JSON.stringify(camera.schedule),
+                        camera.cameraID,
                         user.id)
                     .then(res => {
                         if (res) {
@@ -109,18 +110,18 @@ export default class AddCameraModal extends Component {
         return (
             <Modal show={this.props.showModal} onHide={this.props.handleHide} size="md">
                 <Modal.Header closeButton>
-                    <Modal.Title>Add Camera</Modal.Title>
+                    <Modal.Title>Edit Camera</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
-                    <AddCameraForm ref={this.formRef} />
+                    <EditCameraForm ref={this.formRef} camera={this.props.camera} />
                     <h4>Schedule</h4>
                     <hr></hr>
-                    <Scheduler ref={this.scheduleRef} />
+                    <Scheduler ref={this.scheduleRef} schedule={this.props.camera.schedule} />
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="success" onClick={this.addCamera} className="mx-auto btn-modal-add-camera">Add Camera</Button>
+                    <Button variant="success" onClick={this.editCamera} className="mx-auto btn-modal-add-camera">Edit Camera</Button>
                     <Button variant="secondary" onClick={this.props.handleHide}>Close</Button>
                 </Modal.Footer>
             </Modal>

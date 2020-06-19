@@ -126,7 +126,7 @@ export default class Camera extends Component {
                     </div>
                     <div className="card-footer">
                         <div className="camera-buttons">
-                            <EditCamera state={this.state} />
+                            <EditCamera camera={this.props.camera} />
                             <Button variant="outline-danger" onClick={this.remove}>Remove</Button>
                         </div>
                     </div>

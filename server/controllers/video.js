@@ -175,3 +175,35 @@ exports.update = (req, res, next) => {
             }
         })
 }
+
+exports.edit = (req, res, next) => {
+    let videoID = req.body.videoID
+    let schedule = req.body.schedule
+    let userID = req.body.userID
+
+    console.log(videoID, schedule, userID)
+
+    Video
+        .findById({
+            _id: videoID
+        }, (err, video) => {
+            if (!video) {
+                res.status(404).send({ message: 'Video could not be found.' })
+                return
+            }
+            if (video.userID == userID) {
+                video.schedule = schedule
+                video
+                    .save((err, camera) => {
+                        if (err) {
+                            res.status(500).send({ message: err })
+                            return
+                        }
+                        res.status(200).send({ message: 'Video successfully update.' })
+                    })
+            }
+            else {
+                res.status(401).send({ message: 'Authorization error.' })
+            }
+        })
+}

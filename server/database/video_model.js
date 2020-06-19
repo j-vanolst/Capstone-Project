@@ -7,7 +7,8 @@ const Video = mongoose.model(
         userID: String,
         fileID: mongoose.Schema.Types.ObjectId,
         polygon: String,
-        model: String
+        model: String,
+        schedule: String
     })
 )
 

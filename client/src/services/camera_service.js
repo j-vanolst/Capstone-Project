@@ -1,8 +1,9 @@
 import axios from 'axios'
 
 import authHeader from './auth_header'
+import getAPI from '../conf/api_conf'
 
-const API_URL = 'http://localhost:9000/api/camera/'
+const API_URL = getAPI() + 'camera/'
 
 class CameraService {
     add(name, location, url, schedule, userID) {
@@ -41,6 +42,14 @@ class CameraService {
     }
 
     edit(name, location, url, schedule, cameraID, userID) {
+        console.log({
+            name,
+            location,
+            url,
+            schedule,
+            cameraID,
+            userID
+        })
         return axios
             .post(API_URL + 'edit', {
                 name,

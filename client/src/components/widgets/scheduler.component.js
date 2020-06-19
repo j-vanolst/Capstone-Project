@@ -9,6 +9,8 @@ export default class Scheduler extends Component {
 
         this.addDay = this.addDay.bind(this)
         this.removeDay = this.removeDay.bind(this)
+        this.getInput = this.getInput.bind(this)
+        this.checkInput = this.checkInput.bind(this)
 
         this.state = {
             scheduleDays: []
@@ -43,6 +45,21 @@ export default class Scheduler extends Component {
             schedule.push({ day: aDay.day, startTime: aDay.startTime, endTime: aDay.endTime })
         }
         return schedule
+    }
+
+    checkInput() {
+        let usedDays = []
+        for (let aDay of this.state.scheduleDays) {
+            console.log(aDay)
+            if (!usedDays.includes(aDay.day)) {
+                usedDays.push(aDay.day)
+            }
+            else {
+                return false
+            }
+
+        }
+        return true
     }
 
     parseJSON() {

@@ -1,54 +1,45 @@
 import React, { Component, createRef } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 
-import './camera.css'
+import './video.css'
 
 import { store } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import 'animate.css'
 
-import AddCameraForm from './add_camera_form.component'
+//import AddVideoForm from './add_video_form.component'
+import Uploader from './uploader.component'
 import Scheduler from '../widgets/scheduler.component'
 
-import CameraService from '../../services/camera_service'
+import VideoService from '../../services/video_service'
 
 const user = JSON.parse(localStorage.getItem('user'))
 
-export default class AddCameraModal extends Component {
+export default class EditVideoModal extends Component {
     constructor(props) {
         super(props)
 
-        this.formRef = createRef()
         this.scheduleRef = createRef()
 
-        this.addCamera = this.addCamera.bind(this)
+        this.editVideo = this.editVideo.bind(this)
 
-        this.setState({
-            camera: null,
+        this.state = {
             notificationTitle: '',
             message: '',
             notificationType: ''
-        })
+        }
     }
 
-    addCamera() {
-        let form = this.formRef.current
+    editVideo() {
         let schedule = this.scheduleRef.current
 
         // Check Inputs
-        let checkInput = form.checkInput()
         let checkSchedule = schedule.checkInput()
 
-        if (checkInput && checkSchedule) {
+        if (checkSchedule) {
             if (user && user.id) {
-                let camera = form.getInput()
-                camera.schedule = schedule.getInput()
-                CameraService
-                    .add(camera.name,
-                        camera.location,
-                        camera.url,
-                        JSON.stringify(camera.schedule),
-                        user.id)
+                VideoService
+                    .edit(this.props.videoID, JSON.stringify(schedule.getInput()), user.id)
                     .then(res => {
                         if (res) {
                             this.setState({
@@ -60,7 +51,7 @@ export default class AddCameraModal extends Component {
                         else {
                             this.setState({
                                 notificationTitle: 'Error',
-                                message: res.message,
+                                message: 'Error',
                                 notificationType: 'danger'
                             })
                         }
@@ -105,22 +96,22 @@ export default class AddCameraModal extends Component {
         }
     }
 
+
     render() {
         return (
             <Modal show={this.props.showModal} onHide={this.props.handleHide} size="md">
                 <Modal.Header closeButton>
-                    <Modal.Title>Add Camera</Modal.Title>
+                    <Modal.Title>Edit Video</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
-                    <AddCameraForm ref={this.formRef} />
                     <h4>Schedule</h4>
                     <hr></hr>
-                    <Scheduler ref={this.scheduleRef} />
+                    <Scheduler ref={this.scheduleRef} schedule={this.props.schedule} />
                 </Modal.Body>
 
                 <Modal.Footer>
-                    <Button variant="success" onClick={this.addCamera} className="mx-auto btn-modal-add-camera">Add Camera</Button>
+                    <Button variant="success" onClick={this.editVideo} className="mx-auto btn-modal-add-camera">Edit Camera</Button>
                     <Button variant="secondary" onClick={this.props.handleHide}>Close</Button>
                 </Modal.Footer>
             </Modal>

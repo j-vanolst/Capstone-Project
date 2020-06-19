@@ -1,6 +1,8 @@
+import getAPI from '../conf/api_conf'
+
 const captureFrame = require('capture-frame')
 
-const API_URL = 'http://localhost:9000/api/video/getFile/'
+const API_URL = getAPI() + 'video/getFile/'
 
 export default class FrameCapture {
     constructor(fileID, userID) {

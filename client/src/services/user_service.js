@@ -1,8 +1,9 @@
 import axios from 'axios'
 
 import authHeader from './auth_header'
+import getAPI from '../conf/api_conf'
 
-const API_URL = 'http://localhost:9000/api/user/'
+const API_URL = getAPI() + 'user/'
 
 class UserService {
     edit(fName, lName, email, userID) {

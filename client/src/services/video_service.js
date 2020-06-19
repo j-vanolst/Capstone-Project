@@ -1,16 +1,18 @@
 import axios from 'axios'
 
 import authHeader from './auth_header'
+import getAPI from '../conf/api_conf'
 
-const API_URL = 'http://localhost:9000/api/video/'
+const API_URL = getAPI() + 'video/'
 
 class VideoService {
-    add(filename, userID, file) {
+    add(filename, userID, file, schedule) {
 
         const formData = new FormData()
         formData.append('filename', filename)
         formData.append('userID', userID)
         formData.append('file', file)
+        formData.append('schedule', schedule)
 
         const config = {
             headers: authHeader()
@@ -80,6 +82,23 @@ class VideoService {
                 videoID,
                 polygon,
                 model,
+                userID
+            }, {
+                headers: authHeader()
+            })
+            .then(res => {
+                return res.data
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    edit(videoID, schedule, userID) {
+        return axios
+            .post(API_URL + 'edit', {
+                videoID,
+                schedule,
                 userID
             }, {
                 headers: authHeader()

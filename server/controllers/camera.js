@@ -10,6 +10,14 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 
 exports.add = (req, res, next) => {
+    console.log({
+        name: req.body.name,
+        location: req.body.location,
+        url: req.body.url,
+        schedule: req.body.schedule,
+        userID: req.body.userID
+    })
+
     const camera = new Camera({
         name: req.body.name,
         location: req.body.location,
@@ -19,7 +27,8 @@ exports.add = (req, res, next) => {
     })
 
     camera
-        .save((err, user) => {
+        .save((err, camera) => {
+            console.log(camera)
             if (err) {
                 res.status(500).send({ message: err })
                 return
