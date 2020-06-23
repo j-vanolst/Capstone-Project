@@ -7,7 +7,7 @@ import 'animate.css'
 
 import './camera.css'
 
-import EditCamera from './edit_camera.component'
+import EditCameraModal from './edit_camera_modal.component'
 import CameraStream from './camera_stream.component'
 import CameraService from '../../services/camera_service'
 
@@ -24,6 +24,8 @@ export default class Camera extends Component {
         this.handleHide = this.handleHide.bind(this)
         this.handleShow = this.handleShow.bind(this)
         this.handleUpdateModelAndPolygon = this.handleUpdateModelAndPolygon.bind(this)
+        this.handleEditHide = this.handleEditHide.bind(this)
+        this.handleEditShow = this.handleEditShow.bind(this)
 
         this.state = {
             cameraID: props.cameraID,
@@ -34,15 +36,10 @@ export default class Camera extends Component {
             notificationTitle: 'Error',
             message: 'Error',
             notificationType: 'danger',
-            showModal: false
+            showModal: false,
+            showEditModal: false
         }
         this.toggle = false
-    }
-
-    componentDidMount() {
-        // this.setState({
-        //     cameraStream: this.refs.cameraStream.current
-        // })
     }
 
     remove() {
@@ -104,6 +101,18 @@ export default class Camera extends Component {
         })
     }
 
+    handleEditHide() {
+        this.setState({
+            showEditModal: false
+        })
+    }
+
+    handleEditShow() {
+        this.setState({
+            showEditModal: true
+        })
+    }
+
     handleUpdateModelAndPolygon() {
         const cameraStream = this.streamRef.current
         cameraStream.handleUpdateModelAndPolygon()
@@ -126,7 +135,7 @@ export default class Camera extends Component {
                     </div>
                     <div className="card-footer">
                         <div className="camera-buttons">
-                            <EditCamera camera={this.props.camera} />
+                            <Button variant="outline-primary" onClick={this.handleEditShow}>Edit</Button>
                             <Button variant="outline-danger" onClick={this.remove}>Remove</Button>
                         </div>
                     </div>
@@ -144,6 +153,9 @@ export default class Camera extends Component {
                             <Button variant="secondary" onClick={this.handleHide}>Close</Button>
                         </Modal.Footer>
                     </Modal>
+                </div>
+                <div>
+                    <EditCameraModal showModal={this.state.showEditModal} handleHide={this.handleEditHide} camera={this.props.camera} />
                 </div>
             </div>
         )

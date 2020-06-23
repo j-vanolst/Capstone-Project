@@ -1,9 +1,11 @@
 import React, { Component } from "react"
 
 import Camera from "./camera/camera.component"
-import AddCamera from "./camera/add_camera.component"
 import Video from "../components/video/video.component"
-import AddVideo from '../components/video/add_video.component'
+
+import AddCameraModal from '../components/camera/add_camera_modal.component'
+import AddVideoModal from '../components/video/add_video_modal.component'
+
 import AuthService from "../services/auth_service"
 import CameraService from "../services/camera_service"
 import VideoService from '../services/video_service'
@@ -15,10 +17,17 @@ export default class Dashboard extends Component {
     constructor(props) {
         super(props)
 
+        this.handleCameraShow = this.handleCameraShow.bind(this)
+        this.handleCameraHide = this.handleCameraHide.bind(this)
+        this.handleVideoShow = this.handleVideoShow.bind(this)
+        this.handleVideoHide = this.handleVideoHide.bind(this)
+
         this.state = {
             currentUser: AuthService.getCurrentUser(),
             cameras: [],
-            videos: []
+            videos: [],
+            showVideoModal: false,
+            showCameraModal: false
         }
     }
 
@@ -46,6 +55,30 @@ export default class Dashboard extends Component {
         }
     }
 
+    handleCameraShow() {
+        this.setState({
+            showCameraModal: true
+        })
+    }
+
+    handleCameraHide() {
+        this.setState({
+            showCameraModal: false
+        })
+    }
+
+    handleVideoShow() {
+        this.setState({
+            showVideoModal: true
+        })
+    }
+
+    handleVideoHide() {
+        this.setState({
+            showVideoModal: false
+        })
+    }
+
     render() {
         const cameras = []
         for (let aCamera of this.state.cameras) {
@@ -66,7 +99,7 @@ export default class Dashboard extends Component {
                             <h1 className="navbar-brand dashboard-header">My Cameras</h1>
                             <div className="navbar-nav mr-auto">
                                 <li className="nav-item">
-                                    <AddCamera />
+                                    <button className="btn btn-link btn-add-camera" onClick={this.handleCameraShow}>Add Camera</button>
                                 </li>
                             </div>
                         </ul>
@@ -83,7 +116,7 @@ export default class Dashboard extends Component {
                             <h1 className="navbar-brand dashboard-header">My Videos</h1>
                             <div className="navbar-nav mr-auto">
                                 <li className="nav-item">
-                                    <AddVideo />
+                                    <button className="btn btn-link btn-add-video" onClick={this.handleVideoShow}>Add Video</button>
                                 </li>
                             </div>
                         </ul>
@@ -107,6 +140,10 @@ export default class Dashboard extends Component {
                     </nav>
                     <div className="col-md-12 dashboard-section">
                     </div>
+                </div>
+                <div>
+                    <AddCameraModal showModal={this.state.showCameraModal} handleHide={this.handleCameraHide}></AddCameraModal>
+                    <AddVideoModal showModal={this.state.showVideoModal} handleHide={this.handleVideoHide}></AddVideoModal>
                 </div>
             </div >
         )
