@@ -8,7 +8,7 @@ import 'animate.css'
 import FrameCapture from '../../services/frame-capture'
 
 import './canvas.css'
-
+import Carpark from './test.jpg'
 
 const user = JSON.parse(localStorage.getItem('user'))
 
@@ -41,8 +41,6 @@ export default class Canvas extends Component {
         this.canvasRef = createRef()
         this.imageRef = createRef()
 
-        this.image = new Image()
-
         this.state = {
             canvas: '',
             ctx: ''
@@ -51,7 +49,6 @@ export default class Canvas extends Component {
 
     componentDidMount() {
         let canvas = this.canvasRef.current
-        let ctx = canvas.getContext('2d')
 
         canvas.addEventListener('mousedown', this.getPosition)
 
@@ -74,10 +71,15 @@ export default class Canvas extends Component {
         // The canvas is a child of a video file
         if (this.props.isVideo) {
             this.setImage()
+            this.setBackground()
+            this.drawPoints(this.points)
+            this.drawPolygon(this.points)
             store.removeNotification(this.notificationID)
         }
         // The canvas is a child of a camera feed
         else {
+            this.setImage()
+            this.setBackground()
             this.drawPoints(this.points)
             this.drawPolygon(this.points)
         }
@@ -86,30 +88,38 @@ export default class Canvas extends Component {
     setImage() {
         // Sets the image src and waits till its loaded,
         // then draws the background and points on the canvas
-        let frameCapture = new FrameCapture(this.props.fileID, user.id)
-        frameCapture.setup()
-            .then(res => {
-                this.setState({
-                    blob: frameCapture.getBlob()
-                })
-                this.image.src = this.state.blob
-                setTimeout(() => { }, 1000)
-                this.image.onload = () => {
-                    this.setBackground()
-                    this.drawPoints(this.points)
-                    this.drawPolygon(this.points)
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            })
+        // let frameCapture = new FrameCapture(this.props.fileID, user.id)
+        // frameCapture.setup()
+        //     .then(res => {
+        //         this.setState({
+        //             blob: frameCapture.getBlob()
+        //         })
+        //         this.image.src = this.state.blob
+        //         setTimeout(() => { }, 1000)
+        //         this.image.onload = () => {
+        //             this.setBackground()
+        //             this.drawPoints(this.points)
+        //             this.drawPolygon(this.points)
+        //         }
+        //     })
+        //     .catch(err => {
+        //         console.log(err)
+        //     })
+        let image = this.imageRef.current
+        image.onload = () => {
+            console.log('Image Loaded')
+            this.setBackground()
+            this.drawPoints(this.points)
+            this.drawPolygon(this.points)
+        }
     }
 
     setBackground() {
         let canvas = this.canvasRef.current
         let ctx = canvas.getContext('2d')
+        let image = this.imageRef.current
 
-        ctx.drawImage(this.image, 0, 0, this.props.width, this.props.height)
+        ctx.drawImage(image, 0, 0, this.props.width, this.props.height)
     }
 
     checkBounds(x, y) {
@@ -226,6 +236,7 @@ export default class Canvas extends Component {
                     <Button variant="outline-danger" onClick={this.clearCanvas}>Clear Polygon</Button>
                     <Button variant="outline-warning" onClick={this.undo}>Undo</Button>
                 </div>
+                <img ref={this.imageRef} src={Carpark} style={{ display: 'none' }} alt="Resource Preload"></img>
             </div>
         )
     }

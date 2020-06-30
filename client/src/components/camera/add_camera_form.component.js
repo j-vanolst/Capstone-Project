@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react'
+import React, { Component } from 'react'
 
 import Form from 'react-validation/build/form'
 import Input from 'react-validation/build/input'

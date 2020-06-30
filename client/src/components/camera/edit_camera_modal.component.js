@@ -23,7 +23,7 @@ export default class EditCameraModal extends Component {
 
         this.editCamera = this.editCamera.bind(this)
 
-        this.setState({
+        this.state = ({
             notificationTitle: '',
             message: '',
             notificationType: ''

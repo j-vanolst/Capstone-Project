@@ -7,7 +7,6 @@ import { store } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import 'animate.css'
 
-//import AddVideoForm from './add_video_form.component'
 import Uploader from './uploader.component'
 import Scheduler from '../widgets/scheduler.component'
 
@@ -34,7 +33,7 @@ export default class AddVideoModal extends Component {
 
         this.addVideo = this.addVideo.bind(this)
 
-        this.setState({
+        this.state = ({
             notificationTitle: '',
             message: '',
             notificationType: ''

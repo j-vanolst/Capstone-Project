@@ -21,7 +21,6 @@ import Profile from './components/profile.component'
 import Reset from './components/reset.component'
 import ResetPassword from './components/reset-password.component'
 import ChangePassword from './components/change-password.component'
-import Test from './components/test.component'
 import PrivateRoute from './components/private-route'
 
 import Scheduler from './components/widgets/scheduler.component'
@@ -39,11 +38,9 @@ class App extends Component {
 
 
     componentDidMount() {
-        console.log('second')
         this.setState({
             loading: 'true'
         })
-
         const user = JSON.parse(localStorage.getItem('user'))
         if (user && user.id) {
             AuthService.confirmJWT(user.accessToken)
@@ -74,12 +71,10 @@ class App extends Component {
 
     render() {
         if (this.state.loading === 'initial') {
-            console.log('first')
             return <h2>Initializing...</h2>
         }
 
         if (this.state.loading === 'true') {
-            console.log('loading')
             return <h2>Loading...</h2>
         }
 
@@ -103,9 +98,6 @@ class App extends Component {
                     </div>
                 </div>
             </Router >
-            // <div>
-            //     <PrivateRoute path="/memes" component={Test} />
-            // </div>
         )
     }
 }

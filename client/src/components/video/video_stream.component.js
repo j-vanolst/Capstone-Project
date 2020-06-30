@@ -1,5 +1,4 @@
 import React, { Component, createRef } from 'react'
-import { Modal, Button } from 'react-bootstrap'
 
 import { store } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
@@ -31,16 +30,6 @@ export default class VideoStream extends Component {
         }
     }
 
-    // componentDidMount() {
-    //     let frameCapture = new FrameCapture(this.props.fileID, user.id)
-    //     frameCapture.setup()
-    //         .then(res => {
-    //             this.setState({
-    //                 blob: frameCapture.getBlob()
-    //             })
-    //             console.log(this.state)
-    //         })
-    // }
 
     onChangeModel(e) {
         this.setState({
@@ -117,10 +106,6 @@ export default class VideoStream extends Component {
                         <option value="car">Car Counting</option>
                         <option value="lpr">License Plate Recognition</option>
                     </select>
-                </div>
-                <div>
-                    {/* <video src={API_URL + this.props.fileID} height="320" width="480" controls autoPlay muted /> */}
-                    {/* <img src={this.state.blob} width={640}></img> */}
                 </div>
             </div>
         )

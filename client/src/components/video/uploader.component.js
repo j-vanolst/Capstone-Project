@@ -1,13 +1,5 @@
 import React, { Component } from 'react'
 
-import { store } from 'react-notifications-component'
-import 'react-notifications-component/dist/theme.css'
-import 'animate.css'
-
-import VideoService from '../../services/video_service'
-
-const user = JSON.parse(localStorage.getItem('user'))
-
 export default class Uploader extends Component {
     constructor(props) {
         super(props)
@@ -16,10 +8,7 @@ export default class Uploader extends Component {
 
         this.state = {
             filename: '',
-            file: '',
-            notificationTitle: 'Error',
-            message: 'Error',
-            notificationType: 'danger'
+            file: ''
         }
     }
 

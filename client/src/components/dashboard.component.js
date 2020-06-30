@@ -92,7 +92,7 @@ export default class Dashboard extends Component {
         }
 
         return (
-            <div className="container-fluid">
+            <div className="container-lg">
                 <div className="row">
                     <nav className="navbar nav-section">
                         <ul className="navbar-nav">

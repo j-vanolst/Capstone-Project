@@ -23,7 +23,7 @@ export default class AddCameraModal extends Component {
 
         this.addCamera = this.addCamera.bind(this)
 
-        this.setState({
+        this.state = ({
             camera: null,
             notificationTitle: '',
             message: '',

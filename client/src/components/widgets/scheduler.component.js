@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react'
+import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'
 
 import ScheduleDayForm from './schedule-day'
@@ -31,7 +31,7 @@ export default class Scheduler extends Component {
     }
 
     removeDay(removeDay) {
-        let removedIndex = this.state.scheduleDays.findIndex(aDay => aDay.day == removeDay.day)
+        let removedIndex = this.state.scheduleDays.findIndex(aDay => aDay.day === removeDay.day)
         let scheduleDays = this.state.scheduleDays
         scheduleDays.splice(removedIndex)
         this.setState({
@@ -50,7 +50,6 @@ export default class Scheduler extends Component {
     checkInput() {
         let usedDays = []
         for (let aDay of this.state.scheduleDays) {
-            console.log(aDay)
             if (!usedDays.includes(aDay.day)) {
                 usedDays.push(aDay.day)
             }
@@ -84,7 +83,6 @@ export default class Scheduler extends Component {
         const scheduleDays = []
         for (let i = 0; i < this.state.scheduleDays.length; i++) {
             let aDay = this.state.scheduleDays[i]
-            console.log(aDay)
             scheduleDays.push(<ScheduleDayForm key={i} day={aDay.day} startTime={aDay.startTime} endTime={aDay.endTime} dayRef={aDay} removeDay={this.removeDay} />)
         }
         return (

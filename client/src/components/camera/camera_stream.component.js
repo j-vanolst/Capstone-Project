@@ -1,5 +1,4 @@
 import React, { Component, createRef } from 'react'
-import { Button } from 'react-bootstrap'
 import Form from 'react-validation/build/form'
 
 import { store } from 'react-notifications-component'
@@ -39,7 +38,6 @@ export default class CameraStream extends Component {
             message: 'Error',
             notificationType: 'danger'
         }
-        console.log(props.schedule)
     }
 
     onChangeModel(e) {

@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react'
+import React, { Component } from 'react'
 
 import Form from 'react-validation/build/form'
 import Input from 'react-validation/build/input'
@@ -43,12 +43,6 @@ export default class EditCameraForm extends Component {
             location: this.props.camera.location,
             url: this.props.camera.url
         }
-
-        // this.state = {
-        //     name: '',
-        //     location: '',
-        //     url: ''
-        // }
     }
 
     onChangeName(e) {

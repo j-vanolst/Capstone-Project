@@ -34,7 +34,7 @@ export default class Navigation extends Component {
         return (
             <nav className="navbar navbar-expand navbar-dark bg-dark main-nav">
                 <Link to={"/"} className="navbar-brand">
-                    Capstone Project
+                    Vision Camera Management
                 </Link>
                 <div className="navbar-nav mr-auto">
 

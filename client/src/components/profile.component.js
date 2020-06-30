@@ -145,8 +145,6 @@ export default class Profile extends Component {
     }
 
     render() {
-        const { currentUser } = this.state
-
         return (
             <div className="container">
                 <div className="card card-container">

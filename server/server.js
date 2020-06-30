@@ -1,5 +1,4 @@
 // Node Dependencies
-const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
@@ -8,7 +7,6 @@ const methodOverride = require('method-override')
 
 
 // Local Dependencies
-const dashboardRoutes = require('./routes/dashboard')
 const authRoutes = require('./routes/auth')
 const userRoutes = require('./routes/user')
 const cameraRoutes = require('./routes/camera')
@@ -18,15 +16,12 @@ const dbConfig = require('./config/db_conf')
 const db = require('./database/index')
 
 const app = express()
-app.set('view engine', 'ejs')
-app.set('views', 'views')
-
 
 let corsOptions = {
     origin: 'http://localhost:3000'
 }
 
-app.use(cors(corsOptions))
+app.use(cors())
 app.use(cookieParser())
 app.use(methodOverride('_method'))
 
@@ -55,16 +50,9 @@ app.use(userRoutes)
 app.use(cameraRoutes)
 app.use(videoRoutes)
 
-// Simple test route
-app.use('/', (req, res, next) => {
-    res.json({
-        message: 'Welcome to my capstone project'
-    })
-})
-
 app.use((req, res, next) => {
     res.render('404', {
-        docTitle: 'Page not found',
+        docTitle: 'API Method Not Found',
         path: '404'
     })
 })
