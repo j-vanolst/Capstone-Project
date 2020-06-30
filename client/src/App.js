@@ -94,6 +94,7 @@ class App extends Component {
                             <PrivateRoute authenticated={this.state.authorized} path="/profile" redirect="/login" component={Profile} />
                             <PrivateRoute authenticated={this.state.authorized} path="/changePassword" redirect="/login" component={ChangePassword} />
                             <PrivateRoute authenticated={this.state.authorized} path="/test" redirect="/login" component={Scheduler} />
+                            <PrivateRoute authenticated={this.state.authorized} path="" redirect="/dashboard" component={Dashboard} />
                         </Switch>
                     </div>
                 </div>
