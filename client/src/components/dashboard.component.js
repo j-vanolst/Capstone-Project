@@ -97,7 +97,7 @@ export default class Dashboard extends Component {
                     <nav className="navbar nav-section">
                         <ul className="navbar-nav">
                             <h1 className="navbar-brand dashboard-header">My Cameras</h1>
-                            <div className="navbar-nav mr-auto">
+                            <div className="navbar-nav nav-dashboard-header">
                                 <li className="nav-item">
                                     <button className="btn btn-link btn-add-camera" onClick={this.handleCameraShow}>Add Camera</button>
                                 </li>
@@ -114,7 +114,7 @@ export default class Dashboard extends Component {
                     <nav className="navbar nav-section">
                         <ul className="navbar-nav">
                             <h1 className="navbar-brand dashboard-header">My Videos</h1>
-                            <div className="navbar-nav mr-auto">
+                            <div className="navbar-nav nav-dashboard-header">
                                 <li className="nav-item">
                                     <button className="btn btn-link btn-add-video" onClick={this.handleVideoShow}>Add Video</button>
                                 </li>
@@ -131,15 +131,13 @@ export default class Dashboard extends Component {
                     <nav className="navbar nav-section">
                         <ul className="navbar-nav">
                             <h1 className="navbar-brand dashboard-header">Metrics</h1>
-                            <div className="navbar-nav mr-auto">
+                            <div className="navbar-nav nav-dashboard-header">
                                 <li className="nav-item">
-                                    <h3 className="metrics">This feature is not implemented.</h3>
+                                    <h3 style={{ fontSize: "20px" }} className="metrics">This feature is not implemented.</h3>
                                 </li>
                             </div>
                         </ul>
                     </nav>
-                    <div className="col-md-12 dashboard-section">
-                    </div>
                 </div>
                 <div>
                     <AddCameraModal showModal={this.state.showCameraModal} handleHide={this.handleCameraHide}></AddCameraModal>

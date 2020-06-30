@@ -55,12 +55,24 @@
   font-size: 40px;
   padding: 0;
   margin: 0;
+  padding-left: 2rem;
 }
 
 .nav-section {
   margin: 0;
   border-radius: 2px;
   width: 100%;
+  padding-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.nav-section .navbar-nav {
+  width: 100%;
+}
+
+.nav-dashboard-header {
+  padding-left: 2rem;
 }
 
 .navbar-brand {

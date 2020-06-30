@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 
-
+import GetCompany from "../conf/company"
 import AuthService from '../services/auth_service'
 
 export default class Navigation extends Component {
@@ -34,7 +34,7 @@ export default class Navigation extends Component {
         return (
             <nav className="navbar navbar-expand navbar-dark bg-dark main-nav">
                 <Link to={"/"} className="navbar-brand">
-                    Vision Camera Management
+                    {GetCompany()}
                 </Link>
                 <div className="navbar-nav mr-auto">
 

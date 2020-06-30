@@ -1,8 +1,16 @@
+/* Define Main Color Scheme */
+:root {
+    --primary-color: #ff6f00;
+    --text-color: #fff;
+    --dark-color: #c43e00
+}
+
+
 /* Main Navigation Bar CSS */
 
 /* Set background colour for main navigation */
 .main-nav {
-    background-color: #343a40 !important;
+    background-color: var(--primary-color) !important;
 }
 
 /* CSS For Navbar brand */
@@ -12,7 +20,7 @@
 
 /* CSS for Navbar links */
 .main-nav a {
-    color:  #869c9f !important;
+    color:  #e7e7e7 !important;
 }
 .main-nav a:hover {
     color: rgba(255,255,255,.75) !important;
@@ -33,14 +41,13 @@ body {
 }
 
 .btn-add-camera {
-    color: #67daff;
-    color: #03a9f4;
-    font-size: 18px;
+    color: var(--text-color);
+    font-size: 20px;
 }
 
 .btn-add-camera:hover {
     text-decoration: underline;
-    color: #67daff;
+    color: #e7e7e7;
 }
 
 /* Video File Specific CSS */
@@ -53,14 +60,13 @@ body {
 }
 
 .btn-add-video {
-    color: #67daff;
-    color: #03a9f4;
-    font-size: 18px;
+    color: var(--text-color);
+    font-size: 20px;
 }
 
 .btn-add-video:hover {
     text-decoration: underline;
-    color: #67daff;
+    color: #e7e7e7;
 }
 
 /* Canvas Specific CSS */
@@ -76,6 +82,7 @@ canvas {
 .dashboard-header {
     font-size: 40px;
     color: #fff;
+    padding-left: 2rem;
   }
 
 /* Div containing the list of cameras/videos */
@@ -84,5 +91,33 @@ canvas {
   }
 /* Div containing the navigation for the dashboard headers */
 .nav-section {
-    background-color: #343a40;
+    background-color: var(--primary-color);
+}
+/* Div containing the navigation for the dashboard header darker section */
+.nav-dashboard-header {
+    background-color: var(--dark-color);
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+/* CSS for Camera Buttons */
+.camera-buttons button {
+    border-color: var(--dark-color);
+    color: var(--primary-color);
+}
+.camera-buttons button:hover {
+    border-color: var(--dark-color);
+    background-color: var(--dark-color);
+    color: var(--text-color);
+}
+
+/* CSS for Video Buttons */
+.video-buttons button {
+    border-color: var(--dark-color);
+    color: var(--primary-color);
+}
+.video-buttons button:hover {
+    border-color: var(--dark-color);
+    background-color: var(--dark-color);
+    color: var(--text-color);
 }
