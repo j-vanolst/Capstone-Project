@@ -33,7 +33,7 @@
     "multer-gridfs-storage": "^4.1.0",
     "node-rtsp-recorder": "^1.0.3",
     "node-rtsp-stream": "0.0.9",
-    "nodemailer": "^6.4.6",
+    "nodemailer": "^6.4.16",
     "nodemailer-smtp-transport": "^2.7.4",
     "nodemon": "^2.0.3",
     "path": "^0.12.7"
