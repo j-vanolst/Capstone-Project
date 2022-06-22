@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/j-vanolst/Capstone-Project#readme",
   "dependencies": {
-    "async": "^3.2.0",
+    "async": "^3.2.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
